@@ -1,0 +1,1623 @@
+{
+  "formTitle": "Signal Technician Log Book",
+  "questions": [
+    {
+      "id": "Q1",
+      "text": "Email",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "Q2",
+      "text": "SSE Section",
+      "type": "radio",
+      "options": [
+        {
+          "label": "MAS",
+          "next": "Q9"
+        },
+        {
+          "label": "BBQ",
+          "next": "Q10"
+        },
+        {
+          "label": "TVT",
+          "next": "Q11"
+        },
+        {
+          "label": "GPD",
+          "next": "Q12"
+        },
+        {
+          "label": "SPE",
+          "next": "Q13"
+        },
+        {
+          "label": "NYP",
+          "next": "Q14"
+        },
+        {
+          "label": "TRL",
+          "next": "Q15"
+        },
+        {
+          "label": "AJJ E",
+          "next": "Q16"
+        },
+        {
+          "label": "AJJW",
+          "next": "Q17"
+        },
+        {
+          "label": "TRT",
+          "next": "Q18"
+        },
+        {
+          "label": "KPDE",
+          "next": "Q19"
+        },
+        {
+          "label": "KPDW",
+          "next": "Q20"
+        },
+        {
+          "label": "AB",
+          "next": "Q21"
+        },
+        {
+          "label": "JTJ",
+          "next": "Q3"
+        },
+        {
+          "label": "MSB",
+          "next": "Q4"
+        },
+        {
+          "label": "MS",
+          "next": "Q5"
+        },
+        {
+          "label": "TBM",
+          "next": "Q6"
+        },
+        {
+          "label": "CGL",
+          "next": "Q7"
+        },
+        {
+          "label": "TMV",
+          "next": "Q8"
+        }
+      ]
+    },
+    {
+      "id": "Q3",
+      "text": "Station (JTJ Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "JTJ",
+          "next": "Q22"
+        },
+        {
+          "label": "JTJ AUX",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q4",
+      "text": "Station (MSB Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "MSB",
+          "next": "Q22"
+        },
+        {
+          "label": "MSB-RPM",
+          "next": "Q22"
+        },
+        {
+          "label": "MSB-MS",
+          "next": "Q22"
+        },
+        {
+          "label": "MSB-MPK",
+          "next": "Q22"
+        },
+        {
+          "label": "MPK",
+          "next": "Q22"
+        },
+        {
+          "label": "MSB-MCPK",
+          "next": "Q22"
+        },
+        {
+          "label": "MCPK",
+          "next": "Q22"
+        },
+        {
+          "label": "MCPK-MTMY",
+          "next": "Q22"
+        },
+        {
+          "label": "MTMY",
+          "next": "Q22"
+        },
+        {
+          "label": "MTMY-VLCY",
+          "next": "Q22"
+        },
+        {
+          "label": "VLCY",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q5",
+      "text": "Station (MS Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "MS",
+          "next": "Q22"
+        },
+        {
+          "label": "MS-MKK",
+          "next": "Q22"
+        },
+        {
+          "label": "MKK",
+          "next": "Q22"
+        },
+        {
+          "label": "MKK-STM",
+          "next": "Q22"
+        },
+        {
+          "label": "STM",
+          "next": "Q22"
+        },
+        {
+          "label": "STM-PV",
+          "next": "Q22"
+        },
+        {
+          "label": "PV",
+          "next": "Q22"
+        },
+        {
+          "label": "PV-CMP",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q6",
+      "text": "Station (TBM Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "CMP-TBM",
+          "next": "Q22"
+        },
+        {
+          "label": "PV-TBM",
+          "next": "Q22"
+        },
+        {
+          "label": "TBM",
+          "next": "Q22"
+        },
+        {
+          "label": "TBM-VDR",
+          "next": "Q22"
+        },
+        {
+          "label": "VDR",
+          "next": "Q22"
+        },
+        {
+          "label": "VDR-GI",
+          "next": "Q22"
+        },
+        {
+          "label": "TBM-GI",
+          "next": "Q22"
+        },
+        {
+          "label": "GI",
+          "next": "Q22"
+        },
+        {
+          "label": "GI-CTM",
+          "next": "Q22"
+        },
+        {
+          "label": "CTM",
+          "next": "Q22"
+        },
+        {
+          "label": "CTM-SKL",
+          "next": "Q22"
+        },
+        {
+          "label": "GI-SKL",
+          "next": "Q22"
+        },
+        {
+          "label": "SKL",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q7",
+      "text": "Station (CGL Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "SKL-CGL",
+          "next": "Q22"
+        },
+        {
+          "label": "CGL",
+          "next": "Q22"
+        },
+        {
+          "label": "CGL-OV",
+          "next": "Q22"
+        },
+        {
+          "label": "OV",
+          "next": "Q22"
+        },
+        {
+          "label": "OV-KGZ",
+          "next": "Q22"
+        },
+        {
+          "label": "PTM",
+          "next": "Q22"
+        },
+        {
+          "label": "KGZ",
+          "next": "Q22"
+        },
+        {
+          "label": "KGZ-MMK",
+          "next": "Q22"
+        },
+        {
+          "label": "MMK",
+          "next": "Q22"
+        },
+        {
+          "label": "CGL-PALR",
+          "next": "Q22"
+        },
+        {
+          "label": "PALR",
+          "next": "Q22"
+        },
+        {
+          "label": "PALR-WJ",
+          "next": "Q22"
+        },
+        {
+          "label": "WJ",
+          "next": "Q22"
+        },
+        {
+          "label": "WJ-CJ",
+          "next": "Q22"
+        },
+        {
+          "label": "CJ",
+          "next": "Q22"
+        },
+        {
+          "label": "CJ-TMLP",
+          "next": "Q22"
+        },
+        {
+          "label": "TMLP",
+          "next": "Q22"
+        },
+        {
+          "label": "TMLP-MLPM",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q8",
+      "text": "Station (TMV Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "MMK-MLMR",
+          "next": "Q22"
+        },
+        {
+          "label": "PQM",
+          "next": "Q22"
+        },
+        {
+          "label": "MLMR",
+          "next": "Q22"
+        },
+        {
+          "label": "MLMR-TZD",
+          "next": "Q22"
+        },
+        {
+          "label": "TZD",
+          "next": "Q22"
+        },
+        {
+          "label": "TZD-OLA",
+          "next": "Q22"
+        },
+        {
+          "label": "OLA",
+          "next": "Q22"
+        },
+        {
+          "label": "OLA-TMV",
+          "next": "Q22"
+        },
+        {
+          "label": "PCLM",
+          "next": "Q22"
+        },
+        {
+          "label": "TMV",
+          "next": "Q22"
+        },
+        {
+          "label": "TMV-MTL",
+          "next": "Q22"
+        },
+        {
+          "label": "MTL",
+          "next": "Q22"
+        },
+        {
+          "label": "MTL-PEI",
+          "next": "Q22"
+        },
+        {
+          "label": "PEI",
+          "next": "Q22"
+        },
+        {
+          "label": "PEI-VVN",
+          "next": "Q22"
+        },
+        {
+          "label": "VVN",
+          "next": "Q22"
+        },
+        {
+          "label": "VVN-MYP",
+          "next": "Q22"
+        },
+        {
+          "label": "MYP",
+          "next": "Q22"
+        },
+        {
+          "label": "MYP-VM",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q9",
+      "text": "Station (MAS Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "MAS",
+          "next": "Q22"
+        },
+        {
+          "label": "MASS",
+          "next": "Q22"
+        },
+        {
+          "label": "20LF",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q10",
+      "text": "Station (BBQ Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "BBQ",
+          "next": "Q22"
+        },
+        {
+          "label": "KOK",
+          "next": "Q22"
+        },
+        {
+          "label": "WST-VPY",
+          "next": "Q22"
+        },
+        {
+          "label": "WST",
+          "next": "Q22"
+        },
+        {
+          "label": "RPM",
+          "next": "Q22"
+        },
+        {
+          "label": "VPY-KOK",
+          "next": "Q22"
+        },
+        {
+          "label": "BBQ-VPY",
+          "next": "Q22"
+        },
+        {
+          "label": "VPY",
+          "next": "Q22"
+        },
+        {
+          "label": "VPY-VLK",
+          "next": "Q22"
+        },
+        {
+          "label": "PEW",
+          "next": "Q22"
+        },
+        {
+          "label": "PEW-VLK",
+          "next": "Q22"
+        },
+        {
+          "label": "VLK",
+          "next": "Q22"
+        },
+        {
+          "label": "VLK-ABU",
+          "next": "Q22"
+        },
+        {
+          "label": "ABU",
+          "next": "Q22"
+        },
+        {
+          "label": "ABU-AVD",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q11",
+      "text": "Station (TVT Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "KOK-TNP",
+          "next": "Q22"
+        },
+        {
+          "label": "TNP",
+          "next": "Q22"
+        },
+        {
+          "label": "TNP-TVT",
+          "next": "Q22"
+        },
+        {
+          "label": "TVT",
+          "next": "Q22"
+        },
+        {
+          "label": "TVT-ENR",
+          "next": "Q22"
+        },
+        {
+          "label": "ENR",
+          "next": "Q22"
+        },
+        {
+          "label": "ENR-AIPP",
+          "next": "Q22"
+        },
+        {
+          "label": "AIPP",
+          "next": "Q22"
+        },
+        {
+          "label": "AIP",
+          "next": "Q22"
+        },
+        {
+          "label": "TNPM",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q12",
+      "text": "Station (GPD Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "AIP-MJR",
+          "next": "Q22"
+        },
+        {
+          "label": "MJR",
+          "next": "Q22"
+        },
+        {
+          "label": "MJR-PON",
+          "next": "Q22"
+        },
+        {
+          "label": "PON",
+          "next": "Q22"
+        },
+        {
+          "label": "PON-KVP",
+          "next": "Q22"
+        },
+        {
+          "label": "KVP",
+          "next": "Q22"
+        },
+        {
+          "label": "KVP-GPD",
+          "next": "Q22"
+        },
+        {
+          "label": "GPD",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q13",
+      "text": "Station (SPE Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "GPD-ELR",
+          "next": "Q22"
+        },
+        {
+          "label": "ELR",
+          "next": "Q22"
+        },
+        {
+          "label": "ELR-AKM",
+          "next": "Q22"
+        },
+        {
+          "label": "AKM",
+          "next": "Q22"
+        },
+        {
+          "label": "AKM-TADA",
+          "next": "Q22"
+        },
+        {
+          "label": "TADA",
+          "next": "Q22"
+        },
+        {
+          "label": "TADA-SPE",
+          "next": "Q22"
+        },
+        {
+          "label": "SPE",
+          "next": "Q22"
+        },
+        {
+          "label": "SPE-PEL",
+          "next": "Q22"
+        },
+        {
+          "label": "PEL",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q14",
+      "text": "Station (NYP Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "PEL-DVR",
+          "next": "Q22"
+        },
+        {
+          "label": "DVR",
+          "next": "Q22"
+        },
+        {
+          "label": "DVR-NYP",
+          "next": "Q22"
+        },
+        {
+          "label": "NYP",
+          "next": "Q22"
+        },
+        {
+          "label": "NYP-PYA",
+          "next": "Q22"
+        },
+        {
+          "label": "PYA",
+          "next": "Q22"
+        },
+        {
+          "label": "PYA-ODR",
+          "next": "Q22"
+        },
+        {
+          "label": "ODR",
+          "next": "Q22"
+        },
+        {
+          "label": "ODR-GDR",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q15",
+      "text": "Station (TRL Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "AVD",
+          "next": "Q22"
+        },
+        {
+          "label": "AVD-PAB",
+          "next": "Q22"
+        },
+        {
+          "label": "PAB",
+          "next": "Q22"
+        },
+        {
+          "label": "PTMS",
+          "next": "Q22"
+        },
+        {
+          "label": "E DEPOT",
+          "next": "Q22"
+        },
+        {
+          "label": "PAB-TI",
+          "next": "Q22"
+        },
+        {
+          "label": "TI",
+          "next": "Q22"
+        },
+        {
+          "label": "TI-TRL",
+          "next": "Q22"
+        },
+        {
+          "label": "TRL",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q22",
+      "text": "Date",
+      "type": "date",
+      "required": true
+    },
+    {
+      "id": "Q23",
+      "text": "Shift",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Night Odd Hrs to 07:00"
+        },
+        {
+          "label": "Morning"
+        },
+        {
+          "label": "Evening"
+        },
+        {
+          "label": "Night Up to Odd Hrs."
+        },
+        {
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "id": "Q24",
+      "text": "Work Classification",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Maintenance",
+          "next": "Q25"
+        },
+        {
+          "label": "Failure Attention",
+          "next": "Q42"
+        },
+        {
+          "label": "S&T Special Work",
+          "next": "Q27"
+        },
+        {
+          "label": "Work with other Departments",
+          "next": "Q38"
+        },
+        {
+          "label": "Replacement of Assets",
+          "next": "Q59"
+        },
+        {
+          "label": "Select for entering Disconnection",
+          "next": "Q50"
+        },
+        {
+          "label": "Only Disconnection filled and cancelled",
+          "next": "Q50"
+        },
+        {
+          "label": "Miscellaneous",
+          "next": "Q39"
+        }
+      ]
+    },
+    {
+      "id": "Q25",
+      "text": "Gear maintained",
+      "type": "checkbox",
+      "options": [
+        "Track",
+        "Signal",
+        "Point",
+        "Power room/Batt room",
+        "IPS",
+        "Relay room",
+        "LC Gate",
+        "AFTC/MSDAC HUT",
+        "Auto Section",
+        "General Maintenance",
+        "Other"
+      ]
+    },
+    {
+      "id": "Q26",
+      "text": "Details of Maintenance Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q27",
+      "text": "S&T Special work Done on",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Track",
+          "next": "Q28"
+        },
+        {
+          "label": "Signal",
+          "next": "Q29"
+        },
+        {
+          "label": "Point",
+          "next": "Q30"
+        },
+        {
+          "label": "Location Box",
+          "next": "Q31"
+        },
+        {
+          "label": "Power Room",
+          "next": "Q32"
+        },
+        {
+          "label": "Relay room",
+          "next": "Q33"
+        },
+        {
+          "label": "LC Gate",
+          "next": "Q34"
+        },
+        {
+          "label": "HUT",
+          "next": "Q35"
+        },
+        {
+          "label": "Auto Section",
+          "next": "Q36"
+        },
+        {
+          "label": "Other",
+          "next": "Q37"
+        }
+      ]
+    },
+    {
+      "id": "Q28",
+      "text": "Details of Track Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q29",
+      "text": "Details of Signal Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q30",
+      "text": "Details of Point Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q31",
+      "text": "Details of Location Box Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q32",
+      "text": "Details of Power Room Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q33",
+      "text": "Details of Relay Room Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q34",
+      "text": "Details of LC Gate Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q35",
+      "text": "Details of HUT Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q36",
+      "text": "Details of Auto Section Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q37",
+      "text": "Details of Other Special Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q38",
+      "text": "Details of Works with other Department Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q39",
+      "text": "Details of Miscellaneous Work Done",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q40",
+      "text": "Any Failures?",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Yes & Booked",
+          "next": "Q42"
+        },
+        {
+          "label": "Yes & Not Booked",
+          "next": "Q41"
+        },
+        {
+          "label": "No failures",
+          "next": "Q49"
+        }
+      ]
+    },
+    {
+      "id": "Q41",
+      "text": "Details (Unbooked Failures, preventive measures)",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q42",
+      "text": "Gear failed",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Track"
+        },
+        {
+          "label": "Signal"
+        },
+        {
+          "label": "Point"
+        },
+        {
+          "label": "LC Gate"
+        },
+        {
+          "label": "Block"
+        }
+      ]
+    },
+    {
+      "id": "Q43",
+      "text": "Classification",
+      "type": "radio",
+      "options": [
+        {
+          "label": "S & T Failure"
+        },
+        {
+          "label": "Engg. failure"
+        },
+        {
+          "label": "OHE Dept. failure"
+        },
+        {
+          "label": "Miscreant activity"
+        },
+        {
+          "label": "Miscellaneous"
+        }
+      ]
+    },
+    {
+      "id": "Q44",
+      "text": "IN Time",
+      "type": "time",
+      "example": "8:30 AM"
+    },
+    {
+      "id": "Q45",
+      "text": "RT Time",
+      "type": "time",
+      "example": "8:30 AM"
+    },
+    {
+      "id": "Q46",
+      "text": "Failure Details",
+      "type": "text",
+      "description": "Enter details as recorded in Signal Failure Register"
+    },
+    {
+      "id": "Q47",
+      "text": "Actual Failure Details",
+      "type": "text",
+      "description": "Enter actual failure (for analysis only). If same as above, skip."
+    },
+    {
+      "id": "Q48",
+      "text": "Train Detention",
+      "type": "text",
+      "description": "Record train detention if any"
+    },
+    {
+      "id": "Q49",
+      "text": "Any Disconnection Filled?",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Yes",
+          "next": "Q50"
+        },
+        {
+          "label": "No",
+          "next": "Q96"
+        }
+      ],
+      "note": "Select 'Yes' even if disconnection is cancelled due to wrong filling"
+    },
+    {
+      "id": "Q50",
+      "text": "Disconnection No.",
+      "type": "text",
+      "required": true,
+      "note": "Enter disconnection number even if cancelled"
+    },
+    {
+      "id": "Q51",
+      "text": "Applied/Cancelled",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Applied"
+        },
+        {
+          "label": "Cancelled by S&T",
+          "next": "Q96"
+        }
+      ]
+    },
+    {
+      "id": "Q52",
+      "text": "Status",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Permitted"
+        },
+        {
+          "label": "Not permitted"
+        }
+      ]
+    },
+    {
+      "id": "Q53",
+      "text": "Disconnection given for Type of Work",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Maintenance"
+        },
+        {
+          "label": "Failure"
+        },
+        {
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "id": "Q54",
+      "text": "Disconnection Date",
+      "type": "date",
+      "note": "Skip if reconnecting old DN/RN"
+    },
+    {
+      "id": "Q55",
+      "text": "Disconnection Time",
+      "type": "time",
+      "example": "8:30 AM",
+      "note": "Required even if disconnection not permitted"
+    },
+    {
+      "id": "Q56",
+      "text": "Reconnection Date",
+      "type": "date",
+      "note": "Skip if disconnection not permitted or long duration like stabled rakes"
+    },
+    {
+      "id": "Q57",
+      "text": "Reconnection Time",
+      "type": "time",
+      "note": "Skip if disconnection not permitted"
+    },
+    {
+      "id": "Q58",
+      "text": "Details/Reason",
+      "type": "text",
+      "next": "Q96"
+    },
+    {
+      "id": "Q59",
+      "text": "Replacement done in Gear",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Track (DCTC)",
+          "next": "Q60"
+        },
+        {
+          "label": "Track (AFTC)",
+          "next": "Q62"
+        },
+        {
+          "label": "Track (Axle Counter)",
+          "next": "Q64"
+        },
+        {
+          "label": "Signal",
+          "next": "Q66"
+        },
+        {
+          "label": "Point",
+          "next": "Q74"
+        },
+        {
+          "label": "Power room",
+          "next": "Q74"
+        },
+        {
+          "label": "Battery",
+          "next": "Q69"
+        },
+        {
+          "label": "IPS",
+          "next": "Q74"
+        },
+        {
+          "label": "Relay room (Relay)",
+          "next": "Q88"
+        },
+        {
+          "label": "Relay Room (Other than Relays)",
+          "next": "Q74"
+        },
+        {
+          "label": "LC Gate",
+          "next": "Q74"
+        },
+        {
+          "label": "AFTC/MSDAC HUT",
+          "next": "Q74"
+        },
+        {
+          "label": "Auto Section",
+          "next": "Q74"
+        },
+        {
+          "label": "General",
+          "next": "Q74"
+        }
+      ]
+    },
+    {
+      "id": "Q60",
+      "text": "Track No.",
+      "type": "text"
+    },
+    {
+      "id": "Q61",
+      "text": "Asset Replaced (DCTC)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Lead wires",
+          "next": "Q96"
+        },
+        {
+          "label": "Track Battery",
+          "next": "Q69"
+        },
+        {
+          "label": "TJ",
+          "next": "Q74"
+        },
+        {
+          "label": "Choke",
+          "next": "Q74"
+        },
+        {
+          "label": "TF Resistance",
+          "next": "Q74"
+        },
+        {
+          "label": "TLD",
+          "next": "Q96"
+        },
+        {
+          "label": "Glued Joints",
+          "next": "Q80"
+        },
+        {
+          "label": "RDSO Joint",
+          "next": "Q84"
+        },
+        {
+          "label": "Fuse",
+          "next": "Q96"
+        },
+        {
+          "label": "Track Relay",
+          "next": "Q88"
+        },
+        {
+          "label": "Track Proving Relay",
+          "next": "Q88"
+        },
+        {
+          "label": "Any other Relay",
+          "next": "Q88"
+        },
+        {
+          "label": "Other",
+          "next": "Q96"
+        }
+      ]
+    },
+    {
+      "id": "Q62",
+      "text": "Track No. (AFTC)",
+      "type": "text"
+    },
+    {
+      "id": "Q63",
+      "text": "Asset Replaced (AFTC)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Tuning Unit",
+          "next": "Q74"
+        },
+        {
+          "label": "Power supply",
+          "next": "Q74"
+        },
+        {
+          "label": "Transmitter",
+          "next": "Q74"
+        },
+        {
+          "label": "Receiver",
+          "next": "Q74"
+        },
+        {
+          "label": "Lead wires",
+          "next": "Q96"
+        },
+        {
+          "label": "Fuse",
+          "next": "Q96"
+        },
+        {
+          "label": "Track Relay",
+          "next": "Q88"
+        },
+        {
+          "label": "Track Proving Relay",
+          "next": "Q88"
+        },
+        {
+          "label": "Other",
+          "next": "Q74"
+        }
+      ]
+    },
+    {
+      "id": "Q64",
+      "text": "Track No. (Axle Counter)",
+      "type": "text"
+    },
+    {
+      "id": "Q65",
+      "text": "Asset Replaced (Axle Counter)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Track Sensor",
+          "next": "Q74"
+        },
+        {
+          "label": "DP",
+          "next": "Q74"
+        },
+        {
+          "label": "Power Supply",
+          "next": "Q74"
+        },
+        {
+          "label": "Evaluator",
+          "next": "Q74"
+        },
+        {
+          "label": "Fuse",
+          "next": "Q96"
+        },
+        {
+          "label": "Track Relay",
+          "next": "Q88"
+        },
+        {
+          "label": "Track Proving Relay",
+          "next": "Q88"
+        },
+        {
+          "label": "Other",
+          "next": "Q74"
+        }
+      ]
+    },
+    {
+      "id": "Q66",
+      "text": "Signal No.",
+      "type": "text"
+    },
+    {
+      "id": "Q67",
+      "text": "Type of Signal",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Main"
+        },
+        {
+          "label": "Independent SH"
+        },
+        {
+          "label": "Subsidiary Shunt"
+        },
+        {
+          "label": "Calling ON"
+        }
+      ]
+    },
+    {
+      "id": "Q68",
+      "text": "Name of Asset replaced (Signal)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "RG",
+          "next": "Q96"
+        },
+        {
+          "label": "HG",
+          "next": "Q96"
+        },
+        {
+          "label": "DG",
+          "next": "Q96"
+        },
+        {
+          "label": "A-Marker",
+          "next": "Q96"
+        },
+        {
+          "label": "G-Marker",
+          "next": "Q96"
+        },
+        {
+          "label": "Shunt Aspect",
+          "next": "Q96"
+        },
+        {
+          "label": "Other",
+          "next": "Q74"
+        }
+      ]
+    },
+    {
+      "id": "Q69",
+      "text": "Circuit (Battery Replacement)",
+      "type": "checkbox",
+      "options": [
+        "Track Battery",
+        "IPS Battery",
+        "Other"
+      ]
+    },
+    {
+      "id": "Q70",
+      "text": "Number of Cells replaced",
+      "type": "number"
+    },
+    {
+      "id": "Q71",
+      "text": "Make",
+      "type": "text",
+      "note": "If more than one make, feed using commas"
+    },
+    {
+      "id": "Q72",
+      "text": "Capacity",
+      "type": "text",
+      "note": "If more than one type, feed using commas"
+    },
+    {
+      "id": "Q73",
+      "text": "Date of installation / Initial installation / Charge",
+      "type": "date",
+      "note": "If more than one date, make separate entry"
+    },
+    {
+      "id": "Q74",
+      "text": "Old asset Make",
+      "type": "text"
+    },
+    {
+      "id": "Q75",
+      "text": "Old asset Serial Number",
+      "type": "text"
+    },
+    {
+      "id": "Q76",
+      "text": "Old asset Date of installation",
+      "type": "date",
+      "example": "January 7, 2019"
+    },
+    {
+      "id": "Q77",
+      "text": "New asset Make",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "Q78",
+      "text": "New asset Serial Number",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "Q79",
+      "text": "New asset Date of installation",
+      "type": "date",
+      "example": "January 7, 2019",
+      "required": true
+    },
+    {
+      "id": "Q80",
+      "text": "Glued joint name (Tracks)",
+      "type": "text"
+    },
+    {
+      "id": "Q81",
+      "text": "Type of Glued Joint",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Bi-furcating (Track Circuit End)"
+        },
+        {
+          "label": "Polarity"
+        },
+        {
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "id": "Q82",
+      "text": "LH/RH (Increasing KM)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "LH"
+        },
+        {
+          "label": "RH"
+        }
+      ]
+    },
+    {
+      "id": "Q83",
+      "text": "Track Weight (Kgs)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "60 Kgs"
+        },
+        {
+          "label": "52 Kgs"
+        },
+        {
+          "label": "90R"
+        }
+      ]
+    },
+    {
+      "id": "Q84",
+      "text": "RDSO Joint name (Tracks)",
+      "type": "text"
+    },
+    {
+      "id": "Q85",
+      "text": "Type of RDSO Joint",
+      "type": "radio",
+      "options": [
+        {
+          "label": "Bi-furcating (Track Circuit End)"
+        },
+        {
+          "label": "Polarity"
+        },
+        {
+          "label": "Other"
+        }
+      ]
+    },
+    {
+      "id": "Q86",
+      "text": "LH/RH (Increasing KM) - RDSO",
+      "type": "radio",
+      "options": [
+        {
+          "label": "LH"
+        },
+        {
+          "label": "RH"
+        }
+      ]
+    },
+    {
+      "id": "Q87",
+      "text": "Track Weight (Kgs) - RDSO",
+      "type": "radio",
+      "options": [
+        {
+          "label": "60 Kgs"
+        },
+        {
+          "label": "52 Kgs"
+        },
+        {
+          "label": "90R"
+        }
+      ]
+    },
+    {
+      "id": "Q88",
+      "text": "Old relay Type (QNA1, QTA2...etc.)",
+      "type": "text"
+    },
+    {
+      "id": "Q89",
+      "text": "Old relay Make",
+      "type": "text"
+    },
+    {
+      "id": "Q90",
+      "text": "Old relay Sl. No.",
+      "type": "text"
+    },
+    {
+      "id": "Q91",
+      "text": "Old relay Contact (8F/8B...etc.)",
+      "type": "text"
+    },
+    {
+      "id": "Q92",
+      "text": "New relay Type (QNA1, QTA2...etc.)",
+      "type": "text"
+    },
+    {
+      "id": "Q93",
+      "text": "New relay Make",
+      "type": "text"
+    },
+    {
+      "id": "Q94",
+      "text": "New relay Sl. No.",
+      "type": "text"
+    },
+    {
+      "id": "Q95",
+      "text": "New relay Contact (8F/8B...etc.)",
+      "type": "text"
+    },
+    {
+      "id": "Q96",
+      "text": "Form Completion",
+      "type": "end",
+      "description": "End of form. Submit response or start another entry."
+    }
+  ]
+}

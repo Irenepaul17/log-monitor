@@ -1,0 +1,1800 @@
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+SIGNAL TECHNICIAN LOG BOOK
+* Indicates required question
+
+1.
+
+Email *
+
+2.
+
+SSE Section *
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Dropdown
+
+Page 1 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Mark only one oval.
+MAS
+
+Skip to question 9
+
+BBQ
+
+Skip to question 10
+
+TVT
+
+Skip to question 11
+
+GPD
+
+Skip to question 12
+
+SPE
+
+Skip to question 13
+
+NYP
+
+Skip to question 14
+
+TRL
+
+Skip to question 15
+
+AJJ E
+
+Skip to question 16
+
+AJJW
+
+Skip to question 17
+
+TRT
+
+Skip to question 18
+
+KPDE
+
+Skip to question 19
+
+KPDW
+
+Skip to question 20
+
+AB
+
+Skip to question 21
+
+JTJ
+
+Skip to question 3
+
+MSB
+
+Skip to question 4
+
+MS
+
+Skip to question 5
+
+TBM
+
+Skip to question 6
+
+CGL
+
+Skip to question 7
+
+TMV
+
+Skip to question 11
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 2 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Skip to question 22
+
+SSE/Signal/JTJ
+
+3.
+
+STATION *
+
+Dropdown
+
+Mark only one oval.
+JTJ
+JTJ AUX
+
+Skip to question 22
+
+SSE/Signal/MSB
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 3 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+4.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+MSB
+MSB-RPM
+MSB-MS
+MSB-MPK
+MPK
+MSB-MCPK
+MCPK
+MCPK-MTMY
+MTMY
+MTMY-VLCY
+VLCY
+
+Skip to question 22
+
+SSE/Signal/MS
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 4 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+5.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+MS
+MS-MKK
+MKK
+MKK-STM
+STM
+STM-PV
+PV
+PV-CMP
+
+Skip to question 22
+
+SSE/Signal/TBM
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 5 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+6.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+CMP-TBM
+PV-TBM
+TBM
+TBM-VDR
+VDR
+VDR-GI
+TBM-GI
+GI
+GI-CTM
+CTM
+CTM-SKL
+GI-SKL
+SKL
+
+Skip to question 22
+
+SSE/Signal/CGL
+
+7.
+
+STATION *
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Dropdown
+Page 6 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+7.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+SKL-CGL
+CGL
+CGL-OV
+OV
+OV-KGZ
+PTM
+KGZ
+KGZ-MMK
+MMK
+CGL-PALR
+PALR
+PALR-WJ
+WJ
+WJ-CJ
+CJ
+CJ-TMLP
+TMLP
+TMLP-MLPM
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 7 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Skip to question 22
+
+SSE/Signal/TMV
+
+8.
+
+STATION *
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Dropdown
+
+Page 8 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Mark only one oval.
+MMK-MLMR
+PQM
+MLMR
+MLMR-TZD
+TZD
+TZD-OLA
+OLA
+OLA-TMV
+PCLM
+TMV
+TMV-MTL
+MTL
+MTL-PEI
+PEI
+PEI-VVN
+VVN
+VVN-MYP
+MYP
+MYP-VM
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 9 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Skip to question 22
+
+SSE/Signal/MAS
+
+9.
+
+STATION *
+
+Dropdown
+
+Mark only one oval.
+MAS
+MASS
+20LF
+
+Skip to question 22
+
+SSE/Signal/BBQ
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 10 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+10.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+BBQ
+KOK
+WST-VPY
+WST
+RPM
+VPY-KOK
+BBQ-VPY
+VPY
+VPY-VLK
+PEW
+PEW-VLK
+VLK
+VLK-ABU
+ABU
+ABU-AVD
+
+Skip to question 22
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 11 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+SSE/Signal/TVT
+
+11.
+
+STATION *
+
+Dropdown
+
+Mark only one oval.
+KOK-TNP
+TNP
+TNP-TVT
+TVT
+TVT-ENR
+ENR
+ENR-AIPP
+AIPP
+AIP
+TNPM
+
+Skip to question 22
+
+SSE/Signal/GPD
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 12 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+12.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+AIP-MJR
+MJR
+MJR-PON
+PON
+PON-KVP
+KVP
+KVP-GPD
+GPD
+
+Skip to question 22
+
+SSE/Signal/SPE
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 13 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+13.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+GPD-ELR
+ELR
+ELR-AKM
+AKM
+AKM-TADA
+TADA
+TADA-SPE
+SPE
+SPE-PEL
+PEL
+
+Skip to question 22
+
+SSE/Signal/NYP
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 14 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+14.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+PEL-DVR
+DVR
+DVR-NYP
+NYP
+NYP-PYA
+PYA
+PYA-ODR
+ODR
+ODR-GDR
+
+Skip to question 22
+
+SSE/Signal/TRL
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 15 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+15.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+AVD
+AVD-PAB
+PAB
+PTMS
+E DEPOT
+PAB-TI
+TI
+TI-TRL
+TRL
+
+Skip to question 22
+
+SSE/Signal/AJJ(E)
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 16 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+16.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+TRL-KBT
+KBT
+KBT-TO
+TO
+TO-AJJ
+AJJ
+
+Skip to question 22
+
+SSE/Signal/AJJ(W)
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 17 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+17.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+AJJN
+MLPM
+MLPM-CTRE
+CTRE
+CTRE-MDVE
+MDVE
+MDVE-SHU
+SHU
+
+Skip to question 22
+
+SSE/Signal/TRT
+
+18.
+
+STATION *
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Dropdown
+
+Page 18 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Mark only one oval.
+AJJN-TRT
+IPT
+TRT
+TRT-POI
+POI
+POI-NG
+NG
+NG-VGA
+VGA
+VGA-PUT
+PUT
+PUT-TDK
+TDK
+TDK-SVF
+SVF-PUDI
+TDK-PUDI
+PUDI
+PUDI-RU
+SVF
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 19 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Skip to question 22
+
+SSE/Signal/KPD(E)
+
+19.
+
+STATION *
+
+Dropdown
+
+Mark only one oval.
+SHU-TUG
+TUG
+TUG-WJR
+WJR
+WJR-MCN
+MCN
+MCN-THL
+THL
+THL-SVUR
+SVUR
+SVUR-KPD
+KPD
+
+Skip to question 22
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 20 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+SSE/Signal/KPD(W)
+
+20.
+
+STATION *
+
+Dropdown
+
+Mark only one oval.
+KPD-LTI
+LTI
+LTI-KVN
+KVN
+KVN-GYM
+GYM
+GYM-VLT
+VLT
+VLT-MPI
+MPI
+MPI-PCKM
+PCKM
+
+Skip to question 22
+
+SSE/Signal/AB
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 21 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+21.
+
+STATION *
+
+26/01/26, 6:52 PM
+
+Dropdown
+
+Mark only one oval.
+PCKM-AB
+AB
+AB-VGM
+VGM
+VGM-VN
+VN
+VN-KDY
+KDY
+KDY-JTJ
+
+Skip to question 22
+
+LOG BOOK
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 22 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+22.
+
+26/01/26, 6:52 PM
+
+Date *
+
+Example: January 7, 2019
+
+23.
+
+Shift *
+Mark only one oval.
+Night Odd Hrs to 07:00
+Morning
+Evening
+Night Up to Odd Hrs.
+Other:
+
+Enter the details of Work done
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 23 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+24.
+
+26/01/26, 6:52 PM
+
+Work Classification *
+Choose from the drop down, Enter the disconnection if any before submitting.
+
+Mark only one oval.
+Maintenance
+
+Skip to question 25
+
+Failure Attention
+
+Skip to question 42
+
+S &T Special work
+
+Skip to question 27
+
+Work with other Departments
+Replacement of Assets
+
+Skip to question 38
+
+Skip to question 59
+
+Select for entering Disconnection
+
+Skip to question 50
+
+Only Disconnection clled and cancelled
+Miscellaneous
+
+Skip to question 50
+
+Skip to question 39
+
+Maintenance
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 24 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+25.
+
+26/01/26, 6:52 PM
+
+Gear maintained *
+Choose from the drop down, Enter the disconnection if any before submitting.
+Check all that apply.
+
+Track
+Signal
+Point
+Power room/Batt room
+IPS
+Relay room
+LC Gate
+AFTC/MSDAC HUT
+Auto Section
+General Maintenance
+Other:
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 25 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26.
+
+26/01/26, 6:52 PM
+
+Details of Maintenance Work Done *
+
+Skip to question 96
+
+S & T Special Work
+Choose from the drop down, Enter the disconnection if any before submitting.
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 26 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+27.
+
+26/01/26, 6:52 PM
+
+S& T Special work Done on *
+Mark only one oval.
+Track
+
+Skip to question 28
+
+Signal
+
+Skip to question 29
+
+Point
+
+Skip to question 30
+
+Location Box
+
+Skip to question 31
+
+Power Room
+
+Skip to question 32
+
+Relay room
+LC Gate
+HUT
+
+Skip to question 33
+Skip to question 34
+
+Skip to question 35
+
+Auto Section
+
+Skip to question 36
+
+Other:
+
+Skip to question 96
+
+Track Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 27 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+28.
+
+26/01/26, 6:52 PM
+
+Details of Track Special Work Done *
+
+Skip to question 96
+
+Signal Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+29.
+
+Details of Signal Special Work Done *
+
+Skip to question 96
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 28 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Point Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+30.
+
+Details of Point Special Work Done *
+
+Skip to question 96
+
+Location Box Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 29 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+31.
+
+26/01/26, 6:52 PM
+
+Details of Location Box Special Work Done *
+
+Skip to question 96
+
+Power Room Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+32.
+
+Details of Power Room Special Work Done *
+
+Skip to question 96
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 30 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Relay Room Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+33.
+
+Details of Relay Room Special Work Done *
+
+Skip to question 96
+
+LC Gate Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 31 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+34.
+
+26/01/26, 6:52 PM
+
+Details of LC Gate Special Work Done *
+
+Skip to question 96
+
+HUT Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+35.
+
+Details of HUT Special Work Done *
+
+Skip to question 96
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 32 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Auto Section Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+36.
+
+Details of Auto Section Special Work Done *
+
+Skip to question 96
+
+Other Special Work
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 33 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+37.
+
+26/01/26, 6:52 PM
+
+Details of Other Special Work Done *
+
+Skip to question 96
+
+Works with Other Departments
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+38.
+
+Details of Works with other Department Done *
+
+Skip to question 96
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 34 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Miscellaneous Works
+Feed only one work at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+39.
+
+Details of Miscellaneous Work Done *
+
+Skip to question 96
+
+Any failures in your shift?
+Feed only one failure at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 35 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+40.
+
+26/01/26, 6:52 PM
+
+Any Failures ? *
+Mark only one oval.
+Yes & Booked
+
+Skip to question 42
+
+Yes & Not Booked
+No failures
+
+Skip to question 49
+
+Un Booked Failures
+Feed only one failure at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+41.
+
+Details *
+Enter Details (to take Preventive measures)
+
+Skip to question 96
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 36 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Failure details
+Feed only one failure at a time, Enter the disconnection if any before submitting, at the end you can opt for submitting another response
+
+42.
+
+Gear failed *
+Choose from the drop down, Enter the disconnection if any before submitting.
+Select "Signal" for EI, Panel etc.
+
+Mark only one oval.
+Track
+Signal
+Point
+LC Gate
+Block
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 37 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+43.
+
+26/01/26, 6:52 PM
+
+Classification
+Enter if you can classify, else skip
+
+Mark only one oval.
+S & T Failure
+Engg. failure
+OHE Dept. failure
+Miscreant activity
+Miscellaneous
+
+44.
+
+IN Time *
+
+Example: 8:30 AM
+
+45.
+
+RT Time *
+
+Example: 8:30 AM
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 38 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+46.
+
+26/01/26, 6:52 PM
+
+Failure Details *
+Enter Details as recorded in Signal Failure Register
+
+47.
+
+Actual Faiure Details
+Enter Actual failure (for our Analysis only), if same as above, Then skip
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 39 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+48.
+
+26/01/26, 6:52 PM
+
+Train Detention
+
+Any Disconnection Filled in your Shift?
+Feed only one work at a time ( if more than one Disconnection clled, then at the end you can opt for submitting another response)
+
+49.
+
+Any Disconnection Filled ? *
+Select "Yes" even if Disconnection is cancelled due to wrong clling
+
+Mark only one oval.
+Yes
+No
+
+Skip to question 96
+
+Skip to question 96
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 40 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Disconnection / Reconnection
+Feed only one work at a time ( if more than one Disconnection clled, then at the end you can opt for submitting another response)
+
+50.
+
+Disconnection No. *
+Enter Disconnection No. even if cancelled
+
+51.
+
+Applied/Cancelled *
+Mark only one oval.
+Applied
+Cancelled by S&T
+
+Skip to question 96
+
+Disconnection Details
+Feed only one work at a time ( if more than one Disconnection clled, then at the end you can opt for submitting another response)
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 41 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+52.
+
+26/01/26, 6:52 PM
+
+Status *
+Mark only one oval.
+Permitted
+Not permitted
+
+53.
+
+Disconnection given for Type of Work *
+Mark only one oval.
+Maintenance
+Failure
+Other:
+
+54.
+
+Disconnection Date
+Skip if you are Reconnecting old DN/RN
+
+Example: January 7, 2019
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 42 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+55.
+
+26/01/26, 6:52 PM
+
+Disconnection Time
+Disconnection time required even if disconnection not permitted
+
+Example: 8:30 AM
+
+56.
+
+Reconnection Date
+You can skip if disconnection not permitted or long duration like Stabled Rakes
+
+Example: January 7, 2019
+
+57.
+
+Reconnection Time
+You can skip if disconnection not permitted
+
+Example: 8:30 AM
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 43 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+58.
+
+26/01/26, 6:52 PM
+
+Details/Reason
+
+Skip to question 96
+
+Replacement of asset details
+Feed only one work at a time ( if more than one Replacement done, then at the end you can opt for submitting another response)
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 44 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+59.
+
+26/01/26, 6:52 PM
+
+Replacement done in Gear *
+Choose from the drop down, Enter the disconnection if any before submitting.
+
+Mark only one oval.
+Track (DCTC)
+Track (AFTC)
+
+Skip to question 62
+
+Track (Axle Counter)
+
+Skip to question 64
+
+Signal
+
+Skip to question 66
+
+Point
+
+Skip to question 74
+
+Power room
+Battery
+IPS
+
+Skip to question 74
+
+Skip to question 69
+Skip to question 74
+
+Relay room (Relay)
+
+Skip to question 88
+
+Relay Room (Other than Relays)
+LC Gate
+
+Skip to question 74
+
+AFTC/MSDAC HUT
+Auto Section
+General
+
+Skip to question 74
+
+Skip to question 74
+
+Skip to question 74
+
+Skip to question 74
+
+Skip to question 96
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 45 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Asset Replacement Track (DCTC)
+Feed only one work at a time ( if more than one Replacement done, then at the end you can opt for submitting another response)
+
+60.
+
+Track No. *
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 46 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+61.
+
+26/01/26, 6:52 PM
+
+Asset Replaced *
+Mark only one oval.
+Track Battery
+TJ
+
+Skip to question 69
+
+Skip to question 74
+
+Choke
+
+Skip to question 74
+
+TF Resiistance
+
+Skip to question 74
+
+TLD
+Glued Joints
+
+Skip to question 80
+
+RDSO Joint
+
+Skip to question 84
+
+Lead wires
+Fuse
+Track Relay
+
+Skip to question 88
+
+Track Proving Relay
+Any other Relay
+
+Skip to question 88
+Skip to question 88
+
+Other:
+
+Skip to question 96
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 47 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Asset Replacement Track (AFTC)
+Feed only one work at a time ( if more than one Replacement done, then at the end you can opt for submitting another response)
+
+62.
+
+Track No. *
+
+63.
+
+Asset Replaced *
+Mark only one oval.
+Tunning Unit
+
+Skip to question 74
+
+Power supply
+
+Skip to question 74
+
+Transmitter
+Receiver
+
+Skip to question 74
+Skip to question 74
+
+Lead wires
+Fuse
+Track Relay
+
+Skip to question 88
+
+Track Proving Relay
+
+Skip to question 88
+
+Other:
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 48 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Skip to question 96
+
+Asset Replacement Track (Axle Counter)
+Feed only one work at a time ( if more than one Replacement done, then at the end you can opt for submitting another response)
+
+64.
+
+Track No. *
+
+65.
+
+Asset Replaced *
+Mark only one oval.
+Track Sensor
+DP
+
+Skip to question 74
+
+Skip to question 74
+
+Power Supply
+Evaluator
+
+Skip to question 74
+Skip to question 74
+
+Fuse
+Track Relay
+
+Skip to question 88
+
+Track Proving Relay
+
+Skip to question 88
+
+Other:
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 49 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+26/01/26, 6:52 PM
+
+Skip to question 96
+
+Asset Replacement (Signal)
+Feed only one work at a time ( if more than one Replacement done, then at the end you can opt for submitting another response)
+
+66.
+
+Signal No. *
+
+67.
+
+Type of signal *
+Mark only one oval.
+Main
+Independant SH
+Subsidary Shunt
+Calling ON
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 50 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+68.
+
+26/01/26, 6:52 PM
+
+Name of Asset replaced *
+Mark only one oval.
+RG
+HG
+DG
+A-Marker
+G-Marker
+Shunt Aspect
+Other:
+
+Skip to question 74
+
+Battery Replacement Details
+NEW Battery details
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 51 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+69.
+
+26/01/26, 6:52 PM
+
+Ciruit *
+Check all that apply.
+
+Track Battery
+IPS Battery
+Other:
+
+70.
+
+Number of Cells replaced *
+
+71.
+
+Make *
+If more than one make, feed using commas
+
+72.
+
+Capacity *
+If more than one type, feed using commas
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 52 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+73.
+
+26/01/26, 6:52 PM
+
+Date of installation/ (Initial installation/ Charge) *
+If more than one date, make seperate entry
+
+Example: January 7, 2019
+Skip to question 96
+
+Replaced Asset details
+Feed only one work at a time ( if more than one Replacement done, then at the end you can opt for submitting another response)
+
+74.
+
+Old asset Make
+
+75.
+
+Old asset Sl.No
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 53 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+76.
+
+26/01/26, 6:52 PM
+
+Old asset Date of installation
+
+Example: January 7, 2019
+
+77.
+
+New asset Make *
+
+78.
+
+New asset
+
+Sl.No *
+
+79.
+
+New asset
+
+Date of installation *
+
+Example: January 7, 2019
+Skip to question 96
+
+Glued Joint replacement Details
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 54 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+80.
+
+Glued joint name (Tracks) *
+
+81.
+
+Type *
+
+26/01/26, 6:52 PM
+
+Mark only one oval.
+Bi-furicating (Track Circuit End)
+Polarity
+Other
+
+82.
+
+LH/RH (Increasing KM) *
+Mark only one oval.
+LH
+RH
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 55 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+83.
+
+26/01/26, 6:52 PM
+
+Kgs *
+Mark only one oval.
+60 Kgs
+52 Kgs
+90R
+
+Skip to question 96
+
+RDSO Joint replacement Details
+
+84.
+
+RDSO joint name (Tracks) *
+
+85.
+
+Type *
+Mark only one oval.
+Bi-furicating (Track Circuit End)
+Polarity
+Other
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 56 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+86.
+
+26/01/26, 6:52 PM
+
+LH/RH (Increasing KM) *
+Mark only one oval.
+LH
+RH
+
+87.
+
+Kgs *
+Mark only one oval.
+60 Kgs
+52 Kgs
+90R
+
+Skip to question 96
+
+Relay Replacement Details
+
+88.
+
+Old relay Type (QNA1, QTA2...etc.) *
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 57 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+89.
+
+Old relay Make *
+
+90.
+
+Old relay Sl. No. *
+
+91.
+
+Old relay Contact (8F/8B...etc.) *
+
+92.
+
+New relay Type (QNA1, QTA2...etc.) *
+
+93.
+
+New relay Make *
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+26/01/26, 6:52 PM
+
+Page 58 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+94.
+
+New relay Sl. No. *
+
+95.
+
+New relay Contact (8F/8B...etc.) *
+
+26/01/26, 6:52 PM
+
+Enter Another Work by submiting this and fill another response
+
+96.
+
+Have you entered all works done in your shift? *
+Mark only one oval.
+YES
+NO, I want to enter another work
+
+This content is neither created nor endorsed by Google.
+
+Forms
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+Page 59 of 60
+
+SIGNAL TECHNICIAN LOG BOOK
+
+https://docs.google.com/forms/d/16XgMLp72gcGIJSFgeTLhOXcdck9hKCbJBapwiWYFfR4/printform
+
+26/01/26, 6:52 PM
+
+Page 60 of 60
+
+

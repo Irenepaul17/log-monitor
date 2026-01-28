@@ -21,17 +21,16 @@ export interface User {
 }
 
 export interface WorkReport {
-    id: number;
+    id: string;
     date: string;
     authorId: string;
     authorName: string;
-    section: string;
+    sseSection: string;
     station: string;
     shift: string;
     classification: string;
     details: any;
-    status: string;
-    attachments?: { name: string; data: string; type: string }[];
+    attachments?: string[];
 }
 
 export interface Complaint {
@@ -55,7 +54,7 @@ interface GlobalContextType {
     login: (phone: string, pass: string) => boolean;
     logout: () => void;
     addUser: (user: Omit<User, "id">) => void;
-    addReport: (report: Omit<WorkReport, "id" | "status">) => void;
+    addReport: (report: Omit<WorkReport, "id">) => void;
     addComplaint: (complaint: Omit<Complaint, "id" | "date" | "status">) => void;
     resolveComplaint: (id: string) => void;
     isSuperiorOf: (superior: User, subordinate: User | string) => boolean;
@@ -188,9 +187,33 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
         setUsers(prev => [...prev, newUser]);
     };
 
-    const addReport = (reportData: Omit<WorkReport, "id" | "status">) => {
-        const newReport: WorkReport = { ...reportData, id: reports.length + 1, status: "Submitted" };
+    const addReport = (reportData: Omit<WorkReport, "id">) => {
+        const newReport: WorkReport = {
+            ...reportData,
+            id: Date.now().toString()
+        };
         setReports(prev => [newReport, ...prev]);
+
+        // Auto-create complaint if failure status is "Yes & Booked"
+        if (reportData.classification === 'Failure Attention' &&
+            reportData.details?.failureStatus === 'Yes & Booked') {
+
+            // Find the user's superior
+            const author = users.find(u => u.id === reportData.authorId);
+            const supervisorId = author?.superiorId;
+
+            const newComplaint: Complaint = {
+                id: `#C${String(complaints.length + 1).padStart(3, '0')}`,
+                date: reportData.date,
+                authorId: reportData.authorId,
+                authorName: reportData.authorName,
+                category: reportData.details?.failureAttentionOn || 'General Failure',
+                description: reportData.details?.failureDetails || 'Failure reported',
+                status: "Open",
+                supervisorId: supervisorId
+            };
+            setComplaints(prev => [newComplaint, ...prev]);
+        }
     };
 
     const addComplaint = (complaintData: Omit<Complaint, "id" | "date" | "status">) => {
