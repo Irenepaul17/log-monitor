@@ -31,6 +31,8 @@ export interface WorkReport {
     classification: string;
     details: any;
     attachments?: string[];
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface Complaint {
@@ -44,6 +46,13 @@ export interface Complaint {
     supervisorId?: string;
     resolvedBy?: string;
     resolvedDate?: string;
+    // Resolution fields
+    rtTime?: string;
+    actualFailureDetails?: string;
+    trainDetention?: string;
+    rectificationDetails?: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 interface GlobalContextType {
@@ -51,191 +60,183 @@ interface GlobalContextType {
     users: User[];
     reports: WorkReport[];
     complaints: Complaint[];
-    login: (phone: string, pass: string) => boolean;
+    login: (phone: string, pass: string) => Promise<boolean>;
     logout: () => void;
     addUser: (user: Omit<User, "id">) => void;
-    addReport: (report: Omit<WorkReport, "id">) => void;
-    addComplaint: (complaint: Omit<Complaint, "id" | "date" | "status">) => void;
-    resolveComplaint: (id: string) => void;
+    addReport: (report: Omit<WorkReport, "id">) => Promise<void>;
+    addComplaint: (complaint: Omit<Complaint, "id" | "date" | "status">) => Promise<void>;
+    resolveComplaint: (id: string, resolutionData: {
+        rtTime: string;
+        actualFailureDetails: string;
+        trainDetention: string;
+        rectificationDetails: string;
+    }) => Promise<void>;
     isSuperiorOf: (superior: User, subordinate: User | string) => boolean;
 }
-
-const DEFAULT_USERS: User[] = [
-    { id: 'u1', name: 'Sr. DSTE (Admin)', phone: '1234567890', pass: 'admin123', role: 'sr-dste', sub: 'Sr. DSTE', email: 'sr.dste@railnet.gov.in', pfNumber: 'PF0001' },
-    { id: 'u2', name: 'DSTE Rajesh', phone: '9000000001', pass: 'dste123', role: 'dste', sub: 'DSTE', superiorId: 'u1', email: 'dste.rajesh@railnet.gov.in', pfNumber: 'PF1001' },
-    { id: 'u3', name: 'ADSTE 1 Sunita', phone: '9000000002', pass: 'adste123', role: 'adste', sub: 'ADSTE 1', superiorId: 'u2', teamId: '1', email: 'adste1@railnet.gov.in', pfNumber: 'PF2001' },
-    { id: 'u4', name: 'SSE 1 Amit', phone: '9000000003', pass: 'sse123', role: 'sse', sub: 'SSE 1', superiorId: 'u3', teamId: '1', email: 'sse1@railnet.gov.in', pfNumber: 'PF3001' },
-    { id: 'u5', name: 'JE 1 Deepak', phone: '9000000004', pass: 'je123', role: 'je', sub: 'JE 1', superiorId: 'u4', teamId: '1', email: 'je1@railnet.gov.in', pfNumber: 'PF4001' },
-    { id: 'u6', name: 'Tech 1 Ramesh', phone: '9000000007', pass: 'tech123', role: 'technician', sub: 'Tech 1', superiorId: 'u5', teamId: '1', email: 'tech1@railnet.gov.in', pfNumber: 'PF5001' },
-    { id: 'u7', name: 'ADSTE 2 Rajesh', phone: '9000000005', pass: 'adste123', role: 'adste', sub: 'ADSTE 2', superiorId: 'u2', teamId: '2', email: 'adste2@railnet.gov.in', pfNumber: 'PF2002' },
-    { id: 'u8', name: 'SSE 2 Vikram', phone: '9000000008', pass: 'sse123', role: 'sse', sub: 'SSE 2', superiorId: 'u7', teamId: '2', email: 'sse2@railnet.gov.in', pfNumber: 'PF3002' },
-    { id: 'u9', name: 'JE 2 Kavita', phone: '9000000006', pass: 'je123', role: 'je', sub: 'JE 2', superiorId: 'u8', teamId: '2', email: 'je2@railnet.gov.in', pfNumber: 'PF4002' },
-    { id: 'u10', name: 'Tech 2 Suresh', phone: '9000000009', pass: 'tech123', role: 'technician', sub: 'Tech 2', superiorId: 'u9', teamId: '2', email: 'tech2@railnet.gov.in', pfNumber: 'PF5002' },
-];
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 export function GlobalProvider({ children }: { children: ReactNode }) {
     const router = useRouter();
     const [currentUser, setCurrentUser] = useState<User | null>(null);
-    const [users, setUsers] = useState<User[]>(DEFAULT_USERS);
+    const [users, setUsers] = useState<User[]>([]);
     const [reports, setReports] = useState<WorkReport[]>([]);
     const [complaints, setComplaints] = useState<Complaint[]>([]);
 
-    // Initialize users in localStorage if not present
+    // Restore session user if stored
     React.useEffect(() => {
-        const savedUsers = localStorage.getItem('users');
-        if (!savedUsers) {
-            // First time - save DEFAULT_USERS to localStorage
-            localStorage.setItem('users', JSON.stringify(DEFAULT_USERS));
-        } else {
-            // Load saved users from localStorage
-            try {
-                const loadedUsers = JSON.parse(savedUsers);
-                setUsers(loadedUsers);
-            } catch (e) {
-                console.error('Failed to load users:', e);
-                // Fallback to DEFAULT_USERS if parse fails
-                localStorage.setItem('users', JSON.stringify(DEFAULT_USERS));
-            }
+        const storedUser = localStorage.getItem('currentUser');
+        if (storedUser) {
+            setCurrentUser(JSON.parse(storedUser));
         }
     }, []);
 
-    // Load reports and complaints from localStorage on mount
+    // Fetch data when user changes
     React.useEffect(() => {
-        const savedReports = localStorage.getItem('workReports');
-        const savedComplaints = localStorage.getItem('complaints');
+        const fetchData = async () => {
+            if (!currentUser) return;
 
-        if (savedReports) {
             try {
-                setReports(JSON.parse(savedReports));
+                const [repRes, compRes] = await Promise.all([
+                    fetch(`/api/work-reports?userId=${currentUser.id}&role=${currentUser.role}`),
+                    fetch(`/api/complaints?userId=${currentUser.id}&role=${currentUser.role}`)
+                ]);
+                if (repRes.ok) setReports(await repRes.json());
+                if (compRes.ok) setComplaints(await compRes.json());
             } catch (e) {
-                console.error('Failed to load reports:', e);
+                console.error("Failed to fetch data", e);
             }
-        }
+        };
+        fetchData();
+    }, [currentUser]);
 
-        if (savedComplaints) {
-            try {
-                setComplaints(JSON.parse(savedComplaints));
-            } catch (e) {
-                console.error('Failed to load complaints:', e);
+    const login = async (phone: string, pass: string): Promise<boolean> => {
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, pass })
+            });
+
+            if (res.ok) {
+                const user = await res.json();
+                setCurrentUser(user);
+                localStorage.setItem('currentUser', JSON.stringify(user));
+
+                // Redirect based on role
+                const dashboardMap: Record<string, string> = {
+                    'sr-dste': '/dashboard/sr-dste',
+                    'dste': '/dashboard/dste',
+                    'adste': '/dashboard/adste',
+                    'sse': '/dashboard/sse',
+                    'je': '/dashboard/je',
+                    'technician': '/dashboard/je' // Technician goes to JE dashboard for now?
+                };
+                router.push(dashboardMap[user.role] || '/dashboard/je');
+                return true;
             }
+            return false;
+        } catch (e) {
+            console.error(e);
+            return false;
         }
-    }, []);
-
-    // Save reports to localStorage whenever they change
-    React.useEffect(() => {
-        if (reports.length > 0) {
-            localStorage.setItem('workReports', JSON.stringify(reports));
-        }
-    }, [reports]);
-
-    // Save complaints to localStorage whenever they change
-    React.useEffect(() => {
-        if (complaints.length > 0) {
-            localStorage.setItem('complaints', JSON.stringify(complaints));
-        }
-    }, [complaints]);
-
-    const isSuperiorOf = (superior: User, subordinate: User | string): boolean => {
-        // Sr. DSTE and DSTE see everything
-        if (superior.role === 'sr-dste' || superior.role === 'dste') return true;
-
-        // Get the subordinate user object
-        const subObj = typeof subordinate === 'string' ? users.find(u => u.id === subordinate) : subordinate;
-        if (!subObj) return false;
-
-        // Direct report check
-        if (subObj.superiorId === superior.id) return true;
-
-        // Walk up the chain
-        let currentId = subObj.superiorId;
-        while (currentId) {
-            if (currentId === superior.id) return true;
-            const nextSuperior = users.find(u => u.id === currentId);
-            currentId = nextSuperior?.superiorId;
-        }
-
-        return false;
-    };
-
-    const login = (phone: string, pass: string) => {
-        const user = users.find(u => u.phone === phone && u.pass === pass);
-        if (user) {
-            setCurrentUser(user);
-            const dashboardMap: Record<string, string> = {
-                'sr-dste': '/dashboard/sr-dste',
-                'dste': '/dashboard/dste',
-                'adste': '/dashboard/adste',
-                'sse': '/dashboard/sse',
-                'je': '/dashboard/je',
-                'technician': '/dashboard/je'
-            };
-            router.push(dashboardMap[user.role] || '/dashboard/je');
-            return true;
-        }
-        return false;
     };
 
     const logout = () => {
         setCurrentUser(null);
-        router.push("/");
+        localStorage.removeItem('currentUser');
+        router.push('/');
     };
 
-    const addUser = (userData: Omit<User, "id">) => {
-        const newUser = { ...userData, id: `u${users.length + 1}` };
-        setUsers(prev => [...prev, newUser]);
+    const addUser = (user: Omit<User, "id">) => {
+        // Not implemented API yet
+        console.warn("addUser not implemented with DB yet");
     };
 
-    const addReport = (reportData: Omit<WorkReport, "id">) => {
-        const newReport: WorkReport = {
-            ...reportData,
-            id: Date.now().toString()
-        };
-        setReports(prev => [newReport, ...prev]);
-
-        // Auto-create complaint if failure status is "Yes & Booked"
-        if (reportData.classification === 'Failure Attention' &&
-            reportData.details?.failureStatus === 'Yes & Booked') {
-
-            // Find the user's superior
-            const author = users.find(u => u.id === reportData.authorId);
-            const supervisorId = author?.superiorId;
-
-            const newComplaint: Complaint = {
-                id: `#C${String(complaints.length + 1).padStart(3, '0')}`,
-                date: reportData.date,
-                authorId: reportData.authorId,
-                authorName: reportData.authorName,
-                category: reportData.details?.failureAttentionOn || 'General Failure',
-                description: reportData.details?.failureDetails || 'Failure reported',
-                status: "Open",
-                supervisorId: supervisorId
-            };
-            setComplaints(prev => [newComplaint, ...prev]);
+    const addReport = async (report: Omit<WorkReport, "id">) => {
+        try {
+            const res = await fetch('/api/work-reports', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(report)
+            });
+            if (res.ok) {
+                const newReport: WorkReport = await res.json();
+                setReports(prev => [newReport, ...prev]);
+            }
+        } catch (e) {
+            console.error("Failed to add report", e);
         }
     };
 
-    const addComplaint = (complaintData: Omit<Complaint, "id" | "date" | "status">) => {
-        const newComplaint: Complaint = {
-            ...complaintData,
-            id: `#C${String(complaints.length + 1).padStart(3, '0')}`,
-            date: new Date().toISOString().split('T')[0],
-            status: "Open"
-        };
-        setComplaints(prev => [newComplaint, ...prev]);
+    const addComplaint = async (complaint: Omit<Complaint, "id" | "date" | "status">) => {
+        try {
+            const newComplaintData = {
+                ...complaint,
+                date: new Date().toISOString().split('T')[0],
+                status: "Open"
+            };
+            const res = await fetch('/api/complaints', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newComplaintData)
+            });
+            if (res.ok) {
+                const savedComplaint = await res.json();
+                setComplaints(prev => [savedComplaint, ...prev]);
+            }
+        } catch (e) {
+            console.error("Failed to add complaint", e);
+        }
     };
 
-    const resolveComplaint = (id: string) => {
-        setComplaints(prev => prev.map(c =>
-            c.id === id ? { ...c, status: "Closed", resolvedBy: currentUser?.name || "Admin", resolvedDate: new Date().toISOString().split('T')[0] } : c
-        ));
+    const resolveComplaint = async (id: string, resolutionData: {
+        rtTime: string;
+        actualFailureDetails: string;
+        trainDetention: string;
+        rectificationDetails: string;
+    }) => {
+        if (!currentUser) return;
+
+        try {
+            const res = await fetch(`/api/complaints/${id}/resolve`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...resolutionData,
+                    resolvedBy: currentUser.name,
+                    resolvedDate: new Date().toISOString().split('T')[0]
+                })
+            });
+
+            if (res.ok) {
+                const updatedComplaint: Complaint = await res.json();
+                setComplaints(prev => prev.map(c => c.id === id ? updatedComplaint : c));
+            }
+        } catch (e) {
+            console.error("Failed to resolve complaint", e);
+        }
+    };
+
+    const isSuperiorOf = (superior: User, subordinate: User | string): boolean => {
+        // Simplified check without full users list
+        const subId = typeof subordinate === 'string' ? subordinate : subordinate.id;
+        return superior.id === subId;
     };
 
     return (
         <GlobalContext.Provider value={{
-            currentUser, users, reports, complaints,
-            login, logout, addUser, addReport, addComplaint, resolveComplaint, isSuperiorOf
+            currentUser,
+            users,
+            reports,
+            complaints,
+            login,
+            logout,
+            addUser,
+            addReport,
+            addComplaint,
+            resolveComplaint,
+            isSuperiorOf
         }}>
             {children}
         </GlobalContext.Provider>
@@ -244,6 +245,8 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
 
 export function useGlobal() {
     const context = useContext(GlobalContext);
-    if (context === undefined) throw new Error("useGlobal must be used within a GlobalProvider");
+    if (context === undefined) {
+        throw new Error("useGlobal must be used within a GlobalProvider");
+    }
     return context;
 }

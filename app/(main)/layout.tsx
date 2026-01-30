@@ -235,9 +235,21 @@ export default function MainLayout({
                         </div>
                     </div>
                 </header>
-                <div style={{ padding: '40px' }}>
+                <div style={{ padding: '40px', minHeight: 'calc(100vh - 140px)' }}>
                     {children}
                 </div>
+                {/* Version Footer */}
+                <footer style={{
+                    padding: '16px 40px',
+                    borderTop: '1px solid var(--border)',
+                    background: 'var(--bg-secondary)',
+                    textAlign: 'center',
+                    fontSize: '12px',
+                    color: 'var(--muted)',
+                    marginTop: 'auto'
+                }}>
+                    S&T Digital Log Book v1.0.0 | © 2026 Indian Railways
+                </footer>
             </main>
         </>
     );

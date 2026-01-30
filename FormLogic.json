@@ -1,0 +1,2156 @@
+[
+  {
+    "question": "SSE Section",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "MAS",
+        "nextSection": "SSE/Signal/MAS"
+      },
+      {
+        "answer": "BBQ",
+        "nextSection": "SSE/Signal/BBQ"
+      },
+      {
+        "answer": "TVT",
+        "nextSection": "SSE/Signal/TVT"
+      },
+      {
+        "answer": "GPD",
+        "nextSection": "SSE/Signal/GPD"
+      },
+      {
+        "answer": "SPE",
+        "nextSection": "SSE/Signal/SPE"
+      },
+      {
+        "answer": "NYP",
+        "nextSection": "SSE/Signal/NYP"
+      },
+      {
+        "answer": "TRL",
+        "nextSection": "SSE/Signal/TRL"
+      },
+      {
+        "answer": "AJJ E",
+        "nextSection": "SSE/Signal/AJJ(E)"
+      },
+      {
+        "answer": "AJJW",
+        "nextSection": "SSE/Signal/AJJ(W)"
+      },
+      {
+        "answer": "TRT",
+        "nextSection": "SSE/Signal/TRT"
+      },
+      {
+        "answer": "KPDE",
+        "nextSection": "SSE/Signal/KPD(E)"
+      },
+      {
+        "answer": "KPDW",
+        "nextSection": "SSE/Signal/KPD(W)"
+      },
+      {
+        "answer": "AB",
+        "nextSection": "SSE/Signal/AB"
+      },
+      {
+        "answer": "JTJ",
+        "nextSection": "SSE/Signal/JTJ"
+      },
+      {
+        "answer": "MSB",
+        "nextSection": "SSE/Signal/MSB"
+      },
+      {
+        "answer": "MS",
+        "nextSection": "SSE/Signal/MS"
+      },
+      {
+        "answer": "TBM",
+        "nextSection": "SSE/Signal/TBM"
+      },
+      {
+        "answer": "CGL",
+        "nextSection": "SSE/Signal/CGL"
+      },
+      {
+        "answer": "TMV",
+        "nextSection": "SSE/Signal/TVT"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/JTJ",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/JTJ"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "JTJ",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "JTJ AUX",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/MSB",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/MSB"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "MSB",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MSB-RPM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MSB-MS",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MSB-MPK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MPK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MSB-MCPK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MCPK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MCPK-MTMY",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MTMY",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MTMY-VLCY",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VLCY",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/MS",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/MS"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "MS",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MS-MKK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MKK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MKK-STM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "STM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "STM-PV",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PV",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PV-CMP",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/TBM",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/TBM"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "CMP-TBM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PV-TBM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TBM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TBM-VDR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VDR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VDR-GI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TBM-GI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "GI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "GI-CTM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "CTM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "CTM-SKL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "GI-SKL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "SKL",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/CGL",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/CGL"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "SKL-CGL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "CGL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "CGL-OV",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "OV",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "OV-KGZ",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PTM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KGZ",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KGZ-MMK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MMK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "CGL-PALR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PALR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PALR-WJ",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "WJ",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "WJ-CJ",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "CJ",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "CJ-TMLP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TMLP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TMLP-MLPM",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/TMV",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/TMV"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "MMK-MLMR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PQM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MLMR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MLMR-TZD",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TZD",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TZD-OLA",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "OLA",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "OLA-TMV",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PCLM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TMV",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TMV-MTL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MTL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MTL-PEI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PEI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PEI-VVN",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VVN",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VVN-MYP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MYP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MYP-VM",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/MAS",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/MAS"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "MAS",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MASS",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "20LF",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/BBQ",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/BBQ"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "BBQ",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KOK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "WST-VPY",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "WST",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "RPM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VPY-KOK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "BBQ-VPY",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VPY",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VPY-VLK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PEW",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PEW-VLK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VLK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VLK-ABU",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "ABU",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "ABU-AVD",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/TVT",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/TVT"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "KOK-TNP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TNP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TNP-TVT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TVT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TVT-ENR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "ENR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "ENR-AIPP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "AIPP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "AIP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TNPM",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/GPD",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/GPD"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "AIP-MJR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MJR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MJR-PON",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PON",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PON-KVP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KVP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KVP-GPD",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "GPD",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/SPE",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/SPE"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "GPD-ELR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "ELR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "ELR-AKM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "AKM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "AKM-TADA",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TADA",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TADA-SPE",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "SPE",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "SPE-PEL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PEL",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/NYP",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/NYP"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "PEL-DVR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "DVR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "DVR-NYP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "NYP",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "NYP-PYA",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PYA",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PYA-ODR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "ODR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "ODR-GDR",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/TRL",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/TRL"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "AVD",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "AVD-PAB",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PAB",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PTMS",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "E DEPOT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PAB-TI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TI-TRL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TRL",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/AJJ(E)",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/AJJ(E)"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "TRL-KBT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KBT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KBT-TO",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TO",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TO-AJJ",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "AJJ",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/AJJ(W)",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/AJJ(W)"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "AJJN",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MLPM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MLPM-CTRE",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "CTRE",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "CTRE-MDVE",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MDVE",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MDVE-SHU",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "SHU",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/TRT",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/TRT"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "AJJN-TRT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "IPT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TRT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TRT-POI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "POI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "POI-NG",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "NG",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "NG-VGA",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VGA",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VGA-PUT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PUT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PUT-TDK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TDK",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TDK-SVF",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "SVF-PUDI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TDK-PUDI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PUDI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PUDI-RU",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "SVF",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/KPD(E)",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/KPD(E)"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "SHU-TUG",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TUG",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "TUG-WJR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "WJR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "WJR-MCN",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MCN",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MCN-THL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "THL",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "THL-SVUR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "SVUR",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "SVUR-KPD",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KPD",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/KPD(W)",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/KPD(W)"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "KPD-LTI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "LTI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "LTI-KVN",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KVN",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KVN-GYM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "GYM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "GYM-VLT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VLT",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VLT-MPI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MPI",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "MPI-PCKM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "PCKM",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "SSE/Signal/AB",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "SSE/Signal/AB"
+  },
+  {
+    "question": "STATION",
+    "type": "LIST",
+    "logic": [
+      {
+        "answer": "PCKM-AB",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "AB",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "AB-VGM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VGM",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VGM-VN",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VN",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "VN-KDY",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KDY",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "KDY-JTJ",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "LOG BOOK",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "LOG BOOK"
+  },
+  {
+    "question": "Date",
+    "type": "DATE",
+    "logic": []
+  },
+  {
+    "question": "Shift",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Night Odd Hrs to 07:00",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Morning",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Evening",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Night Up to Odd Hrs.",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "Enter the details of Work done",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Enter the details of Work done"
+  },
+  {
+    "question": "Work Classification",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Maintenance",
+        "nextSection": "Maintenance"
+      },
+      {
+        "answer": "Failure Attention",
+        "nextSection": "Failure details"
+      },
+      {
+        "answer": "S &T Special work",
+        "nextSection": "S & T Special Work"
+      },
+      {
+        "answer": "Work with other Departments",
+        "nextSection": "Works with Other Departments"
+      },
+      {
+        "answer": "Replacement of Assets",
+        "nextSection": "Replacement of asset details"
+      },
+      {
+        "answer": "Select for entering Disconnection",
+        "nextSection": "Disconnection / Reconnection"
+      },
+      {
+        "answer": "Only Disconnection filled and cancelled",
+        "nextSection": "Disconnection / Reconnection"
+      },
+      {
+        "answer": "Miscellaneous",
+        "nextSection": "Miscellaneous Works"
+      }
+    ]
+  },
+  {
+    "question": "Maintenance",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Maintenance"
+  },
+  {
+    "question": "Gear maintained",
+    "type": "CHECKBOX",
+    "logic": []
+  },
+  {
+    "question": "Details of Maintenance Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "S & T Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "S & T Special Work"
+  },
+  {
+    "question": "S& T Special work Done on",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Track",
+        "nextSection": "Track Special Work"
+      },
+      {
+        "answer": "Signal",
+        "nextSection": "Signal Special Work"
+      },
+      {
+        "answer": "Point",
+        "nextSection": "Point Special Work"
+      },
+      {
+        "answer": "Location Box",
+        "nextSection": "Location Box Special Work"
+      },
+      {
+        "answer": "Power Room",
+        "nextSection": "Power Room Special Work"
+      },
+      {
+        "answer": "Relay room",
+        "nextSection": "Relay Room Special Work"
+      },
+      {
+        "answer": "LC Gate",
+        "nextSection": "LC Gate Special Work"
+      },
+      {
+        "answer": "HUT",
+        "nextSection": "HUT Special Work"
+      },
+      {
+        "answer": "Auto Section",
+        "nextSection": "Auto Section Special Work"
+      }
+    ]
+  },
+  {
+    "question": "Track Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Track Special Work"
+  },
+  {
+    "question": "Details of  Track  Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Signal Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Signal Special Work"
+  },
+  {
+    "question": "Details of Signal Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Point Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Point Special Work"
+  },
+  {
+    "question": "Details of Point Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Location Box Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Location Box Special Work"
+  },
+  {
+    "question": "Details of Location Box Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Power Room Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Power Room Special Work"
+  },
+  {
+    "question": "Details of Power Room Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Relay Room Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Relay Room Special Work"
+  },
+  {
+    "question": "Details of Relay Room Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "LC Gate Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "LC Gate Special Work"
+  },
+  {
+    "question": "Details of LC Gate Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "HUT Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "HUT Special Work"
+  },
+  {
+    "question": "Details of HUT Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Auto Section Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Auto Section Special Work"
+  },
+  {
+    "question": "Details of Auto Section Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Other Special Work",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Other Special Work"
+  },
+  {
+    "question": "Details of Other Special Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Works with Other Departments",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Works with Other Departments"
+  },
+  {
+    "question": "Details of Works with other Department Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Miscellaneous Works",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Miscellaneous Works"
+  },
+  {
+    "question": "Details of Miscellaneous Work Done",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Any failures in your shift?",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Any failures in your shift?"
+  },
+  {
+    "question": "Any Failures ?",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Yes & Booked",
+        "nextSection": "Failure details"
+      },
+      {
+        "answer": "Yes & Not Booked",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "No failures",
+        "nextSection": "Any Disconnection Filled in your Shift?"
+      }
+    ]
+  },
+  {
+    "question": "Un Booked Failures",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Un Booked Failures"
+  },
+  {
+    "question": "Details",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Failure details",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Failure details"
+  },
+  {
+    "question": "Gear failed",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Track",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Signal",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Point",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "LC Gate",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Block",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "Classification",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "S & T Failure",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Engg. failure",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "OHE Dept. failure",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Miscreant activity",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Miscellaneous",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "IN Time",
+    "type": "TIME",
+    "logic": []
+  },
+  {
+    "question": "RT Time",
+    "type": "TIME",
+    "logic": []
+  },
+  {
+    "question": "Failure Details",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Actual Faiure Details",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Train Detention",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Any Disconnection Filled in your Shift?",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Any Disconnection Filled in your Shift?"
+  },
+  {
+    "question": "Any Disconnection Filled ?",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Yes",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "No",
+        "nextSection": "Enter Another Work by submiting this and fill another response"
+      }
+    ]
+  },
+  {
+    "question": "Disconnection / Reconnection",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Disconnection / Reconnection"
+  },
+  {
+    "question": "Disconnection No.",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Applied/Cancelled",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Applied",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Cancelled by S&T",
+        "nextSection": "Enter Another Work by submiting this and fill another response"
+      }
+    ]
+  },
+  {
+    "question": "Disconnection Details",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Disconnection Details"
+  },
+  {
+    "question": "Status",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Permitted",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Not permitted",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "Disconnection given for Type of Work",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Maintenance",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Failure",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "Disconnection Date",
+    "type": "DATE",
+    "logic": []
+  },
+  {
+    "question": "Disconnection Time",
+    "type": "TIME",
+    "logic": []
+  },
+  {
+    "question": "Reconnection Date",
+    "type": "DATE",
+    "logic": []
+  },
+  {
+    "question": "Reconnection Time",
+    "type": "TIME",
+    "logic": []
+  },
+  {
+    "question": "Details/Reason",
+    "type": "PARAGRAPH_TEXT",
+    "logic": []
+  },
+  {
+    "question": "Replacement of asset details",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Replacement of asset details"
+  },
+  {
+    "question": "Replacement done in Gear",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Track (DCTC)",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Track (AFTC)",
+        "nextSection": "Asset Replacement Track (AFTC)"
+      },
+      {
+        "answer": "Track (Axle Counter)",
+        "nextSection": "Asset Replacement Track (Axle Counter)"
+      },
+      {
+        "answer": "Signal",
+        "nextSection": "Asset Replacement (Signal)"
+      },
+      {
+        "answer": "Point",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Power room",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Battery",
+        "nextSection": "Battery Replacement Details"
+      },
+      {
+        "answer": "IPS",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Relay room (Relay)",
+        "nextSection": "Relay Replacement Details"
+      },
+      {
+        "answer": "Relay Room (Other than Relays)",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "LC Gate",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "AFTC/MSDAC HUT",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Auto Section",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "General",
+        "nextSection": "Replaced Asset details "
+      }
+    ]
+  },
+  {
+    "question": "Asset Replacement Track (DCTC)",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Asset Replacement Track (DCTC)"
+  },
+  {
+    "question": "Track No.",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Asset Replaced",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Track Battery",
+        "nextSection": "Battery Replacement Details"
+      },
+      {
+        "answer": "TJ",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Choke",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "TF Resiistance",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "TLD",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Glued Joints",
+        "nextSection": "Glued Joint replacement Details"
+      },
+      {
+        "answer": "RDSO Joint",
+        "nextSection": "RDSO Joint replacement Details"
+      },
+      {
+        "answer": "Lead wires",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Fuse",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Track Relay",
+        "nextSection": "Relay Replacement Details"
+      },
+      {
+        "answer": "Track Proving Relay",
+        "nextSection": "Relay Replacement Details"
+      },
+      {
+        "answer": "Any other Relay",
+        "nextSection": "Relay Replacement Details"
+      }
+    ]
+  },
+  {
+    "question": "Asset Replacement Track (AFTC)",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Asset Replacement Track (AFTC)"
+  },
+  {
+    "question": "Track No.",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Asset Replaced",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Tunning Unit",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Power supply",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Transmitter",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Receiver",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Lead wires",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Fuse",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Track Relay",
+        "nextSection": "Relay Replacement Details"
+      },
+      {
+        "answer": "Track Proving Relay",
+        "nextSection": "Relay Replacement Details"
+      }
+    ]
+  },
+  {
+    "question": "Asset Replacement Track (Axle Counter)",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Asset Replacement Track (Axle Counter)"
+  },
+  {
+    "question": "Track No.",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Asset Replaced",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Track Sensor",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "DP",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Power Supply",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Evaluator",
+        "nextSection": "Replaced Asset details "
+      },
+      {
+        "answer": "Fuse",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Track Relay",
+        "nextSection": "Relay Replacement Details"
+      },
+      {
+        "answer": "Track Proving Relay",
+        "nextSection": "Relay Replacement Details"
+      }
+    ]
+  },
+  {
+    "question": "Asset Replacement (Signal)",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Asset Replacement (Signal)"
+  },
+  {
+    "question": "Signal No.",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Type of signal",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Main",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Independant SH",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Subsidary Shunt",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Calling ON",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "Name of Asset replaced",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "RG",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "HG",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "DG",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "A-Marker",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "G-Marker",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Shunt Aspect",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "Battery Replacement Details",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Battery Replacement Details"
+  },
+  {
+    "question": "Ciruit",
+    "type": "CHECKBOX",
+    "logic": []
+  },
+  {
+    "question": "Number of Cells replaced",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Make",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Capacity",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Date of installation/ (Initial installation/ Charge)",
+    "type": "DATE",
+    "logic": []
+  },
+  {
+    "question": "Replaced Asset details ",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Replaced Asset details "
+  },
+  {
+    "question": "Old asset Make",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Old asset   Sl.No",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Old asset   Date of installation",
+    "type": "DATE",
+    "logic": []
+  },
+  {
+    "question": "New asset   Make",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "New asset     Sl.No",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "New asset     Date of installation",
+    "type": "DATE",
+    "logic": []
+  },
+  {
+    "question": "Glued Joint replacement Details",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Glued Joint replacement Details"
+  },
+  {
+    "question": "Glued joint name (Tracks)",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Type",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Bi-furicating (Track Circuit End)",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Polarity",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Other",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "LH/RH (Increasing KM)",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "LH",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "RH",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "Kgs",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "60 Kgs",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "52 Kgs",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "90R",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "RDSO Joint replacement Details",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "RDSO Joint replacement Details"
+  },
+  {
+    "question": "RDSO joint name (Tracks)",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Type",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "Bi-furicating (Track Circuit End)",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Polarity",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "Other",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "LH/RH (Increasing KM)",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "LH",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "RH",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "Kgs",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "60 Kgs",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "52 Kgs",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "90R",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  },
+  {
+    "question": "Relay Replacement Details",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Relay Replacement Details"
+  },
+  {
+    "question": "Old relay Type (QNA1, QTA2...etc.)",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Old relay Make",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Old relay Sl. No.",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Old relay Contact (8F/8B...etc.)",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "New relay Type (QNA1, QTA2...etc.)",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "New relay Make",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "New relay Sl. No.",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "New relay Contact (8F/8B...etc.)",
+    "type": "TEXT",
+    "logic": []
+  },
+  {
+    "question": "Enter Another Work by submiting this and fill another response",
+    "type": "PAGE_BREAK",
+    "logic": [],
+    "sectionTitle": "Enter Another Work by submiting this and fill another response"
+  },
+  {
+    "question": "Have you entered all works done in your shift?",
+    "type": "MULTIPLE_CHOICE",
+    "logic": [
+      {
+        "answer": "YES",
+        "nextSection": "Continue to Next"
+      },
+      {
+        "answer": "NO, I want to enter another work",
+        "nextSection": "Continue to Next"
+      }
+    ]
+  }
+]

@@ -8,8 +8,8 @@ export default function LoginPage() {
   const [phone, setPhone] = useState("");
   const [pass, setPass] = useState("");
 
-  const handleLogin = () => {
-    const success = login(phone, pass);
+  const handleLogin = async () => {
+    const success = await login(phone, pass);
     if (!success) {
       alert("Invalid credentials. Try 1234567890 / admin123 or 9000000004 / je123");
     }

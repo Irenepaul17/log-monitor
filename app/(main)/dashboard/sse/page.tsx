@@ -1,15 +1,23 @@
 "use client";
 
 import { useGlobal } from "@/app/context/GlobalContext";
+import { useState } from "react";
+import { ResolutionModal } from "@/app/components/ResolutionModal";
+import WorkReportDetailModal from "@/app/components/WorkReportDetailModal";
+import ComplaintDetailModal from "@/app/components/ComplaintDetailModal";
+import { Complaint, WorkReport } from "@/app/context/GlobalContext";
 
 export default function SSEDashboard() {
-    const { currentUser, reports, complaints, resolveComplaint, isSuperiorOf } = useGlobal();
+    const { currentUser, reports, complaints, resolveComplaint } = useGlobal();
+    const [resolvingComplaint, setResolvingComplaint] = useState<Complaint | null>(null);
+    const [viewingReport, setViewingReport] = useState<WorkReport | null>(null);
+    const [viewingComplaint, setViewingComplaint] = useState<Complaint | null>(null);
 
     if (!currentUser) return null;
 
-    // SSE sees reports from JE/Techs reporting to them, or themselves
-    const myReports = reports.filter(r => r.authorId === currentUser.id || isSuperiorOf(currentUser, r.authorId));
-    const myComplaints = complaints.filter(c => c.authorId === currentUser.id || isSuperiorOf(currentUser, c.authorId) || c.supervisorId === currentUser.id);
+    // API already filters based on role - no need for client-side filtering
+    const myReports = reports;
+    const myComplaints = complaints;
 
     return (
         <div className="screen active" style={{ display: "block" }}>
@@ -33,6 +41,7 @@ export default function SSEDashboard() {
                                 <th>Author</th>
                                 <th>Category</th>
                                 <th>Station</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,6 +51,15 @@ export default function SSEDashboard() {
                                     <td>{r.authorName}</td>
                                     <td>{r.classification.toUpperCase()}</td>
                                     <td>{r.station}</td>
+                                    <td>
+                                        <button
+                                            onClick={() => setViewingReport(r)}
+                                            className="btn btn-sm btn-primary"
+                                            style={{ padding: '4px 12px', fontSize: '12px' }}
+                                        >
+                                            View
+                                        </button>
+                                    </td>
                                 </tr>
                             )) : (
                                 <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--muted)' }}>No team failure reports yet.</td></tr>
@@ -75,7 +93,14 @@ export default function SSEDashboard() {
                                     <td>{c.description}</td>
                                     <td>
                                         <div style={{ display: 'flex', gap: '8px' }}>
-                                            {c.status === 'Open' && <button className="btn btn-primary btn-sm" onClick={() => resolveComplaint(c.id)}>Resolve</button>}
+                                            <button
+                                                onClick={() => setViewingComplaint(c)}
+                                                className="btn btn-sm btn-primary"
+                                                style={{ padding: '4px 12px', fontSize: '12px' }}
+                                            >
+                                                View
+                                            </button>
+                                            {c.status === 'Open' && <button className="btn btn-primary btn-sm" onClick={() => setResolvingComplaint(c)}>Resolve</button>}
                                         </div>
                                     </td>
                                 </tr>
@@ -84,6 +109,20 @@ export default function SSEDashboard() {
                     </table>
                 </div>
             </div>
+
+            {/* Resolution Modal */}
+            {resolvingComplaint && (
+                <ResolutionModal
+                    complaint={resolvingComplaint}
+                    onClose={() => setResolvingComplaint(null)}
+                    onResolve={async (data) => {
+                        await resolveComplaint(resolvingComplaint.id, data);
+                        setResolvingComplaint(null);
+                    }}
+                />
+            )}
+            <WorkReportDetailModal report={viewingReport} onClose={() => setViewingReport(null)} />
+            <ComplaintDetailModal complaint={viewingComplaint} onClose={() => setViewingComplaint(null)} />
         </div>
     );
 }

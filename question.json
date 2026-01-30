@@ -716,6 +716,312 @@
       ]
     },
     {
+      "id": "Q16",
+      "text": "Station (AJJ E Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "TRL-KBT",
+          "next": "Q22"
+        },
+        {
+          "label": "KBT",
+          "next": "Q22"
+        },
+        {
+          "label": "KBT-TO",
+          "next": "Q22"
+        },
+        {
+          "label": "TO",
+          "next": "Q22"
+        },
+        {
+          "label": "TO-AJJ",
+          "next": "Q22"
+        },
+        {
+          "label": "AJJ",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q17",
+      "text": "Station (AJJW Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "AJJN",
+          "next": "Q22"
+        },
+        {
+          "label": "MLPM",
+          "next": "Q22"
+        },
+        {
+          "label": "MLPM-CTRE",
+          "next": "Q22"
+        },
+        {
+          "label": "CTRE",
+          "next": "Q22"
+        },
+        {
+          "label": "CTRE-MDVE",
+          "next": "Q22"
+        },
+        {
+          "label": "MDVE",
+          "next": "Q22"
+        },
+        {
+          "label": "MDVE-SHU",
+          "next": "Q22"
+        },
+        {
+          "label": "SHU",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q18",
+      "text": "Station (TRT Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "AJJN-TRT",
+          "next": "Q22"
+        },
+        {
+          "label": "IPT",
+          "next": "Q22"
+        },
+        {
+          "label": "TRT",
+          "next": "Q22"
+        },
+        {
+          "label": "TRT-POI",
+          "next": "Q22"
+        },
+        {
+          "label": "POI",
+          "next": "Q22"
+        },
+        {
+          "label": "POI-NG",
+          "next": "Q22"
+        },
+        {
+          "label": "NG",
+          "next": "Q22"
+        },
+        {
+          "label": "NG-VGA",
+          "next": "Q22"
+        },
+        {
+          "label": "VGA",
+          "next": "Q22"
+        },
+        {
+          "label": "VGA-PUT",
+          "next": "Q22"
+        },
+        {
+          "label": "PUT",
+          "next": "Q22"
+        },
+        {
+          "label": "PUT-TDK",
+          "next": "Q22"
+        },
+        {
+          "label": "TDK",
+          "next": "Q22"
+        },
+        {
+          "label": "TDK-SVF",
+          "next": "Q22"
+        },
+        {
+          "label": "SVF-PUDI",
+          "next": "Q22"
+        },
+        {
+          "label": "TDK-PUDI",
+          "next": "Q22"
+        },
+        {
+          "label": "PUDI",
+          "next": "Q22"
+        },
+        {
+          "label": "PUDI-RU",
+          "next": "Q22"
+        },
+        {
+          "label": "SVF",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q19",
+      "text": "Station (KPDE Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "SHU-TUG",
+          "next": "Q22"
+        },
+        {
+          "label": "TUG",
+          "next": "Q22"
+        },
+        {
+          "label": "TUG-WJR",
+          "next": "Q22"
+        },
+        {
+          "label": "WJR",
+          "next": "Q22"
+        },
+        {
+          "label": "WJR-MCN",
+          "next": "Q22"
+        },
+        {
+          "label": "MCN",
+          "next": "Q22"
+        },
+        {
+          "label": "MCN-THL",
+          "next": "Q22"
+        },
+        {
+          "label": "THL",
+          "next": "Q22"
+        },
+        {
+          "label": "THL-SVUR",
+          "next": "Q22"
+        },
+        {
+          "label": "SVUR",
+          "next": "Q22"
+        },
+        {
+          "label": "SVUR-KPD",
+          "next": "Q22"
+        },
+        {
+          "label": "KPD",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q20",
+      "text": "Station (KPDW Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "KPD-LTI",
+          "next": "Q22"
+        },
+        {
+          "label": "LTI",
+          "next": "Q22"
+        },
+        {
+          "label": "LTI-KVN",
+          "next": "Q22"
+        },
+        {
+          "label": "KVN",
+          "next": "Q22"
+        },
+        {
+          "label": "KVN-GYM",
+          "next": "Q22"
+        },
+        {
+          "label": "GYM",
+          "next": "Q22"
+        },
+        {
+          "label": "GYM-VLT",
+          "next": "Q22"
+        },
+        {
+          "label": "VLT",
+          "next": "Q22"
+        },
+        {
+          "label": "VLT-MPI",
+          "next": "Q22"
+        },
+        {
+          "label": "MPI",
+          "next": "Q22"
+        },
+        {
+          "label": "MPI-PCKM",
+          "next": "Q22"
+        },
+        {
+          "label": "PCKM",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
+      "id": "Q21",
+      "text": "Station (AB Section)",
+      "type": "radio",
+      "options": [
+        {
+          "label": "PCKM-AB",
+          "next": "Q22"
+        },
+        {
+          "label": "AB",
+          "next": "Q22"
+        },
+        {
+          "label": "AB-VGM",
+          "next": "Q22"
+        },
+        {
+          "label": "VGM",
+          "next": "Q22"
+        },
+        {
+          "label": "VGM-VN",
+          "next": "Q22"
+        },
+        {
+          "label": "VN",
+          "next": "Q22"
+        },
+        {
+          "label": "VN-KDY",
+          "next": "Q22"
+        },
+        {
+          "label": "KDY",
+          "next": "Q22"
+        },
+        {
+          "label": "KDY-JTJ",
+          "next": "Q22"
+        }
+      ]
+    },
+    {
       "id": "Q22",
       "text": "Date",
       "type": "date",
@@ -1001,28 +1307,10 @@
       "example": "8:30 AM"
     },
     {
-      "id": "Q45",
-      "text": "RT Time",
-      "type": "time",
-      "example": "8:30 AM"
-    },
-    {
       "id": "Q46",
       "text": "Failure Details",
       "type": "text",
       "description": "Enter details as recorded in Signal Failure Register"
-    },
-    {
-      "id": "Q47",
-      "text": "Actual Failure Details",
-      "type": "text",
-      "description": "Enter actual failure (for analysis only). If same as above, skip."
-    },
-    {
-      "id": "Q48",
-      "text": "Train Detention",
-      "type": "text",
-      "description": "Record train detention if any"
     },
     {
       "id": "Q49",

@@ -2,10 +2,18 @@
 
 import { useGlobal } from "@/app/context/GlobalContext";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ResolutionModal } from "@/app/components/ResolutionModal";
+import { Complaint, WorkReport } from "@/app/context/GlobalContext";
+import WorkReportDetailModal from "@/app/components/WorkReportDetailModal";
+import ComplaintDetailModal from "@/app/components/ComplaintDetailModal";
 
 export default function JEDashboard() {
-    const { currentUser, reports, complaints } = useGlobal();
+    const { currentUser, reports, complaints, resolveComplaint } = useGlobal();
     const router = useRouter();
+    const [resolvingComplaint, setResolvingComplaint] = useState<Complaint | null>(null);
+    const [viewingReport, setViewingReport] = useState<WorkReport | null>(null);
+    const [viewingComplaint, setViewingComplaint] = useState<Complaint | null>(null);
 
     // Filter reports/complaints for current JE
     const myReports = reports.filter(r => r.authorId === currentUser?.id);
@@ -34,6 +42,7 @@ export default function JEDashboard() {
                                 <th>Description</th>
                                 <th>Technician</th>
                                 <th>Photos</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,9 +59,18 @@ export default function JEDashboard() {
                                             {r.attachments ? r.attachments.length : 0} {r.attachments && r.attachments.length === 1 ? 'FILE' : 'FILES'}
                                         </span>
                                     </td>
+                                    <td>
+                                        <button
+                                            onClick={() => setViewingReport(r)}
+                                            className="btn btn-sm btn-outline"
+                                            style={{ fontSize: '13px', padding: '6px 12px' }}
+                                        >
+                                            View
+                                        </button>
+                                    </td>
                                 </tr>
                             )) : (
-                                <tr><td colSpan={4} style={{ textAlign: 'center', color: 'var(--muted)' }}>No reports found.</td></tr>
+                                <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--muted)' }}>No reports found.</td></tr>
                             )}
                         </tbody>
                     </table>
@@ -100,6 +118,21 @@ export default function JEDashboard() {
                                     ✅ Resolved by {c.resolvedBy} on {c.resolvedDate}
                                 </div>
                             )}
+                            <div style={{ marginTop: '16px', display: 'flex', gap: '12px' }}>
+                                <button
+                                    onClick={() => setViewingComplaint(c)}
+                                    className="btn btn-outline btn-sm"
+                                >
+                                    View Details
+                                </button>
+                                {c.status === 'Open' && (
+                                    <button
+                                        onClick={() => setResolvingComplaint(c)}
+                                        className="btn btn-primary btn-sm"
+                                    >
+                                        🔧 Resolve Complaint
+                                    </button>
+                                )}</div>
                         </div>
                     )) : (
                         <div style={{ color: 'var(--muted)', padding: '20px', textAlign: 'center' }}>
@@ -108,6 +141,22 @@ export default function JEDashboard() {
                     )}
                 </div>
             </div>
+
+            {/* Resolution Modal */}
+            {resolvingComplaint && (
+                <ResolutionModal
+                    complaint={resolvingComplaint}
+                    onClose={() => setResolvingComplaint(null)}
+                    onResolve={async (data) => {
+                        await resolveComplaint(resolvingComplaint.id, data);
+                        setResolvingComplaint(null);
+                    }}
+                />
+            )}
+
+            {/* View Modals */}
+            <WorkReportDetailModal report={viewingReport} onClose={() => setViewingReport(null)} />
+            <ComplaintDetailModal complaint={viewingComplaint} onClose={() => setViewingComplaint(null)} />
         </div>
     );
 }

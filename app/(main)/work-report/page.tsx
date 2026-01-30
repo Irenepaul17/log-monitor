@@ -81,133 +81,140 @@ export default function WorkReportPage() {
         setAttachments(prev => prev.filter((_, i) => i !== index));
     };
 
-    const handleSubmit = (submitAnother: boolean) => {
+    const handleSubmit = async (submitAnother: boolean) => {
         if (!currentUser) return;
         // Removed finalConfirmation check
 
-        const rawClass = answers.classification;
-        let classification = '';
-        if (rawClass === 'Maintenance') classification = 'maintenance';
-        else if (rawClass === 'Failure Attention') classification = 'failure';
-        else if (rawClass === 'S&T Special Work') classification = 'st';
-        else if (rawClass === 'Select for entering Disconnection') classification = 'disconnection';
-        else if (rawClass === 'Replacement of Assets in Log Book') classification = 'replacement';
-        else if (rawClass === 'Work with other Department') classification = 'other';
-        else if (rawClass === 'Miscellaneous') classification = 'misc';
-        else classification = rawClass ? rawClass.toLowerCase().replace(/ /g, '_') : '';
-        const specialWorkText =
-            classification === 'st'
-                ? (answers.specialWorkOn === 'Track'
-                    ? answers.specialWorkDetailsTrack
-                    : answers.specialWorkOn === 'Signal'
-                        ? answers.specialWorkDetailsSignal
-                        : answers.specialWorkOn === 'Point'
-                            ? answers.specialWorkDetailsPoint
-                            : answers.specialWorkOn === 'Location Box'
-                                ? answers.specialWorkDetailsLocationBox
-                                : answers.specialWorkOn === 'Power Room'
-                                    ? answers.specialWorkDetailsPowerRoom
-                                    : answers.specialWorkOn === 'Relay room'
-                                        ? answers.specialWorkDetailsRelayRoom
-                                        : answers.specialWorkOn === 'LC Gate'
-                                            ? answers.specialWorkDetailsLCGate
-                                            : answers.specialWorkOn === 'HUT'
-                                                ? answers.specialWorkDetailsHUT
-                                                : answers.specialWorkOn === 'Auto Section'
-                                                    ? answers.specialWorkDetailsAutoSection
-                                                    : answers.specialWorkOn === 'Other'
-                                                        ? answers.specialWorkDetailsOther
-                                                        : '')
-                : '';
-        const reportData = {
-            date: answers.date,
-            authorId: currentUser.id,
-            authorName: currentUser.name,
-            sseSection: answers.section,
-            station: answers.station,
-            shift: answers.shift === 'Other' ? (answers.shiftOther || 'Other') : answers.shift,
-            classification,
-            details: {
-                maintenance: classification === 'maintenance' ? { gears: answers.maintainedGears || [], text: answers.maintDetails || "", other: answers.maintainedGearsOther || "" } : null,
-                specialWork: classification === 'st' ? { on: answers.specialWorkOn || "", text: specialWorkText } : null,
-                otherDept: classification === 'other' ? (answers.otherDeptDetails || "") : null,
-                misc: classification === 'misc' ? (answers.miscDetails || "") : null,
-                failure: classification === 'failure' ? {
-                    status: answers.failureStatus,
-                    gear: answers.gearFailed,
-                    type: answers.failureType || "",
-                    inTime: answers.inTime,
-                    rtTime: answers.rtTime,
-                    classification: answers.failureClassification || "",
-                    details: answers.failureDetails || "",
-                    actualDetails: answers.actualFailureDetails || "",
-                    preventiveDetails: answers.failurePreventiveDetails || ""
-                } : null,
-                disconnection: answers.hasDisconnection === 'Yes' ? {
-                    status: answers.discStatus || "",
-                    permission: answers.discPermission || "",
-                    no: answers.discNo || "",
-                    for: (answers.discFor === 'Other' ? (answers.discForOther || 'Other') : (answers.discFor || "")),
-                    discDate: answers.discDate || "",
-                    discTime: answers.discTime || "",
-                    reconDate: answers.reconDate || "",
-                    reconTime: answers.reconTime || ""
-                } : null,
-                replacement: classification === 'replacement' ? {
-                    gear: answers.replaceGear,
-                    detailsReason: answers.replacementReason || null,
-                    trackDCTC: answers.replaceGear === 'Track (DCTC)' ? { trackNo: answers.dctcTrackNo, asset: answers.dctcAssetReplaced } : null,
-                    trackAFTC: answers.replaceGear === 'Track (AFTC)' ? { trackNo: answers.aftcTrackNo, asset: answers.aftcAssetReplaced } : null,
-                    trackAC: answers.replaceGear === 'Track (Axle Counter)' ? { trackNo: answers.acTrackNo, type: answers.acType, make: answers.acMake, asset: answers.acAssetReplaced } : null,
-                    signal: answers.replaceGear === 'Signal' ? { no: answers.signalNo, type: answers.signalType, aspect: answers.signalAspect } : null,
-                    battery: answers.replaceGear === 'Battery' ? {
-                        type: answers.batteryCircuit, assetName: answers.batteryAssetName, circuit: answers.batteryCircuitOther || "",
-                        cells: answers.batteryCells, make: answers.batteryMake, capacity: answers.batteryCapacity, installDate: answers.batteryInstallDate
-                    } : null,
-                    relay: answers.replaceGear === 'Relay Room (Relay)' ? {
-                        old: { type: answers.oldRelayType, make: answers.oldRelayMake, serial: answers.oldRelaySerial, contact: answers.oldRelayContact, lhrh: answers.oldRelayLHRH, kgs: answers.oldRelayKgs },
-                        new: { type: answers.newRelayType, make: answers.newRelayMake, serial: answers.newRelaySerial, contact: answers.newRelayContact, lhrh: answers.newRelayLHRH, kgs: answers.newRelayKgs }
-                    } : null,
-                    generic: ['Point', 'Power Room', 'IPS', 'Relay Room (Other than Relay)', 'LC Gate', 'AFTC / MSDAC HUT', 'Auto Section', 'General'].includes(answers.replaceGear) ? {
-                        oldMake: answers.genOldMake, oldSerial: answers.genOldSerial, oldDate: answers.genOldDate,
-                        newMake: answers.genNewMake, newSerial: answers.genNewSerial, installDate: answers.genInstallDate
-                    } : null,
-                    joint: (answers.replaceGear === 'Glued Joint' || answers.replaceGear === 'RDSO Joint') ? {
-                        type: answers.replaceGear,
-                        name: answers.jointName,
-                        failureType: answers.jointFailureType,
-                        lhrh: answers.jointLHRH,
-                        kgs: answers.jointKgs
-                    } : null,
-                } : null,
-                finalConfirmation: "YES",
-                trainDetention: answers.trainDetention || ""
-            },
-            attachments: attachments.length > 0 ? attachments.map(a => JSON.stringify(a)) : undefined
-        };
-
-        addReport(reportData);
-        console.log("Report submitted. Classification:", classification, "FailureStatus:", answers.failureStatus);
-
-        // Auto-create complaint for ANY failure report (not just "Yes & Booked")
-        if (classification === 'failure' && answers.failureStatus && answers.failureStatus !== 'No failures') {
-            console.log("Auto-generating complaint for:", answers.gearFailed, "Status:", answers.failureStatus);
-            addComplaint({
+        try {
+            const rawClass = answers.classification;
+            let classification = '';
+            if (rawClass === 'Maintenance') classification = 'maintenance';
+            else if (rawClass === 'Failure Attention') classification = 'failure';
+            else if (rawClass === 'S&T Special Work') classification = 'st';
+            else if (rawClass === 'Select for entering Disconnection') classification = 'disconnection';
+            else if (rawClass === 'Replacement of Assets in Log Book') classification = 'replacement';
+            else if (rawClass === 'Work with other Department') classification = 'other';
+            else if (rawClass === 'Miscellaneous') classification = 'misc';
+            else classification = rawClass ? rawClass.toLowerCase().replace(/ /g, '_') : '';
+            const specialWorkText =
+                classification === 'st'
+                    ? (answers.specialWorkOn === 'Track'
+                        ? answers.specialWorkDetailsTrack
+                        : answers.specialWorkOn === 'Signal'
+                            ? answers.specialWorkDetailsSignal
+                            : answers.specialWorkOn === 'Point'
+                                ? answers.specialWorkDetailsPoint
+                                : answers.specialWorkOn === 'Location Box'
+                                    ? answers.specialWorkDetailsLocationBox
+                                    : answers.specialWorkOn === 'Power Room'
+                                        ? answers.specialWorkDetailsPowerRoom
+                                        : answers.specialWorkOn === 'Relay room'
+                                            ? answers.specialWorkDetailsRelayRoom
+                                            : answers.specialWorkOn === 'LC Gate'
+                                                ? answers.specialWorkDetailsLCGate
+                                                : answers.specialWorkOn === 'HUT'
+                                                    ? answers.specialWorkDetailsHUT
+                                                    : answers.specialWorkOn === 'Auto Section'
+                                                        ? answers.specialWorkDetailsAutoSection
+                                                        : answers.specialWorkOn === 'Other'
+                                                            ? answers.specialWorkDetailsOther
+                                                            : '')
+                    : '';
+            const reportData = {
+                date: answers.date,
                 authorId: currentUser.id,
                 authorName: currentUser.name,
-                category: 'Failure',
-                description: `[${answers.failureStatus}] Gear: ${answers.gearFailed}, Type: ${answers.failureType || 'Not specified'}, Details: ${answers.failureDetails}`,
-                supervisorId: currentUser.superiorId
-            });
-        }
+                sseSection: answers.section,
+                station: answers.station,
+                shift: answers.shift === 'Other' ? (answers.shiftOther || 'Other') : answers.shift,
+                classification,
+                details: {
+                    maintenance: classification === 'maintenance' ? { gears: answers.maintainedGears || [], text: answers.maintDetails || "", other: answers.maintainedGearsOther || "" } : null,
+                    specialWork: classification === 'st' ? { on: answers.specialWorkOn || "", text: specialWorkText } : null,
+                    otherDept: classification === 'other' ? (answers.otherDeptDetails || "") : null,
+                    misc: classification === 'misc' ? (answers.miscDetails || "") : null,
+                    failure: classification === 'failure' ? {
+                        status: answers.failureStatus,
+                        gear: answers.gearFailed,
+                        type: answers.failureType || "",
+                        inTime: answers.inTime,
+                        rtTime: answers.rtTime,
+                        classification: answers.failureClassification || "",
+                        details: answers.failureDetails || "",
+                        actualDetails: answers.actualFailureDetails || "",
+                        preventiveDetails: answers.failurePreventiveDetails || ""
+                    } : null,
+                    disconnection: answers.hasDisconnection === 'Yes' ? {
+                        status: answers.discStatus || "",
+                        permission: answers.discPermission || "",
+                        no: answers.discNo || "",
+                        for: (answers.discFor === 'Other' ? (answers.discForOther || 'Other') : (answers.discFor || "")),
+                        discDate: answers.discDate || "",
+                        discTime: answers.discTime || "",
+                        reconDate: answers.reconDate || "",
+                        reconTime: answers.reconTime || ""
+                    } : null,
+                    replacement: classification === 'replacement' ? {
+                        gear: answers.replaceGear,
+                        detailsReason: answers.replacementReason || null,
+                        trackDCTC: answers.replaceGear === 'Track (DCTC)' ? { trackNo: answers.dctcTrackNo, asset: answers.dctcAssetReplaced } : null,
+                        trackAFTC: answers.replaceGear === 'Track (AFTC)' ? { trackNo: answers.aftcTrackNo, asset: answers.aftcAssetReplaced } : null,
+                        trackAC: answers.replaceGear === 'Track (Axle Counter)' ? { trackNo: answers.acTrackNo, type: answers.acType, make: answers.acMake, asset: answers.acAssetReplaced } : null,
+                        signal: answers.replaceGear === 'Signal' ? { no: answers.signalNo, type: answers.signalType, aspect: answers.signalAspect } : null,
+                        battery: answers.replaceGear === 'Battery' ? {
+                            type: answers.batteryCircuit, assetName: answers.batteryAssetName, circuit: answers.batteryCircuitOther || "",
+                            cells: answers.batteryCells, make: answers.batteryMake, capacity: answers.batteryCapacity, installDate: answers.batteryInstallDate
+                        } : null,
+                        relay: answers.replaceGear === 'Relay Room (Relay)' ? {
+                            old: { type: answers.oldRelayType, make: answers.oldRelayMake, serial: answers.oldRelaySerial, contact: answers.oldRelayContact, lhrh: answers.oldRelayLHRH, kgs: answers.oldRelayKgs },
+                            new: { type: answers.newRelayType, make: answers.newRelayMake, serial: answers.newRelaySerial, contact: answers.newRelayContact, lhrh: answers.newRelayLHRH, kgs: answers.newRelayKgs }
+                        } : null,
+                        generic: ['Point', 'Power Room', 'IPS', 'Relay Room (Other than Relay)', 'LC Gate', 'AFTC / MSDAC HUT', 'Auto Section', 'General'].includes(answers.replaceGear) ? {
+                            oldMake: answers.genOldMake, oldSerial: answers.genOldSerial, oldDate: answers.genOldDate,
+                            newMake: answers.genNewMake, newSerial: answers.genNewSerial, installDate: answers.genInstallDate
+                        } : null,
+                        joint: (answers.replaceGear === 'Glued Joint' || answers.replaceGear === 'RDSO Joint') ? {
+                            type: answers.replaceGear,
+                            name: answers.jointName,
+                            failureType: answers.jointFailureType,
+                            lhrh: answers.jointLHRH,
+                            kgs: answers.jointKgs
+                        } : null,
+                    } : null,
+                    finalConfirmation: "YES",
+                    trainDetention: answers.trainDetention || ""
+                },
+                attachments: attachments.length > 0 ? attachments.map(a => JSON.stringify(a)) : undefined
+            };
 
-        if (submitAnother) {
-            alert("✅ Work log submitted successfully! Form reset for another entry.");
-            resetForm();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            alert("✅ Work log submitted successfully!");
-            router.push(`/dashboard/${currentUser.role === 'technician' ? 'je' : currentUser.role}`);
+            // Async Submission
+            await addReport(reportData);
+            console.log("Report submitted. Classification:", classification, "FailureStatus:", answers.failureStatus);
+
+
+            // Auto-create complaint for ANY failure report
+            if (classification === 'failure' && answers.gearFailed) {
+                console.log("Auto-generating complaint for:", answers.gearFailed);
+                await addComplaint({
+                    authorId: currentUser.id,
+                    authorName: currentUser.name,
+                    category: 'Failure',
+                    description: `Gear: ${answers.gearFailed}, Type: ${answers.failureType || 'Not specified'}, Classification: ${answers.failureClassification || 'Not specified'}, Details: ${answers.failureDetails || 'No details provided'}`,
+                    supervisorId: currentUser.superiorId
+                });
+            }
+
+            if (submitAnother) {
+                alert("✅ Work log submitted successfully! Form reset for another entry.");
+                resetForm();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                alert("✅ Work log submitted successfully!");
+                router.push(`/dashboard/${currentUser.role === 'technician' ? 'je' : currentUser.role}`);
+            }
+        } catch (error) {
+            console.error("Submission error:", error);
+            alert("❌ Failed to submit work report. Please check your internet connection and try again.\n\nError: " + (error instanceof Error ? error.message : 'Unknown error'));
         }
     };
 
@@ -227,6 +234,44 @@ export default function WorkReportPage() {
     return (
         <div className="screen active" style={{ display: 'block', paddingBottom: '100px' }}>
             <div className="card" style={{ maxWidth: '900px', margin: '0 auto' }}>
+                {/* Back Button */}
+                <button
+                    onClick={() => {
+                        if (currentUser) {
+                            const dashboardPath = currentUser.role === 'technician' ? 'je' : currentUser.role;
+                            router.push(`/dashboard/${dashboardPath}`);
+                        } else {
+                            router.push('/');
+                        }
+                    }}
+                    style={{
+                        marginBottom: '20px',
+                        padding: '10px 20px',
+                        backgroundColor: 'var(--bg-secondary)',
+                        border: '1px solid var(--border)',
+                        borderRadius: 'var(--radius-md)',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        color: 'var(--text-primary)',
+                        transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'var(--bg-tertiary)';
+                        e.currentTarget.style.borderColor = 'var(--primary)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'var(--bg-secondary)';
+                        e.currentTarget.style.borderColor = 'var(--border)';
+                    }}
+                >
+                    <span>←</span>
+                    <span>Back to Dashboard</span>
+                </button>
+
                 <div className="section-title">S & T WORK LOG BOOK</div>
 
                 <div className="alert alert-info" style={{ marginBottom: '24px' }}>
@@ -348,7 +393,7 @@ export default function WorkReportPage() {
                             className="btn btn-primary"
                             style={{ flex: 2 }}
                             onClick={() => handleSubmit(false)}
-                            disabled={!answers.classification || !answers.station || answers.finalConfirmation !== "YES"}
+                            disabled={!answers.classification || !answers.station}
                         >
                             SUBMIT FINAL REPORT
                         </button>
