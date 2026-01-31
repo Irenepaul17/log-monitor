@@ -27,8 +27,8 @@ export default function WorkReportDetailModal({ report, onClose }: WorkReportDet
         )
     ) : null;
 
-    const displayStatus = linkedComplaint ? linkedComplaint.status.toUpperCase() : (isFailure ? 'RECORDED' : 'SUBMITTED');
-    const statusBg = linkedComplaint && linkedComplaint.status === 'Open' ? '#ef4444' : '#22c55e';
+    const displayStatus = linkedComplaint ? linkedComplaint.status.toUpperCase() : (isFailure ? 'OPEN' : 'SUBMITTED');
+    const statusBg = (linkedComplaint && linkedComplaint.status === 'Open') || (!linkedComplaint && isFailure) ? '#ef4444' : '#22c55e';
 
 
     const renderInfoBox = (title: string, content: React.ReactNode, fullWidth = false) => (
