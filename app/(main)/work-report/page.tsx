@@ -92,8 +92,8 @@ export default function WorkReportPage() {
             else if (rawClass === 'Failure Attention') classification = 'failure';
             else if (rawClass === 'S&T Special Work') classification = 'st';
             else if (rawClass === 'Select for entering Disconnection') classification = 'disconnection';
-            else if (rawClass === 'Replacement of Assets in Log Book') classification = 'replacement';
-            else if (rawClass === 'Work with other Department') classification = 'other';
+            else if (rawClass === 'Replacement of Assets') classification = 'replacement';
+            else if (rawClass === 'Work with other Departments') classification = 'other';
             else if (rawClass === 'Miscellaneous') classification = 'misc';
             else classification = rawClass ? rawClass.toLowerCase().replace(/ /g, '_') : '';
             const specialWorkText =
