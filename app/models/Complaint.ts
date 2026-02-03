@@ -1,5 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { Complaint } from "../context/GlobalContext";
+import { Complaint } from "@/app/types";
 
 const ComplaintSchema = new Schema<Complaint>(
     {

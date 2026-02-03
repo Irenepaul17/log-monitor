@@ -5,15 +5,18 @@ import { useState } from "react";
 import { ResolutionModal } from "@/app/components/ResolutionModal";
 import WorkReportDetailModal from "@/app/components/WorkReportDetailModal";
 import ComplaintDetailModal from "@/app/components/ComplaintDetailModal";
-import { Complaint, WorkReport } from "@/app/context/GlobalContext";
+import { Complaint, WorkReport } from "@/app/types";
 import { usePaginatedData } from '@/app/hooks/usePaginatedData';
 import { PaginationControls } from '@/app/components/PaginationControls';
+
+import AssetSelectionModal from "@/app/components/AssetSelectionModal";
 
 export default function SSEDashboard() {
     const { currentUser, resolveComplaint } = useGlobal(); // Removed reports/complaints from global
     const [resolvingComplaint, setResolvingComplaint] = useState<Complaint | null>(null);
     const [viewingReport, setViewingReport] = useState<WorkReport | null>(null);
     const [viewingComplaint, setViewingComplaint] = useState<Complaint | null>(null);
+    const [isAssetModalOpen, setIsAssetModalOpen] = useState(false);
 
     // Fetch Paginated Reports
     const {
@@ -52,10 +55,17 @@ export default function SSEDashboard() {
                 <strong>SSE ({currentUser.name}) DASHBOARD:</strong> Authority over JE & Technicians in your section.
             </div>
 
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
                 <a href="/work-report" className="btn btn-primary" style={{ display: 'inline-block', textDecoration: 'none' }}>
                     + Submit Your Work Log
                 </a>
+                <button
+                    className="btn btn-outline"
+                    onClick={() => setIsAssetModalOpen(true)}
+                    style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+                >
+                    Asset
+                </button>
             </div>
 
             <div className="card">
@@ -179,6 +189,7 @@ export default function SSEDashboard() {
             )}
             <WorkReportDetailModal report={viewingReport} onClose={() => setViewingReport(null)} />
             <ComplaintDetailModal complaint={viewingComplaint} onClose={() => setViewingComplaint(null)} />
+            <AssetSelectionModal isOpen={isAssetModalOpen} onClose={() => setIsAssetModalOpen(false)} />
         </div>
     );
 }

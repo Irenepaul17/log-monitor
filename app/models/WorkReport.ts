@@ -1,5 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { WorkReport } from "../context/GlobalContext";
+import { WorkReport } from "@/app/types";
 
 const WorkReportSchema = new Schema<WorkReport>(
     {

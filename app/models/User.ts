@@ -1,5 +1,5 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { User } from "../context/GlobalContext";
+import { User } from "@/app/types";
 
 // Define the schema based on the User interface
 const UserSchema = new Schema<User>(
