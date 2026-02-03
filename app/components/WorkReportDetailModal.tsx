@@ -1,6 +1,7 @@
 'use client';
 
-import { WorkReport, useGlobal } from '../context/GlobalContext';
+import { useGlobal } from '../context/GlobalContext';
+import { WorkReport } from '@/app/types';
 
 interface WorkReportDetailModalProps {
     report: WorkReport | null;

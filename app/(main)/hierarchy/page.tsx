@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useGlobal, User, Role } from '@/app/context/GlobalContext';
+import { useGlobal } from '@/app/context/GlobalContext';
+import { User, Role } from '@/app/types';
 
 // Mapping of who can add whom
 const HIERARCHY_RULES: Record<Role, Role[]> = {

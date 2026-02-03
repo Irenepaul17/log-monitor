@@ -2,7 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { useGlobal, Role } from '@/app/context/GlobalContext';
+import { useGlobal } from '@/app/context/GlobalContext';
+import { Role } from '@/app/types';
 
 export default function UserCreationPage() {
     const router = useRouter();

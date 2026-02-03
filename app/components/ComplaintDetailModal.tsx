@@ -1,6 +1,6 @@
 'use client';
 
-import { Complaint } from '../context/GlobalContext';
+import { Complaint } from '@/app/types';
 
 interface ComplaintDetailModalProps {
     complaint: Complaint | null;

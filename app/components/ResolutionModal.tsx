@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Complaint } from '../context/GlobalContext';
+import { Complaint } from '@/app/types';
 
 interface ResolutionModalProps {
     complaint: Complaint;

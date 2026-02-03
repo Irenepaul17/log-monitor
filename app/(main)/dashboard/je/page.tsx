@@ -4,7 +4,7 @@ import { useGlobal } from "@/app/context/GlobalContext";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ResolutionModal } from "@/app/components/ResolutionModal";
-import { Complaint, WorkReport } from "@/app/context/GlobalContext";
+import { Complaint, WorkReport } from "@/app/types";
 import WorkReportDetailModal from "@/app/components/WorkReportDetailModal";
 import ComplaintDetailModal from "@/app/components/ComplaintDetailModal";
 import { usePaginatedData } from '@/app/hooks/usePaginatedData';

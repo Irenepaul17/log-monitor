@@ -4,7 +4,7 @@ import { useGlobal } from "@/app/context/GlobalContext";
 import { useState } from "react";
 import WorkReportDetailModal from "@/app/components/WorkReportDetailModal";
 import ComplaintDetailModal from "@/app/components/ComplaintDetailModal";
-import { WorkReport, Complaint } from "@/app/context/GlobalContext";
+import { WorkReport, Complaint } from "@/app/types";
 import { usePaginatedData } from '@/app/hooks/usePaginatedData';
 import { PaginationControls } from '@/app/components/PaginationControls';
 
