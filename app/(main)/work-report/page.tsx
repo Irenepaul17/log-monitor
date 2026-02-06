@@ -159,7 +159,6 @@ export default function WorkReportPage() {
                         detailsReason: answers.replacementReason || null,
                         trackDCTC: answers.replaceGear === 'Track (DCTC)' ? { trackNo: answers.dctcTrackNo, asset: answers.dctcAssetReplaced } : null,
                         trackAFTC: answers.replaceGear === 'Track (AFTC)' ? { trackNo: answers.aftcTrackNo, asset: answers.aftcAssetReplaced } : null,
-                        trackAC: answers.replaceGear === 'Track (Axle Counter)' ? { trackNo: answers.acTrackNo, type: answers.acType, make: answers.acMake, asset: answers.acAssetReplaced } : null,
                         signal: answers.replaceGear === 'Signal' ? { no: answers.signalNo, type: answers.signalType, aspect: answers.signalAspect } : null,
                         battery: answers.replaceGear === 'Battery' ? {
                             type: answers.batteryCircuit, assetName: answers.batteryAssetName, circuit: answers.batteryCircuitOther || "",

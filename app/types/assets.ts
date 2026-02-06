@@ -235,24 +235,4 @@ export interface TrackCircuitAsset {
     updatedAt?: Date | string;
 }
 
-export interface AxleCounterAsset {
-    id: string;
-    sseSection: string;
-    station: string;
-    axleCounterNo: string;
-    type: string;
-    make: string;
-    sectionType: string;
-    dateOfInstallation: string;
-    finacialYear: string;
-    numberOfSensors: string;
-    sensor1Location: string;
-    sensor2Location: string;
-    vduMakeModel: string;
-    connectivityType: string;
-    redundancyStatus: string;
-    lastReplacementDate: string;
-    status: string;
-    createdAt?: Date | string;
-    updatedAt?: Date | string;
-}
+
