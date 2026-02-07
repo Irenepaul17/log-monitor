@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import UserModel from '@/app/models/User';
 import SOSAlertModel from '@/app/models/SOSAlert';
+import { sendEmail } from '@/lib/mail';
 
 export async function POST(request: Request) {
     try {
@@ -40,18 +41,50 @@ export async function POST(request: Request) {
             recipients: recipientData
         });
 
-        // 4. Simulate Notifications (Email & SMS)
-        console.log(`\n🚨 SOS ALERT TRIGGERED BY ${sender.name} (${sender.role}) 🚨`);
-        console.log(`Message: ${message}`);
-        console.log(`Notifying ${recipients.length} authorities:`);
+        // 4. Send Real Emails
+        const emailSubject = `🚨 EMERGENCY SOS ALERT: ${sender.name} (${sender.role.toUpperCase()})`;
+        const emailHtml = `
+            <div style="font-family: Arial, sans-serif; padding: 20px; border: 2px solid #ef4444; border-radius: 10px;">
+                <h2 style="color: #ef4444; margin-top: 0;">🚨 EMERGENCY SOS ALERT</h2>
+                <p>An emergency SOS alert has been triggered by:</p>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr><td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Name:</strong></td><td style="padding: 8px; border-bottom: 1px solid #eee;">${sender.name}</td></tr>
+                    <tr><td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Role:</strong></td><td style="padding: 8px; border-bottom: 1px solid #eee;">${sender.role.toUpperCase()}</td></tr>
+                    <tr><td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Designation:</strong></td><td style="padding: 8px; border-bottom: 1px solid #eee;">${sender.sub}</td></tr>
+                    <tr><td style="padding: 8px; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td><td style="padding: 8px; border-bottom: 1px solid #eee;">${sender.phone}</td></tr>
+                </table>
+                <div style="background-color: #fee2e2; padding: 15px; border-radius: 5px; margin-top: 20px;">
+                    <strong>Message:</strong><br/>
+                    ${message || "Emergency SOS Triggered!"}
+                </div>
+                <p style="font-size: 12px; color: #666; margin-top: 20px;">
+                    This alert was sent at ${new Date().toLocaleString()}. Please take immediate action.
+                </p>
+            </div>
+        `;
 
-        recipientData.forEach(r => {
-            console.log(`- [${r.role.toUpperCase()}] ${r.name}: Sending Email to ${r.email} and SMS to ${r.phone}...`);
-            // Here you would integrate with Nodemailer or Twilio in a real production environment
-            // transporter.sendMail(...)
-            // twilio.messages.create(...)
+        // Notify authorities
+        await sendEmail({
+            to: recipientData.map(r => r.email),
+            subject: emailSubject,
+            html: emailHtml
         });
-        console.log(`--------------------------------------------------\n`);
+
+        // Notify sender (Confirmation email)
+        await sendEmail({
+            to: sender.email,
+            subject: `SOS Alert Confirmation - ${alert.id}`,
+            html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h3>✅ SOS Alert Sent</h3>
+                    <p>Your emergency alert has been sent to the following authorities:</p>
+                    <ul>
+                        ${recipientData.map(r => `<li>${r.name} (${r.role.toUpperCase()})</li>`).join('')}
+                    </ul>
+                    <p>Immediate notifications have been pushed to their dashboards.</p>
+                </div>
+            `
+        });
 
         return NextResponse.json({
             success: true,

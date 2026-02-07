@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useGlobal } from "@/app/context/GlobalContext";
 
 interface SOSAlert {
+    _id: string; // MongoDB ID
     id: string;
     senderName: string;
     senderRole: string;
@@ -14,11 +15,12 @@ interface SOSAlert {
 export function SOSAlertListener() {
     const { currentUser } = useGlobal();
     const [alerts, setAlerts] = useState<SOSAlert[]>([]);
+    const [dismissedIds, setDismissedIds] = useState<string[]>([]);
+    const [isMinimized, setIsMinimized] = useState(false);
 
     useEffect(() => {
         if (!currentUser) return;
 
-        // Superior roles who should receive notifications
         const superiorRoles = ['sr-dste', 'dste', 'adste'];
         if (!superiorRoles.includes(currentUser.role)) return;
 
@@ -27,6 +29,7 @@ export function SOSAlertListener() {
                 const res = await fetch(`/api/sos?role=${currentUser.role}&teamId=${currentUser.teamId || ""}`);
                 if (res.ok) {
                     const data = await res.json();
+                    // Filter out dismissed ones
                     setAlerts(data);
                 }
             } catch (e) {
@@ -35,66 +38,172 @@ export function SOSAlertListener() {
         };
 
         checkAlerts();
-        const interval = setInterval(checkAlerts, 10000); // Poll every 10 seconds
+        const interval = setInterval(checkAlerts, 10000);
         return () => clearInterval(interval);
     }, [currentUser]);
 
-    if (alerts.length === 0) return null;
+    const activeAlerts = alerts.filter(a => !dismissedIds.includes(a._id || a.id));
+
+    if (activeAlerts.length === 0) return null;
+
+    if (isMinimized) {
+        return (
+            <div
+                onClick={() => setIsMinimized(false)}
+                style={{
+                    marginBottom: '20px',
+                    backgroundColor: '#ef4444',
+                    color: 'white',
+                    padding: '10px 20px',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '12px',
+                    fontWeight: 800,
+                    animation: 'pulseSOS 2s infinite',
+                    boxShadow: '0 4px 15px rgba(239, 68, 68, 0.4)'
+                }}
+            >
+                🚨 {activeAlerts.length} EMERGENCY SOS ({activeAlerts.length === 1 ? 'ALERT' : 'ALERTS'}) — CLICK TO EXPAND
+            </div>
+        );
+    }
 
     return (
-        <div style={{ marginBottom: '20px' }}>
-            {alerts.map(alert => (
-                <div
-                    key={alert.id}
+        <div style={{
+            marginBottom: '20px',
+            backgroundColor: '#fff',
+            border: '1px solid #fee2e2',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 10px 25px -5px rgba(239, 68, 68, 0.1), 0 8px 10px -6px rgba(239, 68, 68, 0.1)'
+        }}>
+            <div style={{
+                backgroundColor: '#fecaca',
+                padding: '12px 20px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                borderBottom: '1px solid #fca5a5'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ fontSize: '20px', animation: 'shake 0.5s infinite' }}>🚨</span>
+                    <strong style={{ color: '#991b1b', letterSpacing: '0.02em' }}>ACTIVE EMERGENCY ALERTS ({activeAlerts.length})</strong>
+                </div>
+                <button
+                    onClick={() => setIsMinimized(true)}
+                    title="Minimize"
                     style={{
-                        backgroundColor: '#fef2f2',
-                        border: '2px solid #ef4444',
-                        borderRadius: '12px',
-                        padding: '16px 20px',
+                        background: '#f87171',
+                        border: 'none',
+                        color: 'white',
+                        cursor: 'pointer',
+                        width: '24px',
+                        height: '24px',
+                        borderRadius: '4px',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '16px',
-                        color: '#991b1b',
-                        boxShadow: '0 4px 6px -1px rgba(239, 68, 68, 0.1), 0 2px 4px -1px rgba(239, 68, 68, 0.06)',
-                        animation: 'shake 0.5s ease-in-out infinite alternate',
-                        position: 'relative',
-                        overflow: 'hidden'
+                        justifyContent: 'center',
+                        fontSize: '16px',
+                        fontWeight: 900,
+                        lineHeight: 1,
+                        transition: 'background 0.2s'
                     }}
+                    onMouseOver={(e) => (e.currentTarget.style.background = '#ef4444')}
+                    onMouseOut={(e) => (e.currentTarget.style.background = '#f87171')}
                 >
-                    <div style={{
-                        fontSize: '32px',
-                        animation: 'pulse 1s infinite'
-                    }}>🚨</div>
-                    <div style={{ flex: 1 }}>
-                        <div style={{
+                    −
+                </button>
+            </div>
+
+            <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                {activeAlerts.map((alert, index) => (
+                    <div
+                        key={alert._id || alert.id || index}
+                        style={{
+                            padding: '16px 20px',
+                            borderBottom: index === activeAlerts.length - 1 ? 'none' : '1px solid #fee2e2',
                             display: 'flex',
-                            justifyContent: 'space-between',
+                            alignItems: 'flex-start',
+                            gap: '16px',
+                            backgroundColor: index % 2 === 0 ? '#fff' : '#fef2f2'
+                        }}
+                    >
+                        <div style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            backgroundColor: '#fee2e2',
+                            display: 'flex',
                             alignItems: 'center',
-                            marginBottom: '4px'
+                            justifyContent: 'center',
+                            flexShrink: 0
                         }}>
-                            <strong style={{ fontSize: '16px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                EMERGENCY SOS ALERT
-                            </strong>
-                            <span style={{ fontSize: '11px', opacity: 0.7 }}>
-                                {new Date(alert.timestamp).toLocaleTimeString()}
-                            </span>
+                            👤
                         </div>
-                        <p style={{ margin: 0, fontSize: '14px', fontWeight: 500 }}>
-                            {alert.senderName} ({alert.senderRole.toUpperCase()}) needs assistance:
-                            <span style={{ marginLeft: '5px', fontWeight: 400 }}>{alert.message}</span>
-                        </p>
+                        <div style={{ flex: 1 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <strong style={{ fontSize: '15px', color: '#1f2937' }}>
+                                    {alert.senderName}
+                                    <span style={{ fontWeight: 400, color: '#6b7280', fontSize: '13px', marginLeft: '6px' }}>
+                                        ({alert.senderRole.toUpperCase()})
+                                    </span>
+                                </strong>
+                                <span style={{ fontSize: '12px', color: '#9ca3af' }}>
+                                    {new Date(alert.timestamp).toLocaleTimeString()}
+                                </span>
+                            </div>
+                            <p style={{ margin: '4px 0 0 0', color: '#4b5563', fontSize: '14px', lineHeight: '1.5' }}>
+                                {alert.message}
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => setDismissedIds(prev => [...prev, alert._id || alert.id])}
+                            title="Dismiss"
+                            style={{
+                                background: '#fee2e2',
+                                border: 'none',
+                                color: '#ef4444',
+                                borderRadius: '50%',
+                                width: '28px',
+                                height: '28px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '14px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                            onMouseOver={(e) => {
+                                e.currentTarget.style.background = '#fecaca';
+                                e.currentTarget.style.transform = 'rotate(90deg)';
+                            }}
+                            onMouseOut={(e) => {
+                                e.currentTarget.style.background = '#fee2e2';
+                                e.currentTarget.style.transform = 'rotate(0deg)';
+                            }}
+                        >
+                            ✕
+                        </button>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
+
             <style jsx>{`
                 @keyframes shake {
-                    from { transform: translateX(-2px); }
-                    to { transform: translateX(2px); }
+                    0% { transform: rotate(0deg); }
+                    25% { transform: rotate(5deg); }
+                    50% { transform: rotate(0eg); }
+                    75% { transform: rotate(-5deg); }
+                    100% { transform: rotate(0deg); }
                 }
-                @keyframes pulse {
-                    0% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.2); opacity: 0.7; }
-                    100% { transform: scale(1); opacity: 1; }
+                @keyframes pulseSOS {
+                    0% { transform: scale(1); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
+                    50% { transform: scale(1.02); box-shadow: 0 4px 25px rgba(239, 68, 68, 0.6); }
+                    100% { transform: scale(1); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
                 }
             `}</style>
         </div>
