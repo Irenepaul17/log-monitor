@@ -82,48 +82,34 @@ export default function SignalAssetsPage() {
         e.preventDefault();
 
         try {
-            if (isFieldStaff) {
-                // JE / Technician submits a request for approval
-                const response = await fetch('/api/assets/signal/request', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        assetId: editingAsset?.id || null,
-                        assetType: 'signal',
-                        proposedData: formData,
-                        requesterId: currentUser?.id,
-                        requesterName: currentUser?.name,
-                        requesterTeamId: currentUser?.teamId
-                    })
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to submit request');
-                }
-
-                alert('Your changes have been submitted to SSE for approval.');
-                setIsAddModalOpen(false);
-                setEditingAsset(null);
-                resetForm();
-                return;
-            }
-
-            const url = editingAsset
-                ? `/api/assets/signal/${editingAsset.id}`
-                : '/api/assets/signal';
-
-            const method = editingAsset ? 'PUT' : 'POST';
-
-            const response = await fetch(url, {
-                method,
+            // ALL asset changes (including SSE) now go through the request flow
+            // for a complete audit trail. SSE requests are auto-approved in the backend.
+            const response = await fetch('/api/assets/signal/request', {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    assetId: editingAsset?.id || null,
+                    proposedData: formData,
+                    requester: {
+                        id: currentUser?.id,
+                        name: currentUser?.name,
+                        role: currentUser?.role,
+                        teamId: currentUser?.teamId
+                    }
+                })
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to save asset');
+                throw new Error(errorData.error || 'Failed to submit request');
+            }
+
+            const result = await response.json();
+
+            if (currentUser?.role === 'sse') {
+                alert('Asset updated successfully (Audit trail logged).');
+            } else {
+                alert('Your changes have been submitted to SSE for approval.');
             }
 
             setIsAddModalOpen(false);

@@ -42,6 +42,13 @@ const TrackCircuitAssetSchema: Schema = new Schema({
     location: { type: String, default: "" },
     status: { type: String, default: "" }
 }, {
+    toJSON: {
+        transform: function (doc, ret: any) {
+            ret.id = ret._id.toString();
+            delete ret._id;
+            delete ret.__v;
+        }
+    },
     timestamps: true
 });
 

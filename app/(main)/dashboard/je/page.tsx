@@ -164,7 +164,7 @@ export default function JEDashboard() {
                             <tbody>
                                 {myReports.length > 0 ? myReports.map((r: WorkReport) => (
                                     <tr key={r.id}>
-                                        <td>{r.date}</td>
+                                        <td>{String(r.date)}</td>
                                         <td>{r.classification ? r.classification.toUpperCase() : 'N/A'}</td>
                                         <td>{currentUser?.name}</td>
                                         <td>

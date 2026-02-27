@@ -76,7 +76,7 @@ function LogsPageContent() {
                             <tbody>
                                 {reports.length > 0 ? reports.map((r) => (
                                     <tr key={r.id}>
-                                        <td style={{ fontWeight: 500 }}>{r.date}</td>
+                                        <td style={{ fontWeight: 500 }}>{String(r.date)}</td>
                                         <td>{r.authorName}</td>
                                         <td>
                                             <span className="badge badge-progress" style={{ fontSize: '10px' }}>

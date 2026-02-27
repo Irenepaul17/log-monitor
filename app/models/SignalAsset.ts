@@ -143,6 +143,13 @@ const SignalAssetSchema: Schema = new Schema({
     auto: { type: String, default: "" },
     retroReflectiveSignalNo: { type: String, default: "" }
 }, {
+    toJSON: {
+        transform: function (doc, ret: any) {
+            ret.id = ret._id.toString();
+            delete ret._id;
+            delete ret.__v;
+        }
+    },
     timestamps: true
 });
 

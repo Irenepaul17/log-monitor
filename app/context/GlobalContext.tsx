@@ -20,7 +20,9 @@ interface GlobalContextType {
         trainDetention: string;
         rectificationDetails: string;
     }) => Promise<void>;
+    updateProfile: (updates: Partial<User>) => Promise<boolean>;
     isSuperiorOf: (superior: User, subordinate: User | string) => boolean;
+    refreshTeam: () => Promise<void>;
 }
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -41,6 +43,18 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
     }, []);
 
     // Fetch data when user changes
+    const refreshTeam = async () => {
+        if (!currentUser?.teamId) return;
+        try {
+            const res = await fetch(`/api/user/team?teamId=${currentUser.teamId}`);
+            if (res.ok) {
+                setUsers(await res.json());
+            }
+        } catch (e) {
+            console.error("Failed to fetch team", e);
+        }
+    };
+
     React.useEffect(() => {
         const fetchData = async () => {
             if (!currentUser) return;
@@ -52,6 +66,9 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
                 ]);
                 if (repRes.ok) setReports(await repRes.json());
                 if (compRes.ok) setComplaints(await compRes.json());
+
+                // Fetch team members
+                await refreshTeam();
             } catch (e) {
                 console.error("Failed to fetch data", e);
             }
@@ -97,9 +114,24 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
         router.push('/');
     };
 
-    const addUser = (user: Omit<User, "id">) => {
-        // Not implemented API yet
-        console.warn("addUser not implemented with DB yet");
+    const addUser = async (user: Omit<User, "id">) => {
+        try {
+            const res = await fetch('/api/auth/register', { // Assuming register exists or I should create it
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(user)
+            });
+
+            if (res.ok) {
+                await refreshTeam();
+            } else {
+                const data = await res.json();
+                throw new Error(data.error || 'Failed to add user');
+            }
+        } catch (e: any) {
+            console.error("Failed to add user", e);
+            alert(e.message);
+        }
     };
 
     const addReport = async (report: Omit<WorkReport, "id">) => {
@@ -167,10 +199,32 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
         }
     };
 
+    const updateProfile = async (updates: Partial<User>): Promise<boolean> => {
+        if (!currentUser) return false;
+
+        try {
+            const res = await fetch('/api/user/profile', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: currentUser.id, updates })
+            });
+
+            if (res.ok) {
+                const updatedUser = await res.json();
+                setCurrentUser(updatedUser);
+                localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+                return true;
+            }
+            return false;
+        } catch (e) {
+            console.error("Failed to update profile", e);
+            return false;
+        }
+    };
+
     const isSuperiorOf = (superior: User, subordinate: User | string): boolean => {
-        // Simplified check without full users list
-        const subId = typeof subordinate === 'string' ? subordinate : subordinate.id;
-        return superior.id === subId;
+        const sub = typeof subordinate === 'string' ? users.find(u => u.id === subordinate) : subordinate;
+        return sub?.superiorId === superior.id;
     };
 
     return (
@@ -185,7 +239,9 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
             addReport,
             addComplaint,
             resolveComplaint,
-            isSuperiorOf
+            updateProfile,
+            isSuperiorOf,
+            refreshTeam
         }}>
             {children}
         </GlobalContext.Provider>

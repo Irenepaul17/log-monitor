@@ -208,19 +208,33 @@ export default function PointAssetsPage() {
 
     const handleSubmit = async (data: Partial<PointAsset>) => {
         try {
-            const url = editingAsset ? `/api/assets/point/${editingAsset.id}` : '/api/assets/point';
-            const method = editingAsset ? 'PUT' : 'POST';
-
-            const res = await fetch(url, {
-                method,
+            // ALL asset changes (including SSE) now go through the request flow
+            // for a complete audit trail. SSE requests are auto-approved in the backend.
+            const res = await fetch('/api/assets/point/request', {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    assetId: editingAsset?.id || null,
+                    proposedData: data,
+                    requester: {
+                        id: currentUser?.id,
+                        name: currentUser?.name,
+                        role: currentUser?.role,
+                        teamId: currentUser?.teamId
+                    }
+                })
             });
 
             if (!res.ok) {
                 const err = await res.json();
                 alert(err.error || 'Operation failed');
                 return;
+            }
+
+            if (currentUser?.role === 'sse') {
+                alert('Asset updated successfully (Audit trail logged).');
+            } else {
+                alert('Your changes have been submitted to SSE for approval.');
             }
 
             refresh();

@@ -116,7 +116,16 @@ const PointAssetSchema: Schema = new Schema({
     nwczrDateTested: { type: String, default: "" },
     rwczrDateManufacture: { type: String, default: "" },
     rwczrDateTested: { type: String, default: "" },
-}, { timestamps: true });
+}, {
+    toJSON: {
+        transform: function (doc, ret: any) {
+            ret.id = ret._id.toString();
+            delete ret._id;
+            delete ret.__v;
+        }
+    },
+    timestamps: true
+});
 
 const PointAssetModel: Model<IPointAsset> = mongoose.models.PointAsset || mongoose.model<IPointAsset>('PointAsset', PointAssetSchema);
 

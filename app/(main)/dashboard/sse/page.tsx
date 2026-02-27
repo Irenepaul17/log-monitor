@@ -26,9 +26,9 @@ export default function SSEDashboard() {
     });
 
     const fetchAssetRequests = () => {
-        if (!currentUser?.teamId) return;
+        if (!currentUser?.id) return;
         setRequestsLoading(true);
-        fetch(`/api/assets/signal/request?teamId=${currentUser.teamId}&status=pending`)
+        fetch(`/api/assets/request?sseId=${currentUser.id}&status=pending`)
             .then(res => res.json())
             .then(data => setAssetRequests(data))
             .catch(err => console.error("Failed to load asset requests", err))
@@ -36,14 +36,14 @@ export default function SSEDashboard() {
     };
 
     useEffect(() => {
-        fetch('/api/assets/stats')
-            .then(res => res.json())
-            .then(data => {
-                setAssetStats(data);
-            })
-            .catch(err => console.error("Failed to load asset stats", err));
+        if (currentUser) {
+            fetch('/api/assets/stats')
+                .then(res => res.json())
+                .then(data => setAssetStats(data))
+                .catch(err => console.error("Failed to load asset stats", err));
 
-        fetchAssetRequests();
+            fetchAssetRequests();
+        }
     }, [currentUser]);
 
     const handleAssetAction = async (requestId: string, action: 'approve' | 'reject') => {
@@ -53,17 +53,23 @@ export default function SSEDashboard() {
         }
 
         try {
-            const response = await fetch(`/api/assets/signal/request/${requestId}`, {
-                method: 'POST',
+            const response = await fetch(`/api/assets/request/${requestId}`, {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action, comments })
+                body: JSON.stringify({
+                    action,
+                    comments,
+                    reviewerId: currentUser?.id
+                })
             });
 
-            if (!response.ok) throw new Error('Failed to process request');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to process request');
+            }
 
-            alert(`Request ${action === 'approve' ? 'approved' : 'rejected'} successfully.`);
+            alert(`Request ${action}d successfully.`);
             fetchAssetRequests();
-            // Refresh stats if approved
             if (action === 'approve') {
                 fetch('/api/assets/stats').then(res => res.json()).then(setAssetStats);
             }
@@ -248,25 +254,35 @@ export default function SSEDashboard() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Asset</th>
+                                    <th>Type</th>
+                                    <th>Asset Details</th>
                                     <th>Requested By</th>
                                     <th>Date</th>
-                                    <th>Proposed Change</th>
+                                    <th>Change Type</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {assetRequests.map(req => (
+                                {assetRequests.map((req) => (
                                     <tr key={req.id}>
+                                        <td style={{ fontWeight: 600, textTransform: 'uppercase', fontSize: '11px' }}>
+                                            <span className="badge" style={{ backgroundColor: 'var(--primary-soft)', color: 'var(--primary)' }}>
+                                                {req.assetType}
+                                            </span>
+                                        </td>
                                         <td>
-                                            <div style={{ fontWeight: 600 }}>{req.proposedData.signalNoShuntNo}</div>
-                                            <div style={{ fontSize: '11px', color: 'var(--muted)' }}>{req.proposedData.stationAutoSectionLcIbs}</div>
+                                            <div style={{ fontWeight: 600 }}>
+                                                {req.proposedData.signalNoShuntNo || req.proposedData.pointNo || req.proposedData.station || req.proposedData.trackCircuitNo || 'N/A'}
+                                            </div>
+                                            <div style={{ fontSize: '11px', color: 'var(--muted)' }}>
+                                                {req.proposedData.stationAutoSectionLcIbs || req.proposedData.station || 'N/A'}
+                                            </div>
                                         </td>
                                         <td>{req.requestedByName}</td>
                                         <td>{new Date(req.createdAt).toLocaleDateString()}</td>
-                                        <td style={{ maxWidth: '300px' }}>
-                                            <div style={{ fontSize: '12px', color: '#475569', background: '#f8fafc', padding: '8px', borderRadius: '4px' }}>
-                                                {req.assetId ? 'Modification to existing asset' : 'New asset registration'}
+                                        <td>
+                                            <div style={{ fontSize: '12px', color: '#475569', background: '#f8fafc', padding: '6px 10px', borderRadius: '4px', border: '1px solid #e2e8f0' }}>
+                                                {req.assetId ? '✏️ Modification' : '✨ New Registration'}
                                             </div>
                                         </td>
                                         <td>
@@ -304,7 +320,7 @@ export default function SSEDashboard() {
                             <tbody>
                                 {teamReports.length > 0 ? teamReports.map((r: WorkReport) => (
                                     <tr key={r.id}>
-                                        <td>{r.date}</td>
+                                        <td>{String(r.date)}</td>
                                         <td>{r.authorName}</td>
                                         <td>{r.classification ? r.classification.toUpperCase() : 'N/A'}</td>
                                         <td>{r.station}</td>

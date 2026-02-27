@@ -31,12 +31,12 @@ export async function GET(request: Request) {
 
         let query: any = {};
 
-        // Month Filtering Logic
+        // Month Filtering Logic (Clinical Date Range)
         if (monthParam) {
             const [year, month] = monthParam.split('-').map(Number);
             const start = new Date(year, month - 1, 1);
             const end = new Date(year, month, 1);
-            query.createdAt = { $gte: start, $lt: end };
+            query.date = { $gte: start, $lt: end };
         }
 
         // Apply role-based filtering
@@ -63,7 +63,7 @@ export async function GET(request: Request) {
 
             const total = await WorkReportModel.countDocuments(query);
             const reports = await WorkReportModel.find(query)
-                .sort({ createdAt: -1 })
+                .sort({ date: -1 })
                 .skip(skip)
                 .limit(limit);
 
@@ -81,7 +81,7 @@ export async function GET(request: Request) {
         }
 
         // Legacy: Return all (for GlobalContext backward compatibility)
-        const reports = await WorkReportModel.find(query).sort({ createdAt: -1 });
+        const reports = await WorkReportModel.find(query).sort({ date: -1 });
         return NextResponse.json(reports);
 
     } catch (error: any) {

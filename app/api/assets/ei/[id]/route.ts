@@ -11,45 +11,18 @@ export async function PUT(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    try {
-        await dbConnect();
-        const { id } = await params;
-        const body = await request.json();
-
-        const updatedAsset = await EIAssetModel.findByIdAndUpdate(
-            id,
-            { $set: body },
-            { new: true, runValidators: true }
-        );
-
-        if (!updatedAsset) {
-            return NextResponse.json({ error: 'Asset not found' }, { status: 404 });
-        }
-
-        return NextResponse.json(updatedAsset);
-    } catch (error) {
-        console.error('Error updating EI asset:', error);
-        return NextResponse.json({ error: 'Failed to update asset' }, { status: 500 });
-    }
+    return NextResponse.json(
+        { error: 'Direct updates are disabled. Please use the /api/assets/ei/request endpoint.' },
+        { status: 403 }
+    );
 }
 
 export async function DELETE(
     request: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    try {
-        await dbConnect();
-        const { id } = await params;
-
-        const deletedAsset = await EIAssetModel.findByIdAndDelete(id);
-
-        if (!deletedAsset) {
-            return NextResponse.json({ error: 'Asset not found' }, { status: 404 });
-        }
-
-        return NextResponse.json({ message: 'Asset deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting EI asset:', error);
-        return NextResponse.json({ error: 'Failed to delete asset' }, { status: 500 });
-    }
+    return NextResponse.json(
+        { error: 'Direct deletion is disabled.' },
+        { status: 403 }
+    );
 }

@@ -147,7 +147,7 @@ export default function ADSTEDashboard() {
                             <tbody>
                                 {workLogs.map((r: WorkReport) => (
                                     <tr key={r.id}>
-                                        <td>{r.date}</td>
+                                        <td>{String(r.date)}</td>
                                         <td>{r.authorName}</td>
                                         <td>{r.classification ? r.classification.toUpperCase() : 'N/A'}</td>
                                         <td>{r.station}</td>

@@ -50,31 +50,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    try {
-        await dbConnect();
-        const body = await request.json();
-
-        // Duplicate check
-        const existing = await TrackCircuitAssetModel.findOne({
-            station: body.station,
-            trackCircuitNo: body.trackCircuitNo
-        });
-
-        if (existing) {
-            return NextResponse.json(
-                { error: `Track Circuit ${body.trackCircuitNo} already exists for station ${body.station}` },
-                { status: 409 }
-            );
-        }
-
-        const newAsset = await TrackCircuitAssetModel.create(body);
-        const response = {
-            ...newAsset.toObject(),
-            id: newAsset._id.toString()
-        };
-        return NextResponse.json(response, { status: 201 });
-    } catch (error) {
-        console.error("Error creating Track Circuit asset:", error);
-        return NextResponse.json({ error: 'Failed to create asset' }, { status: 500 });
-    }
+    return NextResponse.json(
+        { error: 'Direct creation is disabled. Please use the /api/assets/track-circuit/request endpoint.' },
+        { status: 403 }
+    );
 }

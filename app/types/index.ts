@@ -16,7 +16,7 @@ export interface User {
 
 export interface WorkReport {
     id: string;
-    date: string;
+    date: Date | string;
     authorId: string;
     authorName: string;
     sseSection: string;
@@ -31,7 +31,7 @@ export interface WorkReport {
 
 export interface Complaint {
     id: string;
-    date: string;
+    date: Date | string;
     authorId: string;
     authorName: string;
     category: string;

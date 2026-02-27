@@ -26,31 +26,37 @@ function MainLayoutContent({
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [logsExpanded, setLogsExpanded] = useState(false);
     const [failuresExpanded, setFailuresExpanded] = useState(false);
-    const [counts, setCounts] = useState({ workLogs: 0, failures: 0 });
+    const [counts, setCounts] = useState<{
+        totals: { workLogs: number; openFailures: number },
+        monthCounts: { workLogs: Record<string, number>; failures: Record<string, number> }
+    }>({
+        totals: { workLogs: 0, openFailures: 0 },
+        monthCounts: { workLogs: {}, failures: {} }
+    });
     const dropdownRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const currentMonth = searchParams.get('month');
 
-    // Fetch Sidebar Counts
+    // Fetch Dashboard Summary
     useEffect(() => {
         if (!currentUser) return;
 
-        const fetchCounts = async () => {
+        const fetchSummary = async () => {
             try {
-                const res = await fetch(`/api/stats/sidebar-counts?userId=${currentUser.id}&role=${currentUser.role}`);
+                const res = await fetch(`/api/dashboard/summary?userId=${currentUser.id}&role=${currentUser.role}`);
                 if (res.ok) {
                     const data = await res.json();
                     setCounts(data);
                 }
             } catch (e) {
-                console.error("Failed to fetch sidebar counts", e);
+                console.error("Failed to fetch dashboard summary", e);
             }
         };
 
-        fetchCounts();
-        const interval = setInterval(fetchCounts, 60000); // Update every minute
+        fetchSummary();
+        const interval = setInterval(fetchSummary, 60000);
         return () => clearInterval(interval);
     }, [currentUser]);
 
@@ -113,6 +119,16 @@ function MainLayoutContent({
                     Log Monitor
                 </div>
 
+                <style jsx>{`
+                    .sidebar-month-link:hover {
+                        background: rgba(0, 0, 0, 0.03);
+                        border-radius: 8px;
+                    }
+                    .nav-item.active .sidebar-month-link:hover {
+                        background: transparent;
+                    }
+                `}</style>
+
                 <div style={{ flex: 1, overflowY: 'auto', paddingRight: '4px' }}>
                     <Link
                         href={dashboardLink?.href || '/'}
@@ -132,7 +148,7 @@ function MainLayoutContent({
                                 <span>📋</span> Work Logs
                             </span>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                {counts.workLogs > 0 && (
+                                {counts.totals.workLogs > 0 && (
                                     <span style={{
                                         background: 'var(--primary-soft)',
                                         color: 'var(--primary)',
@@ -141,7 +157,7 @@ function MainLayoutContent({
                                         padding: '2px 8px',
                                         borderRadius: '10px'
                                     }}>
-                                        {counts.workLogs}
+                                        {counts.totals.workLogs}
                                     </span>
                                 )}
                                 <span style={{
@@ -154,16 +170,35 @@ function MainLayoutContent({
 
                         {logsExpanded && (
                             <div style={{ marginLeft: '12px', paddingLeft: '12px', borderLeft: '1px solid var(--border)' }}>
-                                {monthLinks.map(m => (
-                                    <Link
-                                        key={m.value}
-                                        href={`/logs?month=${m.value}`}
-                                        className={`nav-item ${pathname === '/logs' && currentMonth === m.value ? 'active' : ''}`}
-                                        style={{ fontSize: '13px', padding: '8px 12px' }}
-                                    >
-                                        {m.label}
-                                    </Link>
-                                ))}
+                                {monthLinks.map(m => {
+                                    const count = counts.monthCounts.workLogs[m.value] || 0;
+                                    return (
+                                        <Link
+                                            key={m.value}
+                                            href={`/logs?month=${m.value}`}
+                                            className={`nav-item sidebar-month-link ${pathname === '/logs' && currentMonth === m.value ? 'active' : ''}`}
+                                            style={{ fontSize: '13px', padding: '8px 12px' }}
+                                        >
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                                                <span>{m.label}</span>
+                                                <div style={{ width: '40px', textAlign: 'right' }}>
+                                                    {count > 0 && (
+                                                        <span style={{
+                                                            fontSize: '10px',
+                                                            background: '#dbeafe', // bg-blue-100
+                                                            color: '#1d4ed8',      // text-blue-700
+                                                            fontWeight: 700,
+                                                            padding: '2px 8px',
+                                                            borderRadius: '9999px' // rounded-full
+                                                        }}>
+                                                            {count}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    );
+                                })}
                             </div>
                         )}
                     </div>
@@ -179,7 +214,7 @@ function MainLayoutContent({
                                 <span>⚠️</span> Failure Reports
                             </span>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                {counts.failures > 0 && (
+                                {counts.totals.openFailures > 0 && (
                                     <span style={{
                                         background: '#fee2e2',
                                         color: '#ef4444',
@@ -188,7 +223,7 @@ function MainLayoutContent({
                                         padding: '2px 8px',
                                         borderRadius: '10px'
                                     }}>
-                                        {counts.failures}
+                                        {counts.totals.openFailures}
                                     </span>
                                 )}
                                 <span style={{
@@ -201,16 +236,35 @@ function MainLayoutContent({
 
                         {failuresExpanded && (
                             <div style={{ marginLeft: '12px', paddingLeft: '12px', borderLeft: '1px solid var(--border)' }}>
-                                {monthLinks.map(m => (
-                                    <Link
-                                        key={m.value}
-                                        href={`/failures?month=${m.value}`}
-                                        className={`nav-item ${pathname === '/failures' && currentMonth === m.value ? 'active' : ''}`}
-                                        style={{ fontSize: '13px', padding: '8px 12px' }}
-                                    >
-                                        {m.label}
-                                    </Link>
-                                ))}
+                                {monthLinks.map(m => {
+                                    const count = counts.monthCounts.failures[m.value] || 0;
+                                    return (
+                                        <Link
+                                            key={m.value}
+                                            href={`/failures?month=${m.value}`}
+                                            className={`nav-item sidebar-month-link ${pathname === '/failures' && currentMonth === m.value ? 'active' : ''}`}
+                                            style={{ fontSize: '13px', padding: '8px 12px' }}
+                                        >
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                                                <span>{m.label}</span>
+                                                <div style={{ width: '40px', textAlign: 'right' }}>
+                                                    {count > 0 && (
+                                                        <span style={{
+                                                            fontSize: '10px',
+                                                            background: '#fee2e2', // bg-red-100
+                                                            color: '#b91c1c',      // text-red-700
+                                                            fontWeight: 700,
+                                                            padding: '2px 8px',
+                                                            borderRadius: '9999px' // rounded-full
+                                                        }}>
+                                                            {count}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    );
+                                })}
                             </div>
                         )}
                     </div>

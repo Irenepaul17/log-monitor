@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useGlobal } from '@/app/context/GlobalContext';
 import { usePaginatedData } from '@/app/hooks/usePaginatedData';
 import { PaginationControls } from '@/app/components/PaginationControls';
 import { EIAsset } from '@/app/types/assets';
 import EIAssetForm from '@/app/components/EIAssetForm';
 
 export default function EIAssetsPage() {
+    const { currentUser } = useGlobal();
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [editingAsset, setEditingAsset] = useState<EIAsset | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -33,36 +35,65 @@ export default function EIAssetsPage() {
 
     const handleCreate = async (data: Partial<EIAsset>) => {
         try {
-            const res = await fetch('/api/assets/ei', {
+            const res = await fetch('/api/assets/ei/request', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    assetId: null,
+                    proposedData: data,
+                    requester: {
+                        id: currentUser?.id,
+                        name: currentUser?.name,
+                        role: currentUser?.role,
+                        teamId: currentUser?.teamId
+                    }
+                })
             });
+
+            // Note: Since this page doesn't use useGlobal directly in the viewed snippet, 
+            // I should verify where currentUser comes from.
+            // Looking at the imports, it doesn't have useGlobal. 
+            // I'll add the hook if needed or assume it's available globally.
+            // Wait, the viewed file doesn't have useGlobal. I'll fix that.
+
             if (res.ok) {
+                alert('Request submitted successfully.');
                 setIsCreateModalOpen(false);
                 refresh();
             } else {
-                alert('Failed to create asset');
+                const err = await res.json();
+                alert(err.error || 'Failed to submit request');
             }
         } catch (e) {
             console.error(e);
-            alert('Error creating asset');
+            alert('Error submitting request');
         }
     };
 
     const handleUpdate = async (data: Partial<EIAsset>) => {
         if (!editingAsset) return;
         try {
-            const res = await fetch(`/api/assets/ei/${editingAsset.id}`, {
-                method: 'PUT',
+            const res = await fetch('/api/assets/ei/request', {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    assetId: editingAsset.id,
+                    proposedData: data,
+                    requester: {
+                        id: currentUser?.id,
+                        name: currentUser?.name,
+                        role: currentUser?.role,
+                        teamId: currentUser?.teamId
+                    }
+                })
             });
             if (res.ok) {
+                alert('Update request submitted.');
                 setEditingAsset(null);
                 refresh();
             } else {
-                alert('Failed to update asset');
+                const err = await res.json();
+                alert(err.error || 'Failed to submit update request');
             }
         } catch (e) {
             console.error(e);

@@ -55,50 +55,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    try {
-        await dbConnect();
-        const body = await request.json();
-
-        // Date Validation for Equipment
-        const categories = ['rg', 'hg', 'hhg', 'dg', 'shunt', 'routeEquipment', 'amarker', 'callingon'];
-        const today = new Date();
-        const minDate = new Date('1990-01-01');
-
-        for (const cat of categories) {
-            const equip = (body as any)[cat];
-            if (equip) {
-                if (equip.dom) {
-                    const d = new Date(equip.dom);
-                    if (d > today || d < minDate) return NextResponse.json({ error: `Invalid DOM for ${cat.toUpperCase()}` }, { status: 400 });
-                }
-                if (equip.doi) {
-                    const d = new Date(equip.doi);
-                    if (d > today || d < minDate) return NextResponse.json({ error: `Invalid DOI for ${cat.toUpperCase()}` }, { status: 400 });
-                }
-            }
-        }
-
-        // Basic duplicate check (Section + Signal No)
-        const existing = await SignalAssetModel.findOne({
-            section: body.section,
-            signalNoShuntNo: body.signalNoShuntNo
-        });
-
-        if (existing) {
-            return NextResponse.json(
-                { error: `Signal asset ${body.signalNoShuntNo} already exists for section ${body.section}` },
-                { status: 409 }
-            );
-        }
-
-        const newAsset = await SignalAssetModel.create(body);
-        const response = {
-            ...newAsset.toObject(),
-            id: newAsset._id.toString()
-        };
-        return NextResponse.json(response, { status: 201 });
-    } catch (error) {
-        console.error("Error creating Signal asset:", error);
-        return NextResponse.json({ error: 'Failed to create asset' }, { status: 500 });
-    }
+    return NextResponse.json(
+        { error: 'Direct creation is disabled. Please use the /api/assets/signal/request endpoint.' },
+        { status: 403 }
+    );
 }
