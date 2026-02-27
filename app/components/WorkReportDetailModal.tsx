@@ -12,8 +12,9 @@ export default function WorkReportDetailModal({ report, onClose }: WorkReportDet
     const { complaints } = useGlobal();
     if (!report) return null;
 
-    const formatDate = (dateStr: string) => {
-        const date = new Date(dateStr);
+    const formatDate = (dateValue: string | Date | undefined) => {
+        if (!dateValue) return 'N/A';
+        const date = new Date(dateValue);
         return date.toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' });
     };
 
