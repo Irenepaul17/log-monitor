@@ -263,8 +263,8 @@ export default function SSEDashboard() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {assetRequests.map((req) => (
-                                    <tr key={req.id}>
+                                {assetRequests.map((req, index) => (
+                                    <tr key={req.id || `req-${index}`}>
                                         <td style={{ fontWeight: 600, textTransform: 'uppercase', fontSize: '11px' }}>
                                             <span className="badge" style={{ backgroundColor: 'var(--primary-soft)', color: 'var(--primary)' }}>
                                                 {req.assetType}
@@ -318,8 +318,8 @@ export default function SSEDashboard() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {teamReports.length > 0 ? teamReports.map((r: WorkReport) => (
-                                    <tr key={r.id}>
+                                {teamReports.length > 0 ? teamReports.map((r: WorkReport, index) => (
+                                    <tr key={r.id || `report-${index}`}>
                                         <td>{String(r.date)}</td>
                                         <td>{r.authorName}</td>
                                         <td>{r.classification ? r.classification.toUpperCase() : 'N/A'}</td>
@@ -370,8 +370,8 @@ export default function SSEDashboard() {
                                 <tr><th>ID</th><th>Status</th><th>Raised By</th><th>Issue</th><th>Actions</th></tr>
                             </thead>
                             <tbody>
-                                {teamComplaints.length > 0 ? teamComplaints.map((c: Complaint) => (
-                                    <tr key={c.id}>
+                                {teamComplaints.length > 0 ? teamComplaints.map((c: Complaint, index) => (
+                                    <tr key={c.id || `complaint-${index}`}>
                                         <td>{c.id}</td>
                                         <td>
                                             <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
