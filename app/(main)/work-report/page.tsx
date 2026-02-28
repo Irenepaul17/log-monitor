@@ -21,8 +21,9 @@ export default function WorkReportPage() {
         classification: ""
     });
 
-    // Attachments
-    const [attachments, setAttachments] = useState<{ name: string; data: string; type: string }[]>([]);
+    // Attachments: store { name, key (S3), previewUrl (local blob), type }
+    const [attachments, setAttachments] = useState<{ name: string; key: string; previewUrl: string; type: string }[]>([]);
+    const [uploadingFiles, setUploadingFiles] = useState(false);
 
 
     const resetForm = () => {
@@ -40,41 +41,59 @@ export default function WorkReportPage() {
         const files = e.target.files;
         if (!files) return;
 
-        const newAttachments: { name: string; data: string; type: string }[] = [];
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf'];
+        const validFiles: File[] = [];
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-
-            // Validate file type
-            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf'];
             if (!validTypes.includes(file.type)) {
-                alert(`File "${file.name}" is not a valid type. Only images (JPG, PNG, GIF) and PDFs are allowed.`);
+                alert(`"${file.name}" is not a valid type. Only JPG, PNG, GIF, PDF allowed.`);
                 continue;
             }
-
-            // Validate file size (5MB max)
-            if (file.size > 5 * 1024 * 1024) {
-                alert(`File "${file.name}" is too large. Maximum size is 5MB.`);
+            if (file.size > 10 * 1024 * 1024) {
+                alert(`"${file.name}" is too large. Max 10MB.`);
                 continue;
             }
-
-            // Convert to base64
-            const reader = new FileReader();
-            const base64Promise = new Promise<string>((resolve) => {
-                reader.onload = () => resolve(reader.result as string);
-                reader.readAsDataURL(file);
-            });
-
-            const base64Data = await base64Promise;
-            newAttachments.push({
-                name: file.name,
-                data: base64Data,
-                type: file.type
-            });
+            validFiles.push(file);
         }
 
-        setAttachments(prev => [...prev, ...newAttachments]);
-        e.target.value = ''; // Reset input
+        if (validFiles.length === 0) return;
+        setUploadingFiles(true);
+
+        try {
+            const uploaded: { name: string; key: string; previewUrl: string; type: string }[] = [];
+
+            for (const file of validFiles) {
+                // 1. Get presigned upload URL from our API
+                const res = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fileName: file.name, fileType: file.type })
+                });
+
+                if (!res.ok) throw new Error('Failed to get upload URL');
+                const { uploadUrl, key } = await res.json();
+
+                // 2. Upload directly to S3
+                const uploadRes = await fetch(uploadUrl, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': file.type },
+                    body: file
+                });
+                if (!uploadRes.ok) throw new Error(`Failed to upload ${file.name} to S3`);
+
+                // 3. Local preview URL for display before page reload
+                const previewUrl = file.type.startsWith('image/') ? URL.createObjectURL(file) : '';
+                uploaded.push({ name: file.name, key, previewUrl, type: file.type });
+            }
+
+            setAttachments(prev => [...prev, ...uploaded]);
+        } catch (err: any) {
+            alert('Upload failed: ' + err.message);
+        } finally {
+            setUploadingFiles(false);
+            e.target.value = '';
+        }
     };
 
     const removeAttachment = (index: number) => {
@@ -183,7 +202,7 @@ export default function WorkReportPage() {
                     finalConfirmation: "YES",
                     trainDetention: answers.trainDetention || ""
                 },
-                attachments: attachments.length > 0 ? attachments.map(a => JSON.stringify(a)) : undefined
+                attachments: attachments.length > 0 ? attachments.map(a => a.key) : undefined
             };
 
             // Async Submission
@@ -304,12 +323,13 @@ export default function WorkReportPage() {
                         </div>
 
                         <div className="input-group">
-                            <label>Upload Files (Images: JPG, PNG, GIF | Documents: PDF)</label>
+                            <label>Upload Files (Images: JPG, PNG, GIF | Documents: PDF) — max 10MB each</label>
                             <input
                                 type="file"
                                 accept="image/jpeg,image/jpg,image/png,image/gif,application/pdf"
                                 multiple
                                 onChange={handleFileUpload}
+                                disabled={uploadingFiles}
                                 style={{
                                     padding: '12px',
                                     border: '2px dashed var(--border)',
@@ -317,6 +337,11 @@ export default function WorkReportPage() {
                                     cursor: 'pointer'
                                 }}
                             />
+                            {uploadingFiles && (
+                                <div style={{ marginTop: '8px', fontSize: '13px', color: '#2563eb', fontWeight: 600 }}>
+                                    ⏳ Uploading to secure storage...
+                                </div>
+                            )}
                         </div>
 
                         {attachments.length > 0 && (
@@ -337,7 +362,7 @@ export default function WorkReportPage() {
                                         }}>
                                             {file.type.startsWith('image/') ? (
                                                 <img
-                                                    src={file.data}
+                                                    src={file.previewUrl}
                                                     alt={file.name}
                                                     style={{
                                                         width: '60px',
@@ -365,7 +390,7 @@ export default function WorkReportPage() {
                                             <div style={{ flex: 1 }}>
                                                 <div style={{ fontWeight: 600, fontSize: '14px' }}>{file.name}</div>
                                                 <div style={{ fontSize: '12px', color: 'var(--muted)' }}>
-                                                    {file.type.startsWith('image/') ? 'Image' : 'PDF Document'}
+                                                    ✅ Uploaded to secure storage
                                                 </div>
                                             </div>
                                             <button

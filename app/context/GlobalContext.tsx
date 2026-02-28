@@ -44,9 +44,10 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
 
     // Fetch data when user changes
     const refreshTeam = async () => {
-        if (!currentUser?.teamId) return;
+        if (!currentUser?.division && !currentUser?.teamId) return;
         try {
-            const res = await fetch(`/api/user/team?teamId=${currentUser.teamId}`);
+            const queryParam = currentUser.division ? `division=${currentUser.division}` : `teamId=${currentUser.teamId}`;
+            const res = await fetch(`/api/user/team?${queryParam}`);
             if (res.ok) {
                 setUsers(await res.json());
             }

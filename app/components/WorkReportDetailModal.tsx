@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useGlobal } from '../context/GlobalContext';
 import { WorkReport } from '@/app/types';
 
@@ -8,8 +9,39 @@ interface WorkReportDetailModalProps {
     onClose: () => void;
 }
 
+interface ResolvedAttachment {
+    name: string;
+    url: string;
+    type: string;
+}
+
 export default function WorkReportDetailModal({ report, onClose }: WorkReportDetailModalProps) {
     const { complaints } = useGlobal();
+    const [resolvedAttachments, setResolvedAttachments] = useState<ResolvedAttachment[]>([]);
+
+    // Load signed S3 URLs for any attachment keys stored in this report
+    useEffect(() => {
+        if (!report?.attachments || report.attachments.length === 0) {
+            setResolvedAttachments([]);
+            return;
+        }
+        const isS3Key = (s: string) => s.startsWith('attachments/');
+        const keys = report.attachments.filter(isS3Key);
+        if (keys.length === 0) return;
+
+        Promise.all(
+            keys.map(async (key) => {
+                const res = await fetch(`/api/upload/signed-url?key=${encodeURIComponent(key)}`);
+                const { url } = await res.json();
+                // Guess type from file extension
+                const ext = key.split('.').pop()?.toLowerCase() || '';
+                const type = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext) ? `image/${ext === 'jpg' ? 'jpeg' : ext}` : 'application/pdf';
+                const name = key.split('-').slice(1).join('-'); // strip UUID prefix
+                return { name, url, type } as ResolvedAttachment;
+            })
+        ).then(setResolvedAttachments).catch(console.error);
+    }, [report]);
+
     if (!report) return null;
 
     const formatDate = (dateValue: string | Date | undefined) => {
@@ -336,6 +368,32 @@ export default function WorkReportDetailModal({ report, onClose }: WorkReportDet
                     {/* Train Detention */}
                     {report.details.trainDetention && renderInfoBox('Train Detention', (
                         <>{renderField('Details', report.details.trainDetention)}</>
+                    ), true)}
+
+                    {/* Attachments (S3) */}
+                    {resolvedAttachments.length > 0 && renderInfoBox(`Attachments (${resolvedAttachments.length})`, (
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '12px' }}>
+                            {resolvedAttachments.map((file, i) =>
+                                file.type.startsWith('image/') ? (
+                                    <a key={i} href={file.url} target="_blank" rel="noopener noreferrer" title={file.name} style={{ display: 'block' }}>
+                                        <img
+                                            src={file.url}
+                                            alt={file.name}
+                                            style={{ width: '100%', aspectRatio: '1/1', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e2e8f0', cursor: 'zoom-in' }}
+                                        />
+                                        <div style={{ fontSize: '11px', color: '#64748b', marginTop: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file.name}</div>
+                                    </a>
+                                ) : (
+                                    <a key={i} href={file.url} download={file.name} style={{ textDecoration: 'none' }}>
+                                        <div style={{ width: '100%', aspectRatio: '1/1', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#fee2e2', borderRadius: '8px', border: '1px solid #fca5a5', cursor: 'pointer', gap: '6px' }}>
+                                            <span style={{ fontSize: '28px' }}>📄</span>
+                                            <span style={{ fontSize: '10px', fontWeight: 700, color: '#ef4444' }}>PDF</span>
+                                        </div>
+                                        <div style={{ fontSize: '11px', color: '#64748b', marginTop: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file.name}</div>
+                                    </a>
+                                )
+                            )}
+                        </div>
                     ), true)}
                 </div>
 

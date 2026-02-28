@@ -1,6 +1,13 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let resend: Resend | null = null;
+
+function getResend() {
+    if (!resend && process.env.RESEND_API_KEY) {
+        resend = new Resend(process.env.RESEND_API_KEY);
+    }
+    return resend;
+}
 
 export async function sendEmail({ to, subject, html }: { to: string | string[]; subject: string; html: string }) {
     if (!process.env.RESEND_API_KEY) {
@@ -19,7 +26,12 @@ export async function sendEmail({ to, subject, html }: { to: string | string[]; 
             return { success: false, error: 'No valid recipients' };
         }
 
-        const data = await resend.emails.send({
+        const resendInstance = getResend();
+        if (!resendInstance) {
+            return { success: false, error: 'Resend instance not initialized' };
+        }
+
+        const data = await resendInstance.emails.send({
             from: process.env.EMAIL_FROM || 'Log Monitor <alerts@resend.dev>',
             to: uniqueRecipients,
             subject,

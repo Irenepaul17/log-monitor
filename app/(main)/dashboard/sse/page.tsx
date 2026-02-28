@@ -2,6 +2,7 @@
 
 import { useGlobal } from "@/app/context/GlobalContext";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { ResolutionModal } from "@/app/components/ResolutionModal";
 import WorkReportDetailModal from "@/app/components/WorkReportDetailModal";
 import ComplaintDetailModal from "@/app/components/ComplaintDetailModal";
@@ -11,6 +12,7 @@ import { PaginationControls } from '@/app/components/PaginationControls';
 import { SOSButton } from "@/app/components/SOSButton";
 
 import AssetSelectionModal from "@/app/components/AssetSelectionModal";
+import AssetRequestDetailModal from "@/app/components/AssetRequestDetailModal";
 
 export default function SSEDashboard() {
     const { currentUser, resolveComplaint } = useGlobal(); // Removed reports/complaints from global
@@ -20,6 +22,7 @@ export default function SSEDashboard() {
     const [isAssetModalOpen, setIsAssetModalOpen] = useState(false);
     const [assetRequests, setAssetRequests] = useState<AssetUpdateRequest[]>([]);
     const [requestsLoading, setRequestsLoading] = useState(false);
+    const [viewingRequest, setViewingRequest] = useState<AssetUpdateRequest | null>(null);
     const [assetStats, setAssetStats] = useState({
         ei: 0, points: 0, signals: 0, trackCircuits: 0,
         recent: { ei: 0, points: 0, signals: 0, trackCircuits: 0 }
@@ -115,92 +118,94 @@ export default function SSEDashboard() {
 
     if (!currentUser) return null;
 
-    const renderAssetCard = (title: string, count: number, recentCount: number, color: string, bgColor: string, borderColor: string, shortName: string) => (
-        <div
-            className="asset-card"
-            style={{
-                background: bgColor,
-                border: `1px solid ${borderColor}`,
-                borderRadius: '16px',
-                padding: '24px 20px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
-                position: 'relative',
-                overflow: 'hidden',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                cursor: 'pointer'
-            }}
-        >
-            <style jsx>{`
+    const renderAssetCard = (title: string, count: number, recentCount: number, color: string, bgColor: string, borderColor: string, shortName: string, href: string) => (
+        <Link href={href} style={{ textDecoration: 'none' }}>
+            <div
+                className="asset-card"
+                style={{
+                    background: bgColor,
+                    border: `1px solid ${borderColor}`,
+                    borderRadius: '16px',
+                    padding: '24px 20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    cursor: 'pointer'
+                }}
+            >
+                <style jsx>{`
                 .asset-card:hover {
                     transform: translateY(-5px);
                     box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
                 }
             `}</style>
 
-            {recentCount > 0 && (
+                {recentCount > 0 && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '12px',
+                        right: '12px',
+                        background: color,
+                        color: 'white',
+                        padding: '3px 10px',
+                        borderRadius: '20px',
+                        fontSize: '10px',
+                        fontWeight: '800',
+                        boxShadow: '0 2px 8px -2px ' + color,
+                        animation: 'pulse 2s infinite',
+                        zIndex: 2
+                    }}>
+                        +{recentCount} NEW
+                    </div>
+                )}
+
+                <div style={{ fontSize: '42px', fontWeight: '900', color: color, lineHeight: 1, marginBottom: '2px', letterSpacing: '-1px' }}>
+                    {count}
+                </div>
+
+                {recentCount > 0 && (
+                    <div style={{
+                        fontSize: '10px',
+                        color: color,
+                        fontWeight: '700',
+                        opacity: 0.8,
+                        marginBottom: '8px',
+                        textAlign: 'center'
+                    }}>
+                        recently added {recentCount} assets in {shortName}
+                    </div>
+                )}
+
+                <div style={{
+                    fontSize: '12px',
+                    color: 'var(--muted)',
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
+                    marginTop: recentCount > 0 ? '0' : '10px'
+                }}>
+                    {title}
+                </div>
+
+                {/* Subtle background decoration */}
                 <div style={{
                     position: 'absolute',
-                    top: '12px',
-                    right: '12px',
+                    bottom: '-20px',
+                    right: '-20px',
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '50%',
                     background: color,
-                    color: 'white',
-                    padding: '3px 10px',
-                    borderRadius: '20px',
-                    fontSize: '10px',
-                    fontWeight: '800',
-                    boxShadow: '0 2px 8px -2px ' + color,
-                    animation: 'pulse 2s infinite',
-                    zIndex: 2
-                }}>
-                    +{recentCount} NEW
-                </div>
-            )}
-
-            <div style={{ fontSize: '42px', fontWeight: '900', color: color, lineHeight: 1, marginBottom: '2px', letterSpacing: '-1px' }}>
-                {count}
+                    opacity: 0.03,
+                    zIndex: 0
+                }} />
             </div>
-
-            {recentCount > 0 && (
-                <div style={{
-                    fontSize: '10px',
-                    color: color,
-                    fontWeight: '700',
-                    opacity: 0.8,
-                    marginBottom: '8px',
-                    textAlign: 'center'
-                }}>
-                    recently added {recentCount} assets in {shortName}
-                </div>
-            )}
-
-            <div style={{
-                fontSize: '12px',
-                color: 'var(--muted)',
-                fontWeight: '700',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                marginTop: recentCount > 0 ? '0' : '10px'
-            }}>
-                {title}
-            </div>
-
-            {/* Subtle background decoration */}
-            <div style={{
-                position: 'absolute',
-                bottom: '-20px',
-                right: '-20px',
-                width: '80px',
-                height: '80px',
-                borderRadius: '50%',
-                background: color,
-                opacity: 0.03,
-                zIndex: 0
-            }} />
-        </div>
+        </Link>
     );
 
     return (
@@ -230,10 +235,10 @@ export default function SSEDashboard() {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '20px' }}>
-                    {renderAssetCard("EI Assets", assetStats.ei, assetStats.recent.ei, "#0284c7", "#f0f9ff", "#bae6fd", "EI")}
-                    {renderAssetCard("Points", assetStats.points, assetStats.recent.points, "#db2777", "#fdf2f8", "#fbcfe8", "Points")}
-                    {renderAssetCard("Signals", assetStats.signals, assetStats.recent.signals, "#ca8a04", "#fefce8", "#fde047", "Signals")}
-                    {renderAssetCard("Track Circuits", assetStats.trackCircuits, assetStats.recent.trackCircuits, "#16a34a", "#f0fdf4", "#bbf7d0", "Track Circuits")}
+                    {renderAssetCard("EI Assets", assetStats.ei, assetStats.recent.ei, "#0284c7", "#f0f9ff", "#bae6fd", "EI", "/dashboard/assets/ei")}
+                    {renderAssetCard("Points", assetStats.points, assetStats.recent.points, "#db2777", "#fdf2f8", "#fbcfe8", "Points", "/dashboard/assets/point")}
+                    {renderAssetCard("Signals", assetStats.signals, assetStats.recent.signals, "#ca8a04", "#fefce8", "#fde047", "Signals", "/dashboard/assets/signal")}
+                    {renderAssetCard("Track Circuits", assetStats.trackCircuits, assetStats.recent.trackCircuits, "#16a34a", "#f0fdf4", "#bbf7d0", "Track Circuits", "/dashboard/assets/track-circuit")}
                 </div>
             </div>
 
@@ -287,6 +292,7 @@ export default function SSEDashboard() {
                                         </td>
                                         <td>
                                             <div style={{ display: 'flex', gap: '8px' }}>
+                                                <button className="btn btn-sm" style={{ background: '#f1f5f9', color: '#334155', border: '1px solid #e2e8f0' }} onClick={() => setViewingRequest(req)}>View</button>
                                                 <button className="btn btn-primary btn-sm" onClick={() => handleAssetAction(req.id, 'approve')}>Approve</button>
                                                 <button className="btn btn-outline btn-sm" style={{ color: 'var(--danger)', borderColor: 'var(--danger)' }} onClick={() => handleAssetAction(req.id, 'reject')}>Reject</button>
                                             </div>
@@ -428,6 +434,12 @@ export default function SSEDashboard() {
             <WorkReportDetailModal report={viewingReport} onClose={() => setViewingReport(null)} />
             <ComplaintDetailModal complaint={viewingComplaint} onClose={() => setViewingComplaint(null)} />
             <AssetSelectionModal isOpen={isAssetModalOpen} onClose={() => setIsAssetModalOpen(false)} />
+            <AssetRequestDetailModal
+                request={viewingRequest}
+                onClose={() => setViewingRequest(null)}
+                onApprove={(id) => handleAssetAction(id, 'approve')}
+                onReject={(id) => handleAssetAction(id, 'reject')}
+            />
         </div>
     );
 }

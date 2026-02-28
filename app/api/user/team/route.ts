@@ -6,22 +6,24 @@ export async function GET(request: Request) {
     try {
         await dbConnect();
         const { searchParams } = new URL(request.url);
+        const division = searchParams.get("division");
         const teamId = searchParams.get("teamId");
 
-        if (!teamId) {
-            return NextResponse.json({ error: "teamId is required" }, { status: 400 });
+        if (!division && !teamId) {
+            return NextResponse.json({ error: "division or teamId is required" }, { status: 400 });
         }
 
-        const teamMembers = await UserModel.find({ teamId });
+        const query = division ? { division } : { teamId };
+        const teamMembers = await UserModel.find(query);
 
-        // Sort by role priority: SSE > JE > Technician > others
+        // Strict seniority sorting: Sr. DSTE > DSTE > ADSTE > SSE > JE > Technician
         const roleOrder: Record<string, number> = {
-            'sse': 1,
-            'je': 2,
-            'technician': 3,
-            'adste': 4,
-            'dste': 5,
-            'sr-dste': 6
+            'sr-dste': 1,
+            'dste': 2,
+            'adste': 3,
+            'sse': 4,
+            'je': 5,
+            'technician': 6
         };
 
         teamMembers.sort((a, b) => {

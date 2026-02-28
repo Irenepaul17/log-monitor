@@ -182,10 +182,32 @@ export default function ComplaintDetailModal({ complaint, onClose }: ComplaintDe
                         {/* Failure Information */}
                         {renderInfoBox('Failure Information', (
                             <>
-                                {renderField('Description', complaint.description)}
+                                {/* Parse "Key: Value, Key: Value" into separate lines */}
+                                {complaint.description ? (
+                                    <div style={{ marginBottom: '10px' }}>
+                                        <span style={{ fontWeight: 400, color: '#64748b', fontSize: '13px', display: 'block', marginBottom: '8px' }}>Description:</span>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                            {complaint.description.split(/,(?=\s*[A-Za-z ]+:)/).map((part, i) => {
+                                                const colonIdx = part.indexOf(':');
+                                                if (colonIdx === -1) return (
+                                                    <div key={i} style={{ fontSize: '13px', color: '#1e293b', paddingLeft: '8px' }}>{part.trim()}</div>
+                                                );
+                                                const key = part.substring(0, colonIdx).trim();
+                                                const val = part.substring(colonIdx + 1).trim();
+                                                return (
+                                                    <div key={i} style={{ display: 'flex', gap: '8px', padding: '6px 10px', background: '#f8fafc', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                                                        <span style={{ fontSize: '12px', fontWeight: 700, color: '#475569', minWidth: '110px', textTransform: 'uppercase', letterSpacing: '0.03em' }}>{key}</span>
+                                                        <span style={{ fontSize: '13px', color: '#1e293b', fontWeight: 500 }}>{val || '—'}</span>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                ) : null}
                                 {renderField('Assigned To', complaint.supervisorId ? 'Superior' : 'Not Assigned')}
                             </>
                         ))}
+
                     </div>
 
                     {/* Additional Details */}
