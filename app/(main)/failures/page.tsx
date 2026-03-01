@@ -92,7 +92,13 @@ function FailuresPageContent() {
                                         </td>
                                         <td>{c.authorName}</td>
                                         <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                            {c.description}
+                                            {(() => {
+                                                const match = c.description?.match(/Details:\s*(.+)$/i);
+                                                const details = match?.[1]?.trim();
+                                                return details && details.toLowerCase() !== 'no details provided'
+                                                    ? details
+                                                    : <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>No details provided</span>;
+                                            })()}
                                         </td>
                                         <td style={{ fontSize: '13px' }}>
                                             {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A'}

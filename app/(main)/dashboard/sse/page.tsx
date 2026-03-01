@@ -386,7 +386,15 @@ export default function SSEDashboard() {
                                             </div>
                                         </td>
                                         <td>{c.authorName}</td>
-                                        <td>{c.description}</td>
+                                        <td style={{ maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                            {(() => {
+                                                const match = c.description?.match(/Details:\s*(.+)$/i);
+                                                const details = match?.[1]?.trim();
+                                                return details && details.toLowerCase() !== 'no details provided'
+                                                    ? details
+                                                    : <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>No details provided</span>;
+                                            })()}
+                                        </td>
                                         <td>
                                             <div style={{ display: 'flex', gap: '8px' }}>
                                                 <button
