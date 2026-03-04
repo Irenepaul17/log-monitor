@@ -58,53 +58,72 @@ function LogsPageContent() {
                 <div className="table-container">
                     {loading ? (
                         <div style={{ padding: '40px', textAlign: 'center', color: 'var(--muted)' }}>
-                            <div className="loading-spinner" style={{ marginBottom: '12px' }}>⌛</div>
+                            <div className="loading-spinner" style={{ marginBottom: '12px' }}></div>
                             Fetching reports...
                         </div>
                     ) : (
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Author</th>
-                                    <th>Category</th>
-                                    <th>Station</th>
-                                    <th>Shift</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {reports.length > 0 ? reports.map((r) => (
-                                    <tr key={r.id}>
-                                        <td style={{ fontWeight: 500 }}>{String(r.date)}</td>
-                                        <td>{r.authorName}</td>
-                                        <td>
-                                            <span className="badge badge-progress" style={{ fontSize: '10px' }}>
-                                                {r.classification ? r.classification.toUpperCase().replace(/_/g, ' ') : 'N/A'}
-                                            </span>
-                                        </td>
-                                        <td>{r.station}</td>
-                                        <td>{r.shift}</td>
-                                        <td>
-                                            <button
-                                                onClick={() => setViewingReport(r)}
-                                                className="btn btn-sm btn-primary"
-                                                style={{ padding: '6px 12px', fontSize: '12px' }}
-                                            >
-                                                View Details
-                                            </button>
-                                        </td>
-                                    </tr>
-                                )) : (
+                        <>
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td colSpan={6} style={{ textAlign: 'center', padding: '40px', color: 'var(--muted)' }}>
-                                            No logs found for this period.
-                                        </td>
+                                        <th>Date</th>
+                                        <th>Author</th>
+                                        <th>Category</th>
+                                        <th>Station</th>
+                                        <th>Shift</th>
+                                        <th>Actions</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    )}
+                                </thead>
+                                <tbody>
+                                    {reports.length > 0 ? reports.map((r) => (
+                                        <tr key={r.id}>
+                                            <td style={{ fontWeight: 500 }}>{String(r.date)}</td>
+                                            <td>{r.authorName}</td>
+                                            <td>
+                                                <span className="badge badge-progress" style={{ fontSize: '10px' }}>
+                                                    {r.classification ? r.classification.toUpperCase().replace(/_/g, ' ') : 'N/A'}
+                                                </span>
+                                            </td>
+                                            <td>{r.station}</td>
+                                            <td>{r.shift}</td>
+                                            <td>
+                                                <button
+                                                    onClick={() => setViewingReport(r)}
+                                                    className="btn btn-sm btn-primary"
+                                                    style={{ padding: '6px 12px', fontSize: '12px' }}
+                                                >
+                                                    View Details
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )) : (
+                                        <tr>
+                                            <td colSpan={6} style={{ textAlign: 'center', padding: '40px', color: 'var(--muted)' }}>
+                                                No logs found for this period.
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                            <div className="mobile-card-table">
+                                {reports.length > 0 ? reports.map((r) => (
+                                    <div key={r.id} className="m-row">
+                                        <div className="m-row-header">
+                                            <span className="m-row-title">{r.authorName}</span>
+                                            <span className="badge badge-progress" style={{ fontSize: '11px' }}>{r.classification?.toUpperCase().replace(/_/g, ' ') || 'N/A'}</span>
+                                        </div>
+                                        <div className="m-row-meta">
+                                            <span className="m-row-field"><span className="m-row-label">Date</span><span className="m-row-value">{String(r.date)}</span></span>
+                                            <span className="m-row-field"><span className="m-row-label">Station</span><span className="m-row-value">{r.station}</span></span>
+                                            <span className="m-row-field"><span className="m-row-label">Shift</span><span className="m-row-value">{r.shift}</span></span>
+                                        </div>
+                                        <div className="m-row-actions">
+                                            <button onClick={() => setViewingReport(r)} className="btn btn-sm btn-primary">View Details</button>
+                                        </div>
+                                    </div>
+                                )) : <div style={{ padding: '24px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>No logs found for this period.</div>}
+                            </div>
+                        </>)}
                 </div>
 
                 {meta && meta.totalPages > 1 && (

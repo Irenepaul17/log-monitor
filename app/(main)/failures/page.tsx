@@ -32,7 +32,8 @@ function FailuresPageContent() {
         loading,
         meta,
         setPage,
-        page
+        page,
+        refresh
     } = usePaginatedData<Complaint>(
         '/api/complaints',
         {
@@ -63,77 +64,97 @@ function FailuresPageContent() {
                 <div className="table-container">
                     {loading ? (
                         <div style={{ padding: '40px', textAlign: 'center', color: 'var(--muted)' }}>
-                            <div className="loading-spinner" style={{ marginBottom: '12px' }}>⌛</div>
+                            <div className="loading-spinner" style={{ marginBottom: '12px' }}></div>
                             Fetching failures...
                         </div>
                     ) : (
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Status</th>
-                                    <th>Raised By</th>
-                                    <th>Description</th>
-                                    <th>Created At</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {complaints.length > 0 ? complaints.map((c) => (
-                                    <tr key={c.id}>
-                                        <td style={{ fontSize: '12px', fontWeight: 600, color: 'var(--muted)' }}>#{c.id.slice(-6)}</td>
-                                        <td>
-                                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                                {c.status === 'Open' && <span className="badge" style={{ backgroundColor: '#ef4444', color: 'white', fontSize: '10px' }}>NEW</span>}
-                                                <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>
-                                                    {c.status}
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td>{c.authorName}</td>
-                                        <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                            {(() => {
-                                                const match = c.description?.match(/Details:\s*(.+)$/i);
-                                                const details = match?.[1]?.trim();
-                                                return details && details.toLowerCase() !== 'no details provided'
-                                                    ? details
-                                                    : <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>No details provided</span>;
-                                            })()}
-                                        </td>
-                                        <td style={{ fontSize: '13px' }}>
-                                            {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A'}
-                                        </td>
-                                        <td>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                <button
-                                                    onClick={() => setViewingComplaint(c)}
-                                                    className="btn btn-sm btn-outline"
-                                                    style={{ padding: '6px 12px', fontSize: '12px' }}
-                                                >
-                                                    View
-                                                </button>
-                                                {canResolve && c.status === 'Open' && (
+                        <>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Status</th>
+                                        <th>Raised By</th>
+                                        <th>Description</th>
+                                        <th>Created At</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {complaints.length > 0 ? complaints.map((c) => (
+                                        <tr key={c.id}>
+                                            <td style={{ fontSize: '12px', fontWeight: 600, color: 'var(--muted)' }}>#{c.id.slice(-6)}</td>
+                                            <td>
+                                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                    {c.status === 'Open' && <span className="badge" style={{ backgroundColor: '#ef4444', color: 'white', fontSize: '10px' }}>NEW</span>}
+                                                    <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>
+                                                        {c.status}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>{c.authorName}</td>
+                                            <td style={{ maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                {(() => {
+                                                    const match = c.description?.match(/Details:\s*(.+)$/i);
+                                                    const details = match?.[1]?.trim();
+                                                    return details || '';
+                                                })()}
+                                            </td>
+                                            <td style={{ fontSize: '13px' }}>
+                                                {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A'}
+                                            </td>
+                                            <td>
+                                                <div style={{ display: 'flex', gap: '8px' }}>
                                                     <button
-                                                        onClick={() => setResolvingComplaint(c)}
-                                                        className="btn btn-sm btn-primary"
+                                                        onClick={() => setViewingComplaint(c)}
+                                                        className="btn btn-sm btn-outline"
                                                         style={{ padding: '6px 12px', fontSize: '12px' }}
                                                     >
-                                                        Resolve
+                                                        View
                                                     </button>
-                                                )}
+                                                    {canResolve && c.status === 'Open' && (
+                                                        <button
+                                                            onClick={() => setResolvingComplaint(c)}
+                                                            className="btn btn-sm btn-primary"
+                                                            style={{ padding: '6px 12px', fontSize: '12px' }}
+                                                        >
+                                                            Resolve
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )) : (
+                                        <tr>
+                                            <td colSpan={6} style={{ textAlign: 'center', padding: '40px', color: 'var(--muted)' }}>
+                                                No failures found for this period.
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                            <div className="mobile-card-table">
+                                {complaints.length > 0 ? complaints.map((c) => {
+                                    const details = (() => { const m = c.description?.match(/Details:\s*(.+)$/i); return m?.[1]?.trim() || ''; })();
+                                    return (
+                                        <div key={c.id} className="m-row">
+                                            <div className="m-row-header">
+                                                <span className="m-row-title">{c.authorName}</span>
+                                                <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>{c.status}</span>
                                             </div>
-                                        </td>
-                                    </tr>
-                                )) : (
-                                    <tr>
-                                        <td colSpan={6} style={{ textAlign: 'center', padding: '40px', color: 'var(--muted)' }}>
-                                            No failures found for this period.
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    )}
+                                            <div className="m-row-meta">
+                                                <span className="m-row-field"><span className="m-row-label">Date</span><span className="m-row-value">{c.createdAt ? new Date(c.createdAt).toLocaleDateString() : 'N/A'}</span></span>
+                                            </div>
+                                            {details && <div className="m-row-value" style={{ fontSize: '13px', color: '#334155', maxWidth: '100%' }}>{details}</div>}
+                                            <div className="m-row-actions">
+                                                <button onClick={() => setViewingComplaint(c)} className="btn btn-sm btn-outline">View</button>
+                                                {canResolve && c.status === 'Open' && <button onClick={() => setResolvingComplaint(c)} className="btn btn-sm btn-primary">Resolve</button>}
+                                            </div>
+                                        </div>
+                                    );
+                                }) : <div style={{ padding: '24px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>No failures found for this period.</div>}
+                            </div>
+                        </>)}
                 </div>
 
                 {meta && meta.totalPages > 1 && (
@@ -161,6 +182,7 @@ function FailuresPageContent() {
                     onResolve={async (data: any) => {
                         await resolveComplaint(resolvingComplaint.id, data);
                         setResolvingComplaint(null);
+                        refresh();
                     }}
                 />
             )}

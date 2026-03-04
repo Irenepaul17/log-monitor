@@ -66,7 +66,7 @@ export function SOSAlertListener() {
                     boxShadow: '0 4px 15px rgba(239, 68, 68, 0.4)'
                 }}
             >
-                🚨 {activeAlerts.length} EMERGENCY SOS ({activeAlerts.length === 1 ? 'ALERT' : 'ALERTS'}) — CLICK TO EXPAND
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg> {activeAlerts.length} EMERGENCY SOS ({activeAlerts.length === 1 ? 'ALERT' : 'ALERTS'}) — CLICK TO EXPAND
             </div>
         );
     }
@@ -89,7 +89,7 @@ export function SOSAlertListener() {
                 borderBottom: '1px solid #fca5a5'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontSize: '20px', animation: 'shake 0.5s infinite' }}>🚨</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#991b1b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'shake 0.5s infinite' }}><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
                     <strong style={{ color: '#991b1b', letterSpacing: '0.02em' }}>ACTIVE EMERGENCY ALERTS ({activeAlerts.length})</strong>
                 </div>
                 <button
@@ -141,7 +141,7 @@ export function SOSAlertListener() {
                             justifyContent: 'center',
                             flexShrink: 0
                         }}>
-                            👤
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                         </div>
                         <div style={{ flex: 1 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

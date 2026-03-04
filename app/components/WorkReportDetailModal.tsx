@@ -386,7 +386,7 @@ export default function WorkReportDetailModal({ report, onClose }: WorkReportDet
                                 ) : (
                                     <a key={i} href={file.url} download={file.name} style={{ textDecoration: 'none' }}>
                                         <div style={{ width: '100%', aspectRatio: '1/1', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#fee2e2', borderRadius: '8px', border: '1px solid #fca5a5', cursor: 'pointer', gap: '6px' }}>
-                                            <span style={{ fontSize: '28px' }}>📄</span>
+                                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /></svg>
                                             <span style={{ fontSize: '10px', fontWeight: 700, color: '#ef4444' }}>PDF</span>
                                         </div>
                                         <div style={{ fontSize: '11px', color: '#64748b', marginTop: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file.name}</div>

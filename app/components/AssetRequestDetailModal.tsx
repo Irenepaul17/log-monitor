@@ -102,7 +102,7 @@ export default function AssetRequestDetailModal({ request, onClose, onApprove, o
                                 background: request.assetId ? '#fef9c3' : '#dcfce7',
                                 color: request.assetId ? '#854d0e' : '#166534'
                             }}>
-                                {request.assetId ? '✏️ Modification' : '✨ New Registration'}
+                                {request.assetId ? 'Modification' : 'New Registration'}
                             </span>
                         </div>
                         <h3 style={{ margin: '6px 0 0 0', fontSize: '17px', fontWeight: 700, color: '#0f172a' }}>

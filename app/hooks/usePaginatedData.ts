@@ -23,6 +23,7 @@ export function usePaginatedData<T>(
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(initialLimit);
     const [meta, setMeta] = useState<PaginationMeta | null>(null);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         if (!enabled) {
@@ -62,7 +63,7 @@ export function usePaginatedData<T>(
 
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [url, page, limit, JSON.stringify(params), enabled]);
+    }, [url, page, limit, JSON.stringify(params), enabled, refreshKey]);
 
     return {
         data,
@@ -72,6 +73,6 @@ export function usePaginatedData<T>(
         limit,
         setLimit,
         meta,
-        refresh: () => setPage(p => p) // Trigger re-fetch
+        refresh: () => setRefreshKey(k => k + 1)
     };
 }

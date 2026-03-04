@@ -119,7 +119,7 @@ export default function JEDashboard() {
                         onClick={() => setIsAssetModalOpen(true)}
                         style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '14px' }}
                     >
-                        <span>📡</span> Manage Assets
+                        <span>Manage Assets</span>
                     </button>
                 </div>
 
@@ -151,46 +151,63 @@ export default function JEDashboard() {
                     {reportsLoading ? (
                         <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>Loading reports...</div>
                     ) : (
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Technician</th>
-                                    <th>Photos</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {myReports.length > 0 ? myReports.map((r: WorkReport) => (
-                                    <tr key={r.id}>
-                                        <td>{String(r.date)}</td>
-                                        <td>{r.classification ? r.classification.toUpperCase() : 'N/A'}</td>
-                                        <td>{currentUser?.name}</td>
-                                        <td>
-                                            <span className="badge" style={{
-                                                backgroundColor: r.attachments && r.attachments.length > 0 ? '#10b981' : '#e5e7eb',
-                                                color: r.attachments && r.attachments.length > 0 ? 'white' : '#6b7280'
-                                            }}>
-                                                {r.attachments ? r.attachments.length : 0} {r.attachments && r.attachments.length === 1 ? 'FILE' : 'FILES'}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button
-                                                onClick={() => setViewingReport(r)}
-                                                className="btn btn-sm btn-outline"
-                                                style={{ fontSize: '13px', padding: '6px 12px' }}
-                                            >
-                                                View
-                                            </button>
-                                        </td>
+                        <>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Technician</th>
+                                        <th>Photos</th>
+                                        <th>Actions</th>
                                     </tr>
-                                )) : (
-                                    <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--muted)' }}>No reports found.</td></tr>
-                                )}
-                            </tbody>
-                        </table>
-                    )}
+                                </thead>
+                                <tbody>
+                                    {myReports.length > 0 ? myReports.map((r: WorkReport) => (
+                                        <tr key={r.id}>
+                                            <td>{String(r.date)}</td>
+                                            <td>{r.classification ? r.classification.toUpperCase() : 'N/A'}</td>
+                                            <td>{currentUser?.name}</td>
+                                            <td>
+                                                <span className="badge" style={{
+                                                    backgroundColor: r.attachments && r.attachments.length > 0 ? '#10b981' : '#e5e7eb',
+                                                    color: r.attachments && r.attachments.length > 0 ? 'white' : '#6b7280'
+                                                }}>
+                                                    {r.attachments ? r.attachments.length : 0} {r.attachments && r.attachments.length === 1 ? 'FILE' : 'FILES'}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    onClick={() => setViewingReport(r)}
+                                                    className="btn btn-sm btn-outline"
+                                                    style={{ fontSize: '13px', padding: '6px 12px' }}
+                                                >
+                                                    View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )) : (
+                                        <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--muted)' }}>No reports found.</td></tr>
+                                    )}
+                                </tbody>
+                            </table>
+                            <div className="mobile-card-table">
+                                {myReports.length > 0 ? myReports.map((r: WorkReport) => (
+                                    <div key={r.id} className="m-row">
+                                        <div className="m-row-header">
+                                            <span className="m-row-title">{r.classification?.toUpperCase() || 'N/A'}</span>
+                                            <span className="badge" style={{ background: r.attachments?.length ? '#d1fae5' : '#f3f4f6', color: r.attachments?.length ? '#065f46' : '#6b7280', fontSize: '11px' }}>{r.attachments?.length || 0} Files</span>
+                                        </div>
+                                        <div className="m-row-meta">
+                                            <span className="m-row-field"><span className="m-row-label">Date</span><span className="m-row-value">{String(r.date)}</span></span>
+                                        </div>
+                                        <div className="m-row-actions">
+                                            <button onClick={() => setViewingReport(r)} className="btn btn-sm btn-outline">View</button>
+                                        </div>
+                                    </div>
+                                )) : <div style={{ padding: '16px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>No reports found.</div>}
+                            </div>
+                        </>)}
                     {reportsMeta && (
                         <PaginationControls
                             currentPage={reportsPage}
@@ -210,63 +227,80 @@ export default function JEDashboard() {
                     Team Failure Reports {complaintsMeta && `(${complaintsMeta.total})`}
                 </div>
                 <div className="alert alert-info" style={{ marginBottom: '20px', fontSize: '13px' }}>
-                    💡 Failures are automatically generated when you report ANY failure (except "No Failures" status).
+                    Failures are automatically generated when you report ANY failure (except "No Failures" status).
                 </div>
                 <div className="table-container">
                     {complaintsLoading ? (
                         <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>Loading failure reports...</div>
                     ) : (
-                        <table>
-                            <thead>
-                                <tr><th>ID</th><th>Status</th><th>Raised By</th><th>Issue</th><th>Actions</th></tr>
-                            </thead>
-                            <tbody>
-                                {teamComplaints.length > 0 ? teamComplaints.map((c: Complaint) => (
-                                    <tr key={c.id}>
-                                        <td>{c.id}</td>
-                                        <td>
-                                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                                {c.status === 'Open' && <span className="badge" style={{ backgroundColor: '#ef4444', color: 'white', fontSize: '10px' }}>NEW</span>}
-                                                <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>{c.status}</span>
-                                            </div>
-                                        </td>
-                                        <td>{c.authorName}</td>
-                                        <td style={{ maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                            {(() => {
-                                                const match = c.description?.match(/Details:\s*(.+)$/i);
-                                                const details = match?.[1]?.trim();
-                                                return details && details.toLowerCase() !== 'no details provided'
-                                                    ? details
-                                                    : <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>No details provided</span>;
-                                            })()}
-                                        </td>
-                                        <td>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                <button
-                                                    onClick={() => setViewingComplaint(c)}
-                                                    className="btn btn-sm btn-primary"
-                                                    style={{ padding: '4px 12px', fontSize: '12px' }}
-                                                >
-                                                    View
-                                                </button>
-                                                {c.status === 'Open' && (
+                        <>
+                            <table>
+                                <thead>
+                                    <tr><th>ID</th><th>Status</th><th>Raised By</th><th>Issue</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody>
+                                    {teamComplaints.length > 0 ? teamComplaints.map((c: Complaint) => (
+                                        <tr key={c.id}>
+                                            <td>{c.id}</td>
+                                            <td>
+                                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                    {c.status === 'Open' && <span className="badge" style={{ backgroundColor: '#ef4444', color: 'white', fontSize: '10px' }}>NEW</span>}
+                                                    <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>{c.status}</span>
+                                                </div>
+                                            </td>
+                                            <td>{c.authorName}</td>
+                                            <td style={{ maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                {(() => {
+                                                    const match = c.description?.match(/Details:\s*(.+)$/i);
+                                                    const details = match?.[1]?.trim();
+                                                    return details || '';
+                                                })()}
+                                            </td>
+                                            <td>
+                                                <div style={{ display: 'flex', gap: '8px' }}>
                                                     <button
-                                                        className="btn btn-primary btn-sm"
-                                                        onClick={() => setResolvingComplaint(c)}
+                                                        onClick={() => setViewingComplaint(c)}
+                                                        className="btn btn-sm btn-primary"
                                                         style={{ padding: '4px 12px', fontSize: '12px' }}
                                                     >
-                                                        Resolve
+                                                        View
                                                     </button>
-                                                )}
+                                                    {c.status === 'Open' && (
+                                                        <button
+                                                            className="btn btn-primary btn-sm"
+                                                            onClick={() => setResolvingComplaint(c)}
+                                                            style={{ padding: '4px 12px', fontSize: '12px' }}
+                                                        >
+                                                            Resolve
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )) : (
+                                        <tr><td colSpan={6} style={{ textAlign: 'center', color: 'var(--muted)' }}>No failures reported yet.</td></tr>
+                                    )}
+                                </tbody>
+                            </table>
+                            <div className="mobile-card-table">
+                                {teamComplaints.length > 0 ? teamComplaints.map((c: Complaint) => {
+                                    const details = (() => { const m = c.description?.match(/Details:\s*(.+)$/i); return m?.[1]?.trim() || ''; })();
+                                    return (
+                                        <div key={c.id} className="m-row">
+                                            <div className="m-row-header">
+                                                <span className="m-row-title">{c.authorName}</span>
+                                                <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>{c.status}</span>
                                             </div>
-                                        </td>
-                                    </tr>
-                                )) : (
-                                    <tr><td colSpan={6} style={{ textAlign: 'center', color: 'var(--muted)' }}>No failures reported yet.</td></tr>
-                                )}
-                            </tbody>
-                        </table>
-                    )}
+                                            {details && <div className="m-row-value" style={{ fontSize: '13px', color: '#334155', maxWidth: '100%' }}>{details}</div>}
+                                            <div className="m-row-actions">
+                                                <button onClick={() => setViewingComplaint(c)} className="btn btn-sm btn-primary">View</button>
+                                                {c.status === 'Open' && <button className="btn btn-sm" style={{ background: '#fee2e2', color: '#dc2626' }} onClick={() => setResolvingComplaint(c)}>Resolve</button>}
+                                            </div>
+                                        </div>
+                                    );
+                                }) : <div style={{ padding: '16px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>No failures reported yet.</div>}
+                            </div>
+                        </>)}
                     {complaintsMeta && (
                         <PaginationControls
                             currentPage={complaintsPage}

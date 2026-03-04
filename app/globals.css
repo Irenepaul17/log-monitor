@@ -7,7 +7,7 @@
     --danger: #ef4444;
     --bg: #f8fafc;
     --card: #ffffff;
-    --sidebar: rgba(255, 255, 255, 0.8);
+    --sidebar: #ffffff;
     --border: #e2e8f0;
     --text: #1e293b;
     --muted: #64748b;
@@ -32,13 +32,12 @@ body {
     min-height: 100vh;
 }
 
-/* Sidebar Styling */
+/* ─── Sidebar ─── */
 .sidebar {
-    width: 280px;
-    background: var(--sidebar);
-    backdrop-filter: blur(10px);
-    border-right: 1px solid var(--border);
-    padding: 32px 20px;
+    width: 240px;
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -46,56 +45,293 @@ body {
     z-index: 100;
 }
 
-.brand {
-    font-family: var(--font-outfit), sans-serif;
-
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--primary);
+/* Brand */
+.sb-brand {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 40px;
-    padding: 0 12px;
+    height: 60px;
+    padding: 0 16px;
+    border-bottom: 1px solid #e2e8f0;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
+.sb-brand-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: #eef2ff;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sb-brand-text {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.01em;
+}
+
+/* Section label */
+.sb-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #94a3b8;
+    padding: 16px 16px 6px;
+}
+
+/* Nav item */
+.sb-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 12px;
+    margin: 1px 8px;
+    border-radius: 6px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* In collapsed mode, remove side margins so all icons share the same centre axis */
+.sidebar-collapsed .sb-item {
+    margin: 1px 0;
+    padding: 0;
+    border-radius: 0;
+    justify-content: center;
+}
+
+.sidebar-collapsed .sb-item.sb-active::before {
+    display: none;
+}
+
+.sb-item:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.sb-item.sb-active {
+    background: #eef2ff;
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+.sb-item.sb-active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: #4f46e5;
+}
+
+/* Icon */
+.sb-icon {
+    flex-shrink: 0;
+    opacity: 0.75;
+}
+
+.sb-item.sb-active .sb-icon {
+    opacity: 1;
+}
+
+/* Label */
+.sb-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Chevron for expandable items */
+.sb-chevron {
+    flex-shrink: 0;
+    color: #94a3b8;
+    transition: transform 0.2s;
+}
+
+/* Sub-menu */
+.sb-submenu {
+    margin: 2px 8px 2px 16px;
+    border-left: 1px solid #e2e8f0;
+    padding-left: 8px;
+}
+
+.sb-sub-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 34px;
+    padding: 0 10px;
+    border-radius: 5px;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+    margin-bottom: 1px;
+}
+
+.sb-sub-item:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.sb-sub-item.sb-active {
+    background: #eef2ff;
+    color: #4f46e5;
+    font-weight: 500;
+}
+
+/* Badges */
+.sb-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    line-height: 1.6;
+}
+
+.sb-badge-blue {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.sb-badge-red {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Logout item */
+.sb-logout {
+    color: #ef4444;
+}
+
+.sb-logout:hover {
+    background: #fff1f2;
+    color: #dc2626;
+}
+
+/* Footer */
+.sb-footer {
+    padding: 8px 0;
+    flex-shrink: 0;
+}
+
+/* Toggle button */
+.sidebar-toggle-btn {
+    position: fixed;
+    top: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.09);
+    z-index: 200;
+    transition: left 0.22s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s, background 0.15s;
+    padding: 0;
+}
+
+.sidebar-toggle-btn:hover {
+    background: #eef2ff;
+    color: #4f46e5;
+    border-color: #c7d2fe;
+}
+
+/* Dropdown items */
+.sb-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #374151;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-align: left;
+}
+
+.sb-dropdown-item:hover {
+    background: #f1f5f9;
+}
+
+.sb-dropdown-danger {
+    color: #ef4444;
+}
+
+.sb-dropdown-danger:hover {
+    background: #fff1f2;
+    color: #dc2626;
+}
+
+/* Keep legacy .nav-item for any other usages (dropdown etc.) */
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border-radius: var(--radius-md);
-    color: var(--muted);
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: 6px;
+    color: #475569;
     text-decoration: none;
     font-weight: 500;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 13.5px;
+    transition: background 0.15s, color 0.15s;
     border: none;
     background: transparent;
     width: 100%;
     text-align: left;
     cursor: pointer;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .nav-item:hover {
-    background: var(--primary-soft);
-    color: var(--primary);
+    background: #f1f5f9;
+    color: #0f172a;
 }
 
 .nav-item.active {
-    background: var(--primary);
-    color: white;
-    box-shadow: var(--shadow);
+    background: #eef2ff;
+    color: #4f46e5;
+    font-weight: 600;
 }
 
 /* Main Content area */
 .main-wrapper {
     flex: 1;
-    margin-left: 280px;
+    margin-left: 240px;
     padding: 40px;
     max-width: 1400px;
     width: 100%;
-    /* Ensure it takes width */
 }
 
 /* Special case for Login page which has no sidebar */
@@ -769,5 +1005,267 @@ details[open] .collapse-icon {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE SYSTEM — Mobile-first
+   Breakpoints: 640px (md), 1024px (lg)
+   ───────────────────────────────────────────── */
+
+/* Hamburger button — hidden on desktop */
+.mobile-hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    color: #475569;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Sidebar overlay backdrop */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 90;
+}
+
+/* Mobile card-table: a card-based row list for replacing tables on small screens */
+.mobile-card-table {
+    display: none;
+}
+
+/* Responsive grid utilities */
+.responsive-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.responsive-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* ── Tablet: 640px–1023px ── */
+@media (max-width: 1023px) {
+    .responsive-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ── Mobile: ≤ 639px ── */
+@media (max-width: 639px) {
+
+    /* Sidebar becomes a slide-in drawer */
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+        width: 260px !important;
+        z-index: 95;
+    }
+
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay.mobile-open {
+        display: block;
+    }
+
+    /* Hide the desktop collapse toggle button on mobile */
+    .sidebar-toggle-btn {
+        display: none !important;
+    }
+
+    /* Show hamburger in header */
+    .mobile-hamburger {
+        display: flex;
+    }
+
+    /* Main content takes full width on mobile */
+    .main-wrapper {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Header padding shrunk */
+    header {
+        padding: 0 16px !important;
+    }
+
+    /* Page content padding (the inner div) */
+    .main-wrapper>div[style] {
+        padding: 16px !important;
+    }
+
+    /* Cards */
+    .card {
+        padding: 16px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+    }
+
+    .nested-container {
+        padding: 16px;
+        margin-top: 16px;
+    }
+
+    .section-title {
+        font-size: 15px !important;
+        margin-bottom: 14px;
+    }
+
+    /* Tables: hide on mobile, show card rows instead */
+    .table-container table {
+        display: none;
+    }
+
+    .table-container .mobile-card-table {
+        display: block;
+    }
+
+    /* Mobile card table rows */
+    .m-row {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .m-row-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .m-row-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1e293b;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .m-row-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 12px;
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .m-row-field {
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+    }
+
+    .m-row-label {
+        font-weight: 600;
+        color: #94a3b8;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        flex-shrink: 0;
+    }
+
+    .m-row-value {
+        font-size: 13px;
+        color: #334155;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 200px;
+    }
+
+    .m-row-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+    }
+
+    .m-row-actions .btn,
+    .m-row-actions button {
+        flex: 1;
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+
+    /* Buttons: full-width stacking in action areas */
+    .btn-group-mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-group-mobile .btn {
+        width: 100%;
+    }
+
+    /* Asset grid: 2 cols on mobile */
+    .responsive-grid-4,
+    .responsive-grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    /* Header title: smaller */
+    header h1 {
+        font-size: 13px !important;
+    }
+
+    /* Hide user name text on mobile to save space */
+    .header-user-name {
+        display: none;
+    }
+
+    /* Alert boxes */
+    .alert {
+        font-size: 13px;
+        padding: 12px;
+    }
+
+    /* Pagination  */
+    .pagination-controls {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    /* Work report form */
+    .form-submit-row {
+        flex-direction: column;
+    }
+
+    .form-submit-row .btn {
+        width: 100%;
+    }
+}
+
+/* ── Ensure table-container still scrolls on tablet when table is kept ── */
+@media (min-width: 640px) {
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-card-table {
+        display: none !important;
     }
 }

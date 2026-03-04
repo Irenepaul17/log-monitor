@@ -1,9 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef, useEffect, Suspense, ReactNode } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import { useGlobal } from "@/app/context/GlobalContext";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import {
+    LayoutDashboard,
+    ClipboardList,
+    AlertTriangle,
+    Users,
+    LogOut,
+    ChevronLeft,
+    ChevronRight,
+    ChevronDown,
+    User,
+    Menu,
+} from "lucide-react";
 
 export default function MainLayout({
     children,
@@ -24,6 +36,8 @@ function MainLayoutContent({
 }>) {
     const { currentUser, logout } = useGlobal();
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
     const [logsExpanded, setLogsExpanded] = useState(false);
     const [failuresExpanded, setFailuresExpanded] = useState(false);
     const [counts, setCounts] = useState<{
@@ -39,10 +53,8 @@ function MainLayoutContent({
     const searchParams = useSearchParams();
     const currentMonth = searchParams.get('month');
 
-    // Fetch Dashboard Summary
     useEffect(() => {
         if (!currentUser) return;
-
         const fetchSummary = async () => {
             try {
                 const res = await fetch(`/api/dashboard/summary?userId=${currentUser.id}&role=${currentUser.role}`);
@@ -54,19 +66,17 @@ function MainLayoutContent({
                 console.error("Failed to fetch dashboard summary", e);
             }
         };
-
         fetchSummary();
         const interval = setInterval(fetchSummary, 60000);
         return () => clearInterval(interval);
     }, [currentUser]);
 
-    // Auto-expand and highlight logic
     useEffect(() => {
         if (pathname.startsWith('/logs')) setLogsExpanded(true);
         if (pathname.startsWith('/failures')) setFailuresExpanded(true);
+        setMobileSidebarOpen(false);
     }, [pathname]);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -93,7 +103,6 @@ function MainLayoutContent({
 
     const monthLinks = generateLastMonths();
 
-    // Role-based navigation items
     const getDashboardLink = () => {
         if (!currentUser) return null;
         const dashboardMap: Record<string, { href: string; label: string }> = {
@@ -110,92 +119,107 @@ function MainLayoutContent({
     const dashboardLink = getDashboardLink();
     if (!currentUser) return null;
 
+    const isDashboardActive = pathname.includes('/dashboard');
+    const isLogsActive = pathname === '/logs';
+    const isFailuresActive = pathname === '/failures';
+    const isHierarchyActive = pathname === '/hierarchy';
+
     return (
-        <div style={{ display: 'flex', width: '100%', minHeight: '100vh' }}>
+        <div style={{ display: 'flex', width: '100%', minHeight: '100vh', background: '#f8fafc' }}>
+            {/* Mobile overlay backdrop */}
+            <div
+                className={`sidebar-overlay${mobileSidebarOpen ? ' mobile-open' : ''}`}
+                onClick={() => setMobileSidebarOpen(false)}
+            />
+
+            {/* Sidebar toggle — fixed, never clipped */}
+            <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+                className="sidebar-toggle-btn"
+                style={{
+                    left: sidebarOpen ? 'calc(240px - 12px)' : 'calc(64px - 12px)',
+                }}
+            >
+                {sidebarOpen
+                    ? <ChevronLeft size={13} strokeWidth={2.5} />
+                    : <ChevronRight size={13} strokeWidth={2.5} />
+                }
+            </button>
+
             {/* Sidebar */}
-            <aside className="sidebar">
-                <div className="brand">
-                    <span style={{ fontSize: '24px' }}>📑</span>
-                    Log Monitor
+            <aside
+                className={`sidebar${sidebarOpen ? '' : ' sidebar-collapsed'}${mobileSidebarOpen ? ' mobile-open' : ''}`}
+                style={{
+                    width: sidebarOpen ? '240px' : '64px',
+                    transition: 'width 0.22s cubic-bezier(0.4, 0, 0.2, 1)',
+                    overflow: 'hidden',
+                    position: 'fixed',
+                    background: '#ffffff',
+                    borderRight: '1px solid #e2e8f0',
+                    padding: '0',
+                    backdropFilter: 'none',
+                }}
+            >
+                {/* Brand */}
+                <div className="sb-brand" style={{ justifyContent: sidebarOpen ? 'flex-start' : 'center' }}>
+                    <div className="sb-brand-icon">
+                        <LayoutDashboard size={16} strokeWidth={2} />
+                    </div>
+                    {sidebarOpen && <span className="sb-brand-text">Log Monitor</span>}
                 </div>
 
-                <style jsx>{`
-                    .sidebar-month-link:hover {
-                        background: rgba(0, 0, 0, 0.03);
-                        border-radius: 8px;
-                    }
-                    .nav-item.active .sidebar-month-link:hover {
-                        background: transparent;
-                    }
-                `}</style>
+                {/* Nav */}
+                <nav style={{ flex: 1, overflowY: 'auto', padding: '8px 0' }}>
 
-                <div style={{ flex: 1, overflowY: 'auto', paddingRight: '4px' }}>
+                    {/* Dashboard */}
                     <Link
                         href={dashboardLink?.href || '/'}
-                        className={`nav-item ${pathname.includes('/dashboard') ? 'active' : ''}`}
+                        className={`sb-item ${isDashboardActive ? 'sb-active' : ''}`}
+                        title={!sidebarOpen ? 'Dashboard' : undefined}
+                        style={{ justifyContent: sidebarOpen ? 'flex-start' : 'center' }}
                     >
-                        <span>🏠</span> Dashboard
+                        <LayoutDashboard size={18} className="sb-icon" />
+                        {sidebarOpen && <span className="sb-label">Dashboard</span>}
                     </Link>
 
-                    {/* Work Logs Section */}
-                    <div style={{ marginTop: '20px' }}>
+                    {/* Divider label */}
+                    {sidebarOpen && <div className="sb-section-label">Records</div>}
+
+                    {/* Work Logs */}
+                    <div>
                         <button
-                            className="nav-item"
-                            onClick={() => setLogsExpanded(!logsExpanded)}
-                            style={{ justifyContent: 'space-between' }}
+                            className={`sb-item ${isLogsActive ? 'sb-active' : ''}`}
+                            onClick={() => sidebarOpen ? setLogsExpanded(!logsExpanded) : undefined}
+                            title={!sidebarOpen ? 'Work Logs' : undefined}
+                            style={{ justifyContent: sidebarOpen ? 'space-between' : 'center', width: '100%' }}
                         >
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <span>📋</span> Work Logs
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <ClipboardList size={18} className="sb-icon" />
+                                {sidebarOpen && <span className="sb-label">Work Logs</span>}
                             </span>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                {counts.totals.workLogs > 0 && (
-                                    <span style={{
-                                        background: 'var(--primary-soft)',
-                                        color: 'var(--primary)',
-                                        fontSize: '11px',
-                                        fontWeight: 700,
-                                        padding: '2px 8px',
-                                        borderRadius: '10px'
-                                    }}>
-                                        {counts.totals.workLogs}
-                                    </span>
-                                )}
-                                <span style={{
-                                    transform: logsExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
-                                    transition: 'transform 0.2s',
-                                    fontSize: '10px'
-                                }}>▶</span>
-                            </div>
+                            {sidebarOpen && (
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    {counts.totals.workLogs > 0 && (
+                                        <span className="sb-badge sb-badge-blue">{counts.totals.workLogs}</span>
+                                    )}
+                                    <ChevronDown size={14} className="sb-chevron" style={{ transform: logsExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+                                </span>
+                            )}
                         </button>
 
-                        {logsExpanded && (
-                            <div style={{ marginLeft: '12px', paddingLeft: '12px', borderLeft: '1px solid var(--border)' }}>
+                        {sidebarOpen && logsExpanded && (
+                            <div className="sb-submenu">
                                 {monthLinks.map(m => {
                                     const count = counts.monthCounts.workLogs[m.value] || 0;
                                     return (
                                         <Link
                                             key={m.value}
                                             href={`/logs?month=${m.value}`}
-                                            className={`nav-item sidebar-month-link ${pathname === '/logs' && currentMonth === m.value ? 'active' : ''}`}
-                                            style={{ fontSize: '13px', padding: '8px 12px' }}
+                                            className={`sb-sub-item ${pathname === '/logs' && currentMonth === m.value ? 'sb-active' : ''}`}
                                         >
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                                                <span>{m.label}</span>
-                                                <div style={{ width: '40px', textAlign: 'right' }}>
-                                                    {count > 0 && (
-                                                        <span style={{
-                                                            fontSize: '10px',
-                                                            background: '#dbeafe', // bg-blue-100
-                                                            color: '#1d4ed8',      // text-blue-700
-                                                            fontWeight: 700,
-                                                            padding: '2px 8px',
-                                                            borderRadius: '9999px' // rounded-full
-                                                        }}>
-                                                            {count}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </div>
+                                            <span style={{ flex: 1, fontSize: '13px' }}>{m.label}</span>
+                                            {count > 0 && <span className="sb-badge sb-badge-blue">{count}</span>}
                                         </Link>
                                     );
                                 })}
@@ -203,65 +227,40 @@ function MainLayoutContent({
                         )}
                     </div>
 
-                    {/* Failures Section */}
-                    <div style={{ marginTop: '8px' }}>
+                    {/* Failure Reports */}
+                    <div>
                         <button
-                            className="nav-item"
-                            onClick={() => setFailuresExpanded(!failuresExpanded)}
-                            style={{ justifyContent: 'space-between' }}
+                            className={`sb-item ${isFailuresActive ? 'sb-active' : ''}`}
+                            onClick={() => sidebarOpen ? setFailuresExpanded(!failuresExpanded) : undefined}
+                            title={!sidebarOpen ? 'Failure Reports' : undefined}
+                            style={{ justifyContent: sidebarOpen ? 'space-between' : 'center', width: '100%' }}
                         >
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <span>⚠️</span> Failure Reports
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <AlertTriangle size={18} className="sb-icon" />
+                                {sidebarOpen && <span className="sb-label">Failure Reports</span>}
                             </span>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                {counts.totals.openFailures > 0 && (
-                                    <span style={{
-                                        background: '#fee2e2',
-                                        color: '#ef4444',
-                                        fontSize: '11px',
-                                        fontWeight: 700,
-                                        padding: '2px 8px',
-                                        borderRadius: '10px'
-                                    }}>
-                                        {counts.totals.openFailures}
-                                    </span>
-                                )}
-                                <span style={{
-                                    transform: failuresExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
-                                    transition: 'transform 0.2s',
-                                    fontSize: '10px'
-                                }}>▶</span>
-                            </div>
+                            {sidebarOpen && (
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    {counts.totals.openFailures > 0 && (
+                                        <span className="sb-badge sb-badge-red">{counts.totals.openFailures}</span>
+                                    )}
+                                    <ChevronDown size={14} className="sb-chevron" style={{ transform: failuresExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+                                </span>
+                            )}
                         </button>
 
-                        {failuresExpanded && (
-                            <div style={{ marginLeft: '12px', paddingLeft: '12px', borderLeft: '1px solid var(--border)' }}>
+                        {sidebarOpen && failuresExpanded && (
+                            <div className="sb-submenu">
                                 {monthLinks.map(m => {
                                     const count = counts.monthCounts.failures[m.value] || 0;
                                     return (
                                         <Link
                                             key={m.value}
                                             href={`/failures?month=${m.value}`}
-                                            className={`nav-item sidebar-month-link ${pathname === '/failures' && currentMonth === m.value ? 'active' : ''}`}
-                                            style={{ fontSize: '13px', padding: '8px 12px' }}
+                                            className={`sb-sub-item ${pathname === '/failures' && currentMonth === m.value ? 'sb-active' : ''}`}
                                         >
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                                                <span>{m.label}</span>
-                                                <div style={{ width: '40px', textAlign: 'right' }}>
-                                                    {count > 0 && (
-                                                        <span style={{
-                                                            fontSize: '10px',
-                                                            background: '#fee2e2', // bg-red-100
-                                                            color: '#b91c1c',      // text-red-700
-                                                            fontWeight: 700,
-                                                            padding: '2px 8px',
-                                                            borderRadius: '9999px' // rounded-full
-                                                        }}>
-                                                            {count}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </div>
+                                            <span style={{ flex: 1, fontSize: '13px' }}>{m.label}</span>
+                                            {count > 0 && <span className="sb-badge sb-badge-red">{count}</span>}
                                         </Link>
                                     );
                                 })}
@@ -269,47 +268,71 @@ function MainLayoutContent({
                         )}
                     </div>
 
+                    {/* My Section */}
                     <Link
                         href="/hierarchy"
-                        className={`nav-item ${pathname === '/hierarchy' ? 'active' : ''}`}
-                        style={{ marginTop: '20px' }}
+                        className={`sb-item ${isHierarchyActive ? 'sb-active' : ''}`}
+                        title={!sidebarOpen ? 'My Section' : undefined}
+                        style={{ justifyContent: sidebarOpen ? 'flex-start' : 'center' }}
                     >
-                        <span>👥</span> My Section
+                        <Users size={18} className="sb-icon" />
+                        {sidebarOpen && <span className="sb-label">My Section</span>}
                     </Link>
-                </div>
+                </nav>
 
-                <div style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
+                {/* Footer */}
+                <div className="sb-footer" style={{ borderTop: '1px solid #e2e8f0' }}>
                     <button
                         onClick={logout}
-                        className="nav-item"
-                        style={{ color: 'var(--danger)' }}
+                        className="sb-item sb-logout"
+                        title={!sidebarOpen ? 'Logout' : undefined}
+                        style={{ justifyContent: sidebarOpen ? 'flex-start' : 'center', width: '100%' }}
                     >
-                        <span>🚪</span> Logout
+                        <LogOut size={18} className="sb-icon" />
+                        {sidebarOpen && <span className="sb-label">Logout</span>}
                     </button>
                 </div>
             </aside>
 
-            {/* Main Content Area */}
-            <main className="main-wrapper" style={{ padding: 0 }}>
+            {/* Main Content */}
+            <main
+                className="main-wrapper"
+                style={{
+                    padding: 0,
+                    marginLeft: sidebarOpen ? '240px' : '64px',
+                    transition: 'margin-left 0.22s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
+            >
                 <header style={{
-                    padding: '20px 40px',
-                    borderBottom: '1px solid var(--border)',
+                    padding: '0 40px',
+                    height: '60px',
+                    borderBottom: '1px solid #e2e8f0',
                     background: 'white',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     position: 'sticky',
                     top: 0,
-                    zIndex: 100
+                    zIndex: 100,
+                    gap: '12px',
                 }}>
+                    {/* Mobile hamburger — only visible on small screens via CSS */}
+                    <button
+                        className="mobile-hamburger"
+                        onClick={() => setMobileSidebarOpen(true)}
+                        aria-label="Open menu"
+                    >
+                        <Menu size={18} />
+                    </button>
                     <h1
                         onClick={() => router.push(dashboardLink?.href || '/')}
                         style={{
-                            fontSize: '20px',
-                            fontWeight: 700,
-                            color: 'var(--text)',
+                            fontSize: '15px',
+                            fontWeight: 600,
+                            color: '#0f172a',
                             margin: 0,
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            letterSpacing: '-0.01em',
                         }}
                     >
                         {pathname.startsWith('/logs') ? 'Work Logs' :
@@ -317,65 +340,67 @@ function MainLayoutContent({
                                 pathname.includes('/dashboard') ? (getDashboardLink()?.label || 'Dashboard') :
                                     pathname.includes('/hierarchy') ? 'My Section / Team' :
                                         'Log Monitor'}
-                        {currentMonth && <span style={{ color: 'var(--muted)', fontWeight: 400, marginLeft: '12px' }}>— {monthLinks.find(m => m.value === currentMonth)?.label}</span>}
+                        {currentMonth && (
+                            <span style={{ color: '#94a3b8', fontWeight: 400, marginLeft: '10px', fontSize: '14px' }}>
+                                — {monthLinks.find(m => m.value === currentMonth)?.label}
+                            </span>
+                        )}
                     </h1>
 
-                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                        <div style={{ textAlign: "right" }}>
-                            <div style={{ fontWeight: 600, fontSize: "14px" }}>
-                                {currentUser.name}
-                            </div>
-                            <div style={{ fontSize: "12px", color: "var(--muted)" }}>
-                                {currentUser.sub}
-                            </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div className="header-user-name" style={{ textAlign: 'right' }}>
+                            <div style={{ fontWeight: 600, fontSize: '13px', color: '#0f172a' }}>{currentUser.name}</div>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>{currentUser.sub}</div>
                         </div>
 
                         <div ref={dropdownRef} style={{ position: 'relative' }}>
                             <button
                                 onClick={() => setDropdownOpen(!dropdownOpen)}
                                 style={{
-                                    width: "36px",
-                                    height: "36px",
-                                    borderRadius: "50%",
-                                    background: "var(--primary-soft)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    color: "var(--primary)",
+                                    width: '34px',
+                                    height: '34px',
+                                    borderRadius: '50%',
+                                    background: '#eef2ff',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: '#4f46e5',
                                     fontWeight: 700,
-                                    cursor: "pointer",
-                                    border: 'none'
+                                    fontSize: '13px',
+                                    cursor: 'pointer',
+                                    border: 'none',
                                 }}
                             >
-                                {currentUser.name.charAt(0)}
+                                {currentUser.name.charAt(0).toUpperCase()}
                             </button>
 
                             {dropdownOpen && (
                                 <div style={{
                                     position: 'absolute',
-                                    top: '45px',
+                                    top: '42px',
                                     right: 0,
                                     background: 'white',
-                                    borderRadius: '12px',
-                                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                                    border: '1px solid var(--border)',
-                                    minWidth: '180px',
+                                    borderRadius: '8px',
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.10)',
+                                    border: '1px solid #e2e8f0',
+                                    minWidth: '160px',
                                     zIndex: 1000,
-                                    overflow: 'hidden'
+                                    overflow: 'hidden',
+                                    padding: '4px',
                                 }}>
                                     <button
                                         onClick={() => { setDropdownOpen(false); router.push('/profile'); }}
-                                        className="nav-item"
-                                        style={{ borderRadius: 0, marginBottom: 0, borderBottom: '1px solid var(--border)' }}
+                                        className="sb-dropdown-item"
                                     >
-                                        <span>👤</span> Profile
+                                        <User size={14} />
+                                        Profile
                                     </button>
                                     <button
                                         onClick={() => { setDropdownOpen(false); logout(); }}
-                                        className="nav-item"
-                                        style={{ borderRadius: 0, marginBottom: 0, color: 'var(--danger)' }}
+                                        className="sb-dropdown-item sb-dropdown-danger"
                                     >
-                                        <span>🚪</span> Logout
+                                        <LogOut size={14} />
+                                        Logout
                                     </button>
                                 </div>
                             )}
@@ -383,7 +408,7 @@ function MainLayoutContent({
                     </div>
                 </header>
 
-                <div style={{ padding: '40px', minHeight: 'calc(100vh - 80px)' }}>
+                <div style={{ padding: '40px', minHeight: 'calc(100vh - 60px)' }}>
                     {children}
                 </div>
 
@@ -398,7 +423,7 @@ function MainLayoutContent({
                     color: '#64748b',
                     zIndex: 9999,
                     pointerEvents: 'none',
-                    fontFamily: 'monospace'
+                    fontFamily: 'monospace',
                 }}>
                     Version 1.2.0
                 </div>

@@ -1310,6 +1310,7 @@
       "id": "Q46",
       "text": "Failure Details",
       "type": "text",
+      "required": true,
       "description": "Enter details as recorded in Signal Failure Register"
     },
     {

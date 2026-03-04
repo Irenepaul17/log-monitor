@@ -95,7 +95,7 @@ export default function ProfilePage() {
                                     disabled={saving}
                                     style={{ padding: '8px 24px' }}
                                 >
-                                    {saving ? 'Saving...' : '💾 Save'}
+                                    {saving ? 'Saving...' : 'Save'}
                                 </button>
                                 <button
                                     onClick={() => {

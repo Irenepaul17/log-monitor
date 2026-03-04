@@ -65,7 +65,7 @@ export function SOSButton() {
                 onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
                 onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
             >
-                <span style={{ fontSize: '18px' }}>🚨</span> SOS EMERGENCY
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg> SOS EMERGENCY
             </button>
 
             <style jsx>{`
@@ -99,7 +99,9 @@ export function SOSButton() {
                     }}>
                         {done ? (
                             <div style={{ color: '#10b981' }}>
-                                <div style={{ fontSize: '50px', marginBottom: '15px' }}>✅</div>
+                                <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#d1fae5', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px' }}>
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                </div>
                                 <h3 style={{ margin: '0 0 10px 0' }}>SOS SENT!</h3>
                                 <p style={{ fontSize: '14px', color: 'var(--muted)' }}>
                                     Sr. DSTE, DSTE, and respective ADSTE have been notified via Email and SMS.
@@ -107,7 +109,9 @@ export function SOSButton() {
                             </div>
                         ) : (
                             <>
-                                <div style={{ fontSize: '50px', marginBottom: '15px' }}>⚠️</div>
+                                <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#fee2e2', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px' }}>
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+                                </div>
                                 <h3 style={{ margin: '0 0 10px 0', color: '#ef4444' }}>CONFIRM EMERGENCY</h3>
                                 <p style={{ fontSize: '14px', color: 'var(--muted)', marginBottom: '20px' }}>
                                     This will immediately notify all higher authorities (Sr. DSTE, DSTE, ADSTE) about your emergency. Proceed only if urgent.

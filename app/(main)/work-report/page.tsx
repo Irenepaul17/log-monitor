@@ -102,10 +102,15 @@ export default function WorkReportPage() {
 
     const handleSubmit = async (submitAnother: boolean) => {
         if (!currentUser) return;
-        // Removed finalConfirmation check
+
+        // Validate required failure fields
+        const rawClass = answers.classification;
+        if (rawClass === 'Failure Attention' && !answers.failureDetails?.trim()) {
+            alert('"Details of Failure" is required. Please fill it in before submitting.');
+            return;
+        }
 
         try {
-            const rawClass = answers.classification;
             let classification = '';
             if (rawClass === 'Maintenance') classification = 'maintenance';
             else if (rawClass === 'Failure Attention') classification = 'failure';
@@ -217,22 +222,22 @@ export default function WorkReportPage() {
                     authorId: currentUser.id,
                     authorName: currentUser.name,
                     category: 'Failure',
-                    description: `Gear: ${answers.gearFailed}, Type: ${answers.failureType || 'Not specified'}, Classification: ${answers.failureClassification || 'Not specified'}, Details: ${answers.failureDetails || 'No details provided'}`,
+                    description: `Gear: ${answers.gearFailed}, Type: ${answers.failureType || 'Not specified'}, Classification: ${answers.failureClassification || 'Not specified'}, Details: ${answers.failureDetails || ''}`,
                     supervisorId: currentUser.superiorId
                 });
             }
 
             if (submitAnother) {
-                alert("✅ Log entry submitted successfully! Form reset for another entry.");
+                alert("Log entry submitted. Form reset for another entry.");
                 resetForm();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                alert("✅ Log entry submitted successfully!");
+                alert("Log entry submitted successfully.");
                 router.push(`/dashboard/${currentUser.role === 'technician' ? 'je' : currentUser.role}`);
             }
         } catch (error) {
             console.error("Submission error:", error);
-            alert("❌ Failed to submit log entry. Please check your internet connection and try again.\n\nError: " + (error instanceof Error ? error.message : 'Unknown error'));
+            alert("Failed to submit log entry. Please check your internet connection and try again.\n\nError: " + (error instanceof Error ? error.message : 'Unknown error'));
         }
     };
 
@@ -319,7 +324,7 @@ export default function WorkReportPage() {
                     <div className="nested-container">
                         <div className="section-title">ATTACHMENTS (Optional)</div>
                         <div className="alert alert-info" style={{ marginBottom: '20px', fontSize: '13px' }}>
-                            📎 Attach photos or PDFs related to this work report (max 5MB per file)
+                            Attach photos or PDFs related to this work report (max 5MB per file)
                         </div>
 
                         <div className="input-group">
@@ -339,7 +344,7 @@ export default function WorkReportPage() {
                             />
                             {uploadingFiles && (
                                 <div style={{ marginTop: '8px', fontSize: '13px', color: '#2563eb', fontWeight: 600 }}>
-                                    ⏳ Uploading to secure storage...
+                                    Uploading to secure storage...
                                 </div>
                             )}
                         </div>
@@ -390,7 +395,7 @@ export default function WorkReportPage() {
                                             <div style={{ flex: 1 }}>
                                                 <div style={{ fontWeight: 600, fontSize: '14px' }}>{file.name}</div>
                                                 <div style={{ fontSize: '12px', color: 'var(--muted)' }}>
-                                                    ✅ Uploaded to secure storage
+                                                    Uploaded to secure storage
                                                 </div>
                                             </div>
                                             <button

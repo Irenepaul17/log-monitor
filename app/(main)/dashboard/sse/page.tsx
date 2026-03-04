@@ -252,7 +252,7 @@ export default function SSEDashboard() {
             {assetRequests.length > 0 && (
                 <div className="card" style={{ borderLeft: '4px solid var(--primary)', marginBottom: '20px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                        <h3 className="section-title" style={{ margin: 0, color: 'var(--primary)' }}>🔔 Pending Asset Approvals</h3>
+                        <h3 className="section-title" style={{ margin: 0, color: 'var(--primary)' }}>Pending Asset Approvals</h3>
                         <span className="badge badge-error">{assetRequests.length} REQUESTS</span>
                     </div>
                     <div className="table-container">
@@ -287,7 +287,7 @@ export default function SSEDashboard() {
                                         <td>{new Date(req.createdAt).toLocaleDateString()}</td>
                                         <td>
                                             <div style={{ fontSize: '12px', color: '#475569', background: '#f8fafc', padding: '6px 10px', borderRadius: '4px', border: '1px solid #e2e8f0' }}>
-                                                {req.assetId ? '✏️ Modification' : '✨ New Registration'}
+                                                {req.assetId ? 'Modification' : 'New Registration'}
                                             </div>
                                         </td>
                                         <td>
@@ -313,39 +313,57 @@ export default function SSEDashboard() {
                     {reportsLoading ? (
                         <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>Loading reports...</div>
                     ) : (
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Author</th>
-                                    <th>Category</th>
-                                    <th>Station</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {teamReports.length > 0 ? teamReports.map((r: WorkReport, index) => (
-                                    <tr key={r.id || `report-${index}`}>
-                                        <td>{String(r.date)}</td>
-                                        <td>{r.authorName}</td>
-                                        <td>{r.classification ? r.classification.toUpperCase() : 'N/A'}</td>
-                                        <td>{r.station}</td>
-                                        <td>
-                                            <button
-                                                onClick={() => setViewingReport(r)}
-                                                className="btn btn-sm btn-primary"
-                                                style={{ padding: '4px 12px', fontSize: '12px' }}
-                                            >
-                                                View
-                                            </button>
-                                        </td>
+                        <>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Author</th>
+                                        <th>Category</th>
+                                        <th>Station</th>
+                                        <th>Actions</th>
                                     </tr>
-                                )) : (
-                                    <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--muted)' }}>No reports found.</td></tr>
-                                )}
-                            </tbody>
-                        </table>
-                    )}
+                                </thead>
+                                <tbody>
+                                    {teamReports.length > 0 ? teamReports.map((r: WorkReport, index) => (
+                                        <tr key={r.id || `report-${index}`}>
+                                            <td>{String(r.date)}</td>
+                                            <td>{r.authorName}</td>
+                                            <td>{r.classification ? r.classification.toUpperCase() : 'N/A'}</td>
+                                            <td>{r.station}</td>
+                                            <td>
+                                                <button
+                                                    onClick={() => setViewingReport(r)}
+                                                    className="btn btn-sm btn-primary"
+                                                    style={{ padding: '4px 12px', fontSize: '12px' }}
+                                                >
+                                                    View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )) : (
+                                        <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--muted)' }}>No reports found.</td></tr>
+                                    )}
+                                </tbody>
+                            </table>
+                            <div className="mobile-card-table">
+                                {teamReports.length > 0 ? teamReports.map((r: WorkReport, index) => (
+                                    <div key={r.id || `report-m-${index}`} className="m-row">
+                                        <div className="m-row-header">
+                                            <span className="m-row-title">{r.authorName}</span>
+                                            <span className="badge" style={{ background: '#eef2ff', color: '#4f46e5', fontSize: '11px' }}>{r.classification?.toUpperCase() || 'N/A'}</span>
+                                        </div>
+                                        <div className="m-row-meta">
+                                            <span className="m-row-field"><span className="m-row-label">Date</span><span className="m-row-value">{String(r.date)}</span></span>
+                                            <span className="m-row-field"><span className="m-row-label">Station</span><span className="m-row-value">{r.station}</span></span>
+                                        </div>
+                                        <div className="m-row-actions">
+                                            <button onClick={() => setViewingReport(r)} className="btn btn-sm btn-primary">View</button>
+                                        </div>
+                                    </div>
+                                )) : <div style={{ padding: '16px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>No reports found.</div>}
+                            </div>
+                        </>)}
                     {reportsMeta && (
                         <PaginationControls
                             currentPage={reportsPage}
@@ -365,55 +383,72 @@ export default function SSEDashboard() {
                     Failure Reports {complaintsMeta && `(${complaintsMeta.total})`}
                 </div>
                 <div className="alert alert-info" style={{ marginBottom: '20px', fontSize: '13px' }}>
-                    💡 Failures are automatically generated from failure reports. You can resolve failures reported by your team.
+                    Failures are automatically generated from failure reports. You can resolve failures reported by your team.
                 </div>
                 <div className="table-container">
                     {complaintsLoading ? (
                         <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>Loading failure reports...</div>
                     ) : (
-                        <table>
-                            <thead>
-                                <tr><th>ID</th><th>Status</th><th>Raised By</th><th>Issue</th><th>Actions</th></tr>
-                            </thead>
-                            <tbody>
-                                {teamComplaints.length > 0 ? teamComplaints.map((c: Complaint, index) => (
-                                    <tr key={c.id || `complaint-${index}`}>
-                                        <td>{c.id}</td>
-                                        <td>
-                                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                                {c.status === 'Open' && <span className="badge" style={{ backgroundColor: '#ef4444', color: 'white', fontSize: '10px' }}>NEW</span>}
+                        <>
+                            <table>
+                                <thead>
+                                    <tr><th>ID</th><th>Status</th><th>Raised By</th><th>Issue</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody>
+                                    {teamComplaints.length > 0 ? teamComplaints.map((c: Complaint, index) => (
+                                        <tr key={c.id || `complaint-${index}`}>
+                                            <td>{c.id}</td>
+                                            <td>
+                                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                    {c.status === 'Open' && <span className="badge" style={{ backgroundColor: '#ef4444', color: 'white', fontSize: '10px' }}>NEW</span>}
+                                                    <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>{c.status}</span>
+                                                </div>
+                                            </td>
+                                            <td>{c.authorName}</td>
+                                            <td style={{ maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                {(() => {
+                                                    const match = c.description?.match(/Details:\s*(.+)$/i);
+                                                    const details = match?.[1]?.trim();
+                                                    return details || '';
+                                                })()}
+                                            </td>
+                                            <td>
+                                                <div style={{ display: 'flex', gap: '8px' }}>
+                                                    <button
+                                                        onClick={() => setViewingComplaint(c)}
+                                                        className="btn btn-sm btn-primary"
+                                                        style={{ padding: '4px 12px', fontSize: '12px' }}
+                                                    >
+                                                        View
+                                                    </button>
+                                                    {c.status === 'Open' && <button className="btn btn-primary btn-sm" onClick={() => setResolvingComplaint(c)}>Resolve</button>}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )) : (
+                                        <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--muted)' }}>No complaints found.</td></tr>
+                                    )}
+                                </tbody>
+                            </table>
+                            <div className="mobile-card-table">
+                                {teamComplaints.length > 0 ? teamComplaints.map((c: Complaint, index) => {
+                                    const details = (() => { const m = c.description?.match(/Details:\s*(.+)$/i); return m?.[1]?.trim() || ''; })();
+                                    return (
+                                        <div key={c.id || `complaint-m-${index}`} className="m-row">
+                                            <div className="m-row-header">
+                                                <span className="m-row-title">{c.authorName}</span>
                                                 <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>{c.status}</span>
                                             </div>
-                                        </td>
-                                        <td>{c.authorName}</td>
-                                        <td style={{ maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                            {(() => {
-                                                const match = c.description?.match(/Details:\s*(.+)$/i);
-                                                const details = match?.[1]?.trim();
-                                                return details && details.toLowerCase() !== 'no details provided'
-                                                    ? details
-                                                    : <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>No details provided</span>;
-                                            })()}
-                                        </td>
-                                        <td>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                <button
-                                                    onClick={() => setViewingComplaint(c)}
-                                                    className="btn btn-sm btn-primary"
-                                                    style={{ padding: '4px 12px', fontSize: '12px' }}
-                                                >
-                                                    View
-                                                </button>
-                                                {c.status === 'Open' && <button className="btn btn-primary btn-sm" onClick={() => setResolvingComplaint(c)}>Resolve</button>}
+                                            {details && <div className="m-row-value" style={{ fontSize: '13px', color: '#334155', maxWidth: '100%' }}>{details}</div>}
+                                            <div className="m-row-actions">
+                                                <button onClick={() => setViewingComplaint(c)} className="btn btn-sm btn-primary">View</button>
+                                                {c.status === 'Open' && <button className="btn btn-sm" style={{ background: '#fee2e2', color: '#dc2626' }} onClick={() => setResolvingComplaint(c)}>Resolve</button>}
                                             </div>
-                                        </td>
-                                    </tr>
-                                )) : (
-                                    <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--muted)' }}>No complaints found.</td></tr>
-                                )}
-                            </tbody>
-                        </table>
-                    )}
+                                        </div>
+                                    );
+                                }) : <div style={{ padding: '16px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>No complaints found.</div>}
+                            </div>
+                        </>)}
                     {complaintsMeta && (
                         <PaginationControls
                             currentPage={complaintsPage}
