@@ -325,10 +325,11 @@ body {
     font-weight: 600;
 }
 
-/* Main Content area */
+/* Main Content area – margin driven by CSS var set by AppSidebar, no React re-render */
 .main-wrapper {
     flex: 1;
-    margin-left: 240px;
+    margin-left: var(--sb-w, 240px);
+    transition: margin-left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 40px;
     max-width: 1400px;
     width: 100%;
