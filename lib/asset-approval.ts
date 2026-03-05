@@ -55,6 +55,25 @@ const ASSET_WHITELISTS: Record<string, string[]> = {
     ]
 };
 
+// Required fields per asset type — validated before any DB write
+const REQUIRED_FIELDS: Record<string, string[]> = {
+    'point': ['sseSection', 'station', 'pointNo', 'lineType'],
+    'signal': ['sno', 'section', 'signalNoShuntNo'],
+    'ei': ['serialNumber', 'sseSection', 'station'],
+    'track-circuit': ['sseSection', 'station', 'trackCircuitNo', 'type'],
+};
+
+function validateAssetData(type: string, data: any) {
+    const required = REQUIRED_FIELDS[type];
+    if (!required) return; // No required fields configured — allow
+    const missing = required.filter(f => !data[f] || String(data[f]).trim() === '');
+    if (missing.length > 0) {
+        throw new Error(
+            `${type.charAt(0).toUpperCase() + type.slice(1)} asset: the following required fields are missing or empty: ${missing.join(', ')}`
+        );
+    }
+}
+
 function sanitizeAssetData(type: string, data: any) {
     const whitelist = ASSET_WHITELISTS[type];
     if (!whitelist) throw new Error(`Invalid asset type for sanitization: ${type}`);
@@ -133,6 +152,7 @@ export async function submitAssetRequest(params: SubmitRequestParams) {
             if (assetId) {
                 await TargetModel.findByIdAndUpdate(assetId, { $set: sanitizedData }, { session });
             } else {
+                validateAssetData(assetType, sanitizedData);
                 await TargetModel.create([sanitizedData], { session });
             }
         }
@@ -220,7 +240,8 @@ export async function processAssetRequest(requestId: string, reviewerId: string,
             if (request.assetId) {
                 await TargetModel.findByIdAndUpdate(request.assetId, { $set: request.proposedData }, { session });
             } else {
-                // If it was a "new asset" request
+                // If it was a "new asset" request — validate required fields first
+                validateAssetData(request.assetType, request.proposedData);
                 await TargetModel.create([request.proposedData], { session });
             }
         }
