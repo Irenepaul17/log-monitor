@@ -7,11 +7,13 @@ export default function LoginPage() {
   const { login } = useGlobal();
   const [phone, setPhone] = useState("");
   const [pass, setPass] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = async () => {
+    setError("");
     const success = await login(phone, pass);
     if (!success) {
-      alert("Invalid credentials. Try 1234567890 / admin123 or 9000000004 / je123");
+      setError("Invalid phone number or password. Please try again.");
     }
   };
 
@@ -88,6 +90,21 @@ export default function LoginPage() {
             onChange={(e) => setPass(e.target.value)}
           />
         </div>
+
+        {error && (
+          <div style={{
+            marginTop: "12px",
+            padding: "10px 14px",
+            background: "#fee2e2",
+            border: "1px solid #fca5a5",
+            borderRadius: "8px",
+            color: "#991b1b",
+            fontSize: "13px",
+            fontWeight: 500,
+          }}>
+            {error}
+          </div>
+        )}
 
         <button
           className="btn btn-primary"
