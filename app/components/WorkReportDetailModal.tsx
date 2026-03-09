@@ -67,8 +67,13 @@ export default function WorkReportDetailModal({ report, onClose }: WorkReportDet
         )
     ) : null;
 
-    const displayStatus = linkedComplaint ? linkedComplaint.status.toUpperCase() : (isFailure ? 'OPEN' : 'SUBMITTED');
-    const statusBg = (linkedComplaint && linkedComplaint.status === 'Open') || (!linkedComplaint && isFailure) ? '#ef4444' : '#22c55e';
+    // If a linked failure record exists, mirror its status.
+    // If this is a FAILURE report but no linked failure is found,
+    // show a neutral "NOT RAISED" status instead of implying it is still open.
+    const displayStatus = linkedComplaint
+        ? linkedComplaint.status.toUpperCase()
+        : (isFailure ? 'NOT RAISED' : 'SUBMITTED');
+    const statusBg = linkedComplaint && linkedComplaint.status === 'Open' ? '#ef4444' : '#22c55e';
 
 
     const renderInfoBox = (title: string, content: React.ReactNode, fullWidth = false) => (

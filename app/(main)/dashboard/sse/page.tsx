@@ -471,6 +471,9 @@ export default function SSEDashboard() {
                     onResolve={async (data) => {
                         await resolveComplaint(resolvingComplaint.id, data);
                         setResolvingComplaint(null);
+                        // Immediately refresh the failures list so the UI
+                        // reflects the resolved status without a full reload.
+                        refreshComplaints();
                     }}
                 />
             )}

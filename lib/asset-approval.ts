@@ -7,7 +7,6 @@ import TrackCircuitAssetModel from '@/app/models/TrackCircuitAsset';
 import UserModel from '@/app/models/User';
 import NotificationModel from '@/app/models/Notification';
 import { sendEmail } from './mail';
-import mongoose from 'mongoose';
 
 // Map assetType to Model
 const AssetModelMap: Record<string, any> = {
@@ -109,6 +108,14 @@ export async function submitAssetRequest(params: SubmitRequestParams) {
     // Sanitize input data
     const sanitizedData = sanitizeAssetData(assetType, proposedData);
 
+    // For NEW asset registrations, ensure all core required fields are present
+    // so that invalid requests are rejected at creation time instead of
+    // failing much later during SSE approval.
+    const isNewAsset = !assetId;
+    if (isNewAsset) {
+        validateAssetData(assetType, sanitizedData);
+    }
+
     // 1. Find the target SSE for this request
     const sse = await UserModel.findOne({ role: 'sse', teamId: requester.teamId }).lean().select('_id email');
     const sseId = sse?._id?.toString();
@@ -122,79 +129,63 @@ export async function submitAssetRequest(params: SubmitRequestParams) {
 
     const initialStatus = isSSE ? 'approved' : 'pending';
 
-    // 2. Use Mongoose Transaction for atomicity (especially critical for auto-approval)
-    const session = await mongoose.startSession();
-    session.startTransaction();
+    // Create Request Record (Audit Trail)
+    const request = await AssetUpdateRequestModel.create({
+        assetId,
+        assetType,
+        proposedData: sanitizedData,
+        requestedBy: requester.id,
+        requestedByName: requester.name,
+        teamId: requester.teamId,
+        sseId,
+        status: initialStatus,
+        autoApproved: isSSE,
+        reviewedBy: isSSE ? requester.id : undefined,
+        reviewedAt: isSSE ? new Date() : undefined
+    });
 
-    try {
-        // Create Request Record (Audit Trail)
-        const requestArray = await AssetUpdateRequestModel.create([{
-            assetId,
-            assetType,
-            proposedData: sanitizedData,
-            requestedBy: requester.id,
-            requestedByName: requester.name,
-            teamId: requester.teamId,
-            sseId,
-            status: initialStatus,
-            autoApproved: isSSE,
-            reviewedBy: isSSE ? requester.id : undefined,
-            reviewedAt: isSSE ? new Date() : undefined
-        }], { session });
+    // Handle Auto-Approval for SSE
+    if (isSSE) {
+        const TargetModel = AssetModelMap[assetType];
+        if (!TargetModel) throw new Error(`Invalid asset type: ${assetType}`);
 
-        const request = requestArray[0];
-
-        // 3. Handle Auto-Approval for SSE
-        if (isSSE) {
-            const TargetModel = AssetModelMap[assetType];
-            if (!TargetModel) throw new Error(`Invalid asset type: ${assetType}`);
-
-            if (assetId) {
-                await TargetModel.findByIdAndUpdate(assetId, { $set: sanitizedData }, { session });
-            } else {
-                validateAssetData(assetType, sanitizedData);
-                await TargetModel.create([sanitizedData], { session });
-            }
+        if (assetId) {
+            await TargetModel.findByIdAndUpdate(assetId, { $set: sanitizedData });
+        } else {
+            // Extra safety for SSE auto‑approval (already validated above for new assets)
+            validateAssetData(assetType, sanitizedData);
+            await TargetModel.create(sanitizedData);
         }
-
-        // 4. Trigger Notifications (Non-blocking / After transaction)
-        if (!isSSE && sseId) {
-            // Internal Dashboard Notification (Now inside transaction)
-            await NotificationModel.create([{
-                receiverId: sseId,
-                title: 'Asset Approval Request',
-                message: `New ${assetType} request submitted by ${requester.name}`,
-                sourceType: 'asset-edit',
-                sourceId: request._id.toString(),
-                status: 'unread'
-            }], { session });
-
-            // Email Notification (External, keep outside or handle failure gracefully)
-            if (sse && sse.email) {
-                sendEmail({
-                    to: sse.email,
-                    subject: `🔔 New Asset Approval Request: ${assetType.toUpperCase()}`,
-                    html: `<p>New ${assetType} request from ${requester.name}. Please review via dashboard.</p>`
-                }).catch(err => console.error("Email notification failed", err));
-            }
-        }
-
-        console.info(`[ASSET_REQUEST] ${isSSE ? 'Auto-approved' : 'Submitted'} by ${requester.id} (${requester.name}) for team ${requester.teamId}. RequestID: ${request._id}`);
-
-        await session.commitTransaction();
-        session.endSession();
-
-        return {
-            success: true,
-            message: isSSE ? 'Asset updated directly (Auto-approved)' : 'Request submitted for SSE approval',
-            request
-        };
-
-    } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
-        throw error;
     }
+
+    // Trigger Notifications (fire-and-forget, non-blocking)
+    if (!isSSE && sseId) {
+        NotificationModel.create({
+            receiverId: sseId,
+            title: 'Asset Approval Request',
+            message: `New ${assetType} request submitted by ${requester.name}`,
+            sourceType: 'asset-edit',
+            sourceId: request._id.toString(),
+            status: 'unread'
+        }).catch(err => console.error("Failed to create notification for SSE asset request", err));
+
+        // Email Notification (External, keep outside or handle failure gracefully)
+        if (sse && sse.email) {
+            sendEmail({
+                to: sse.email,
+                subject: `🔔 New Asset Approval Request: ${assetType.toUpperCase()}`,
+                html: `<p>New ${assetType} request from ${requester.name}. Please review via dashboard.</p>`
+            }).catch(err => console.error("Email notification failed", err));
+        }
+    }
+
+    console.info(`[ASSET_REQUEST] ${isSSE ? 'Auto-approved' : 'Submitted'} by ${requester.id} (${requester.name}) for team ${requester.teamId}. RequestID: ${request._id}`);
+
+    return {
+        success: true,
+        message: isSSE ? 'Asset updated directly (Auto-approved)' : 'Request submitted for SSE approval',
+        request
+    };
 }
 
 /**
@@ -222,51 +213,49 @@ export async function processAssetRequest(requestId: string, reviewerId: string,
         }
     }
 
-    // 2. Transaction for atomic status change and asset update
-    const session = await mongoose.startSession();
-    session.startTransaction();
-
     try {
         request.status = action;
         request.reviewedBy = reviewerId;
         request.reviewedAt = new Date();
         request.comments = comments;
-        await request.save({ session });
+        await request.save();
 
         if (action === 'approved') {
             const TargetModel = AssetModelMap[request.assetType];
             if (!TargetModel) throw new Error(`Invalid asset type: ${request.assetType}`);
 
             if (request.assetId) {
-                await TargetModel.findByIdAndUpdate(request.assetId, { $set: request.proposedData }, { session });
+                await TargetModel.findByIdAndUpdate(request.assetId, { $set: request.proposedData });
             } else {
                 // If it was a "new asset" request — validate required fields first
                 validateAssetData(request.assetType, request.proposedData);
-                await TargetModel.create([request.proposedData], { session });
+                await TargetModel.create(request.proposedData);
             }
         }
 
         // Create success notification for requester if approved
         if (action === 'approved') {
-            await NotificationModel.create([{
+            await NotificationModel.create({
                 receiverId: request.requestedBy,
                 title: 'Asset Request Approved',
                 message: `Your ${request.assetType} request has been approved by ${reviewer.name || reviewerId}`,
                 sourceType: 'asset-edit',
                 sourceId: request._id.toString(),
                 status: 'unread'
-            }], { session });
+            });
         }
 
         console.info(`[ASSET_APPROVAL] Request ${requestId} ${action} by SSE ${reviewerId}. Team: ${request.teamId}`);
 
-        await session.commitTransaction();
-        session.endSession();
-
         return { success: true, request };
-    } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
+    } catch (error: any) {
+        // Provide a clearer, user‑friendly error for validation issues
+        if (error && (error.name === 'ValidationError' || /validation failed/i.test(error.message || ''))) {
+            const details = error.message || 'Asset validation failed';
+            throw new Error(
+                `Asset approval failed due to missing or invalid required fields. Please ask the requester to correct the data (e.g., ensure Station is filled for Point assets) and resubmit. Details: ${details}`
+            );
+        }
         throw error;
     }
 }
