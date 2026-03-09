@@ -208,6 +208,21 @@ export default function PointAssetsPage() {
 
     const handleSubmit = async (data: Partial<PointAsset>) => {
         try {
+            // Frontend safety net: ensure all core required fields are filled
+            const requiredFields: (keyof PointAsset)[] = ['sseSection', 'station', 'pointNo', 'lineType'];
+            const missing = requiredFields.filter((field) => {
+                const value = (data[field] ?? '').toString().trim();
+                return !value;
+            });
+
+            if (missing.length > 0) {
+                alert(
+                    `Please fill all required fields before submitting:\n\n` +
+                    missing.join(', ')
+                );
+                return;
+            }
+
             // ALL asset changes (including SSE) now go through the request flow
             // for a complete audit trail. SSE requests are auto-approved in the backend.
             const res = await fetch('/api/assets/point/request', {

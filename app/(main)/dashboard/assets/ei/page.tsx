@@ -35,6 +35,22 @@ export default function EIAssetsPage() {
 
     const handleCreate = async (data: Partial<EIAsset>) => {
         try {
+            // Frontend safety net: ensure all core required fields are filled
+            // These should stay in sync with REQUIRED_FIELDS for 'ei' in lib/asset-approval.ts
+            const requiredFields: (keyof EIAsset)[] = ['serialNumber', 'sseSection', 'station'];
+            const missing = requiredFields.filter((field) => {
+                const value = (data[field] as any ?? '').toString().trim();
+                return !value;
+            });
+
+            if (missing.length > 0) {
+                alert(
+                    `Please fill all required fields before submitting:\n\n` +
+                    missing.join(', ')
+                );
+                return;
+            }
+
             const res = await fetch('/api/assets/ei/request', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -73,6 +89,20 @@ export default function EIAssetsPage() {
     const handleUpdate = async (data: Partial<EIAsset>) => {
         if (!editingAsset) return;
         try {
+            const requiredFields: (keyof EIAsset)[] = ['serialNumber', 'sseSection', 'station'];
+            const missing = requiredFields.filter((field) => {
+                const value = (data[field] as any ?? '').toString().trim();
+                return !value;
+            });
+
+            if (missing.length > 0) {
+                alert(
+                    `Please fill all required fields before submitting:\n\n` +
+                    missing.join(', ')
+                );
+                return;
+            }
+
             const res = await fetch('/api/assets/ei/request', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
