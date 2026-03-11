@@ -491,19 +491,23 @@ table {
 
 th {
     background: #f1f5f9;
-    padding: 14px 20px;
+    padding: 10px 12px;
     text-align: left;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
     color: var(--muted);
+    word-break: break-word;
+    white-space: normal;
 }
 
 td {
-    padding: 16px 20px;
+    padding: 10px 12px;
     border-top: 1px solid var(--border);
-    font-size: 15px;
+    font-size: 13px;
+    word-break: break-word;
+    white-space: normal;
 }
 
 tr:hover td {

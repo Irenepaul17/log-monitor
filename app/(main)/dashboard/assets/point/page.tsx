@@ -341,9 +341,9 @@ export default function PointAssetsPage() {
                             style={{ width: '250px' }}
                         />
                         <button className="btn btn-primary" onClick={() => { setEditingAsset(null); setIsAddModalOpen(true); }}>+ Add New Point</button>
-                        <a href="/dashboard/sse" className="btn btn-outline">
+                        <button onClick={() => window.history.back()} className="btn btn-outline">
                             Back to Dashboard
-                        </a>
+                        </button>
                     </div>
                 </div>
 

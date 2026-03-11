@@ -167,9 +167,9 @@ export default function EIAssetsPage() {
                     >
                         + Add Asset
                     </button>
-                    <a href="/dashboard/sse" className="btn btn-outline">
+                    <button onClick={() => window.history.back()} className="btn btn-outline">
                         Back to Dashboard
-                    </a>
+                    </button>
                 </div>
             </div>
 

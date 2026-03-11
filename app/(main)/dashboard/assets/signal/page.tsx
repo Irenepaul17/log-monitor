@@ -319,9 +319,9 @@ export default function SignalAssetsPage() {
                             + Add Signal Asset
                         </button>
                     )}
-                    <a href={currentUser?.role === 'sse' ? '/dashboard/sse' : '/'} className="btn btn-outline">
+                    <button onClick={() => window.history.back()} className="btn btn-outline">
                         Back to Dashboard
-                    </a>
+                    </button>
                 </div>
             </div>
 
