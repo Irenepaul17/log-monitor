@@ -80,7 +80,7 @@ export default function TrackCircuitAssetsPage() {
                 {loading ? (
                     <div style={{ padding: '40px', textAlign: 'center' }}>Loading...</div>
                 ) : (
-                    <table style={{ minWidth: 'max-content', borderCollapse: 'separate', borderSpacing: 0 }}>
+                    <table style={{ borderCollapse: 'separate', borderSpacing: 0 }}>
                         <thead>
                             <tr>
                                 {columns.map((col, idx) => (

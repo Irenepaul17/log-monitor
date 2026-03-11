@@ -283,19 +283,19 @@ export default function PointAssetsPage() {
         { key: 'throw', label: '143MM / 220MM', minWidth: '150px' },
         { key: 'facingPoint', label: 'Facing Point', minWidth: '120px' },
         { key: 'antiTheftNut', label: 'Anti-Theft Nut', minWidth: '130px' },
-        { key: 'antiTheftNutStatus', label: 'Anti-Theft Nut Full Set /Partial/ Not provided', minWidth: '320px' },
+        { key: 'antiTheftNutStatus', label: 'Anti-Theft Nut Full Set /Partial/ Not provided', minWidth: '200px' },
         { key: 'dateInstallAntiTheftFasteners', label: 'Date Installation of anti theft fastners', minWidth: '280px' },
         { key: 'pBracketProtection', label: 'provision of plates for protection of P-Bracket is done', minWidth: '380px' },
-        { key: 'dateInstallPBracketProtection', label: 'Date Installation of provision of plates for protection of P-Bracket is done', minWidth: '480px' },
-        { key: 'lostMotionStretcherBarProtection', label: 'provision of plates for protection of Lost Motion Stretcher bar is done', minWidth: '450px' },
-        { key: 'dateInstallLostMotionProtection', label: 'Date of installation of Lost Motion Stretcher bar is done', minWidth: '400px' },
-        { key: 'lastDatePointInsulationReplaced', label: 'Last Date of Point Insulation Replaced', minWidth: '280px' },
-        { key: 'duePointInsulationReplacement', label: 'Due Point Insulation Replacement', minWidth: '280px' },
-        { key: 'michuangWaterLogging', label: 'MICHUANG WATER LOGGING (Fully Submerged for Very Heavy rain)', minWidth: '450px' },
-        { key: 'fullySubmergedHeavyRain', label: 'Fully Submerged for Heavy rain', minWidth: '250px' },
-        { key: 'galvanizedGroundConnections', label: 'Galvanized Ground Connections', minWidth: '250px' },
-        { key: 'dateProvisionGalvanizedRoddings', label: 'Date of Provision of Point Galvanized Roddings', minWidth: '350px' },
-        { key: 'fyProvisionGalvanizedRoddings', label: 'FY of Provision of Point Galvanized Roddings', minWidth: '350px' },
+        { key: 'dateInstallPBracketProtection', label: 'Date Installation of provision of plates for protection of P-Bracket is done', minWidth: '250px' },
+        { key: 'lostMotionStretcherBarProtection', label: 'provision of plates for protection of Lost Motion Stretcher bar is done', minWidth: '250px' },
+        { key: 'dateInstallLostMotionProtection', label: 'Date of installation of Lost Motion Stretcher bar is done', minWidth: '250px' },
+        { key: 'lastDatePointInsulationReplaced', label: 'Last Date of Point Insulation Replaced', minWidth: '200px' },
+        { key: 'duePointInsulationReplacement', label: 'Due Point Insulation Replacement', minWidth: '200px' },
+        { key: 'michuangWaterLogging', label: 'MICHUANG WATER LOGGING (Fully Submerged for Very Heavy rain)', minWidth: '250px' },
+        { key: 'fullySubmergedHeavyRain', label: 'Fully Submerged for Heavy rain', minWidth: '200px' },
+        { key: 'galvanizedGroundConnections', label: 'Galvanized Ground Connections', minWidth: '200px' },
+        { key: 'dateProvisionGalvanizedRoddings', label: 'Date of Provision of Point Galvanized Roddings', minWidth: '250px' },
+        { key: 'fyProvisionGalvanizedRoddings', label: 'FY of Provision of Point Galvanized Roddings', minWidth: '250px' },
         { key: 'pointMachineSlNo', label: 'POINT MACHINE SL NO', minWidth: '180px' },
         { key: 'yearOfManufacture', label: 'Year of Manufacture', minWidth: '180px' },
         { key: 'make', label: 'Make', minWidth: '100px' },
@@ -305,10 +305,10 @@ export default function PointAssetsPage() {
         { key: 'motorMake', label: 'Motor Make', minWidth: '120px' },
         { key: 'atKm', label: 'At-Km', minWidth: '100px' },
         { key: 'locationNumber', label: 'Location Number', minWidth: '150px' },
-        { key: 'ssdInsulation', label: 'SSD Insulation (Claw / T type) only for 220mm point machine', minWidth: '420px' },
-        { key: 'msFlatTieBarDetails', label: '1. M.S. Flat tie bar to Drg. no. RDSO/T-9650 with bend used in sleepers on the opposite side of point machine & where dowel hole not given in existing sleeper, holes shall be drilled as per dowel position given in above drawing RDSO/T-6155', minWidth: '800px' },
-        { key: 'ercMkIIIReplacement', label: "2. ERC's MK-III to Drg. no. RDSO/T- 3701 replaced with ERC's MK-V Drg. no. RDSO/T-5919 from sleeper no. 01 to 27 in existing track", minWidth: '700px' },
-        { key: 'insulatingLinerReplacement', label: '3. insulating liner to Drg. no. RDSO/T- 3706 replaced with Metal liner to Drg. no. RDSO/T-3740 from sleeper no. 03 to 27 in existing track', minWidth: '700px' },
+        { key: 'ssdInsulation', label: 'SSD Insulation (Claw / T type) only for 220mm point machine', minWidth: '250px' },
+        { key: 'msFlatTieBarDetails', label: '1. M.S. Flat tie bar to Drg. no. RDSO/T-9650 with bend used in sleepers on the opposite side of point machine & where dowel hole not given in existing sleeper, holes shall be drilled as per dowel position given in above drawing RDSO/T-6155', minWidth: '300px' },
+        { key: 'ercMkIIIReplacement', label: "2. ERC's MK-III to Drg. no. RDSO/T- 3701 replaced with ERC's MK-V Drg. no. RDSO/T-5919 from sleeper no. 01 to 27 in existing track", minWidth: '300px' },
+        { key: 'insulatingLinerReplacement', label: '3. insulating liner to Drg. no. RDSO/T- 3706 replaced with Metal liner to Drg. no. RDSO/T-3740 from sleeper no. 03 to 27 in existing track', minWidth: '300px' },
         { key: 'circuit', label: 'Circuit', minWidth: '100px' },
         { key: 'noOfQBCARelays', label: 'No. of QBCA1 Relays', minWidth: '160px' },
         { key: 'wcrABDateManufacture', label: 'WCR A/B  (Non RDSO) Date of Manufacture', minWidth: '300px' },
@@ -351,7 +351,7 @@ export default function PointAssetsPage() {
                     {loading ? (
                         <div style={{ padding: '40px', textAlign: 'center' }}>Loading...</div>
                     ) : (
-                        <table style={{ minWidth: 'max-content', borderCollapse: 'separate', borderSpacing: 0 }}>
+                        <table style={{ borderCollapse: 'separate', borderSpacing: 0 }}>
                             <thead>
                                 <tr>
                                     {columns.map((col, idx) => (
