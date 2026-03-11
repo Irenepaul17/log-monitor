@@ -92,12 +92,13 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
 
                 // Redirect based on role
                 const dashboardMap: Record<string, string> = {
+                    'admin': '/dashboard/admin',
                     'sr-dste': '/dashboard/sr-dste',
                     'dste': '/dashboard/dste',
                     'adste': '/dashboard/adste',
                     'sse': '/dashboard/sse',
                     'je': '/dashboard/je',
-                    'technician': '/dashboard/je' // Technician goes to JE dashboard for now?
+                    'technician': '/dashboard/je'
                 };
                 router.push(dashboardMap[user.role] || '/dashboard/je');
                 return true;

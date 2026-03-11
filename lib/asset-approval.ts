@@ -57,7 +57,7 @@ const ASSET_WHITELISTS: Record<string, string[]> = {
 // Required fields per asset type — validated before any DB write
 const REQUIRED_FIELDS: Record<string, string[]> = {
     'point': ['sseSection', 'station', 'pointNo', 'lineType'],
-    'signal': ['sno', 'section', 'signalNoShuntNo'],
+    'signal': ['section', 'signalNoShuntNo'],
     'ei': ['serialNumber', 'sseSection', 'station'],
     'track-circuit': ['sseSection', 'station', 'trackCircuitNo', 'type'],
 };

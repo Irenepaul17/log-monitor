@@ -3,6 +3,7 @@ import dbConnect from '@/lib/mongodb';
 import UserModel from '@/app/models/User';
 
 const DEFAULT_USERS = [
+    { name: 'System Admin', phone: '0000000000', pass: 'admin@123', role: 'admin', sub: 'Administrator', email: 'admin@railnet.gov.in', pfNumber: 'PF0000' },
     { name: 'Sr. DSTE (Admin)', phone: '1234567890', pass: 'admin123', role: 'sr-dste', sub: 'Sr. DSTE', email: 'sr.dste@railnet.gov.in', pfNumber: 'PF0001' },
     { name: 'DSTE Rajesh', phone: '9000000001', pass: 'dste123', role: 'dste', sub: 'DSTE', superiorId: 'u1', email: 'dste.rajesh@railnet.gov.in', pfNumber: 'PF1001' },
     { name: 'ADSTE 1 Sunita', phone: '9000000002', pass: 'adste123', role: 'adste', sub: 'ADSTE 1', superiorId: 'u2', teamId: '1', email: 'adste1@railnet.gov.in', pfNumber: 'PF2001' },
@@ -25,6 +26,16 @@ export async function POST(request: Request) {
         if (userCount === 0) {
             console.log('Seeding default users...');
             await UserModel.insertMany(DEFAULT_USERS);
+        } else {
+            // Ensure admin always exists, even if DB was already seeded
+            const adminUser = DEFAULT_USERS.find(u => u.role === 'admin');
+            if (adminUser) {
+                await UserModel.updateOne(
+                    { phone: adminUser.phone },
+                    { $set: adminUser },
+                    { upsert: true }
+                );
+            }
         }
 
         const user = await UserModel.findOne({ phone, pass });

@@ -40,8 +40,8 @@ export async function GET(request: Request) {
         }
 
         // Apply role-based filtering
-        if (role === 'sr-dste' || role === 'dste') {
-            // Sr. DSTE and DSTE can see ALL reports (optionally filtered by query)
+        if (role === 'admin' || role === 'sr-dste' || role === 'dste') {
+            // Admin, Sr. DSTE, and DSTE can see ALL reports (optionally filtered by query)
         } else if (role === 'adste' || role === 'sse') {
             // ADSTE/SSE see own + all subordinates
             if (userId) {

@@ -1,4 +1,4 @@
-export type Role = "sr-dste" | "dste" | "adste" | "sse" | "je" | "technician";
+export type Role = "admin" | "sr-dste" | "dste" | "adste" | "sse" | "je" | "technician";
 
 export interface User {
     id: string;

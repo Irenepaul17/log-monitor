@@ -67,17 +67,17 @@ export function PaginationControls({
                 >
                     Previous
                 </button>
-                <div style={{ display: "flex", gap: "4px" }}>
+                <div style={{ display: "flex", gap: "4px", minWidth: '160px', justifyContent: 'center' }}>
                     {Array.from({ length: totalPages }, (_, i) => i + 1)
                         .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
                         .map((p, i, arr) => (
                             <React.Fragment key={p}>
-                                {i > 0 && arr[i - 1] !== p - 1 && <span style={{ padding: '4px', color: 'var(--muted)' }}>...</span>}
+                                {i > 0 && arr[i - 1] !== p - 1 && <span style={{ padding: '4px', color: 'var(--muted)', minWidth: '20px', textAlign: 'center' }}>...</span>}
                                 <button
                                     className={`btn btn-sm ${p === currentPage ? 'btn-primary' : 'btn-outline'}`}
                                     onClick={() => onPageChange(p)}
                                     disabled={loading}
-                                    style={{ width: '32px', padding: '0', display: 'flex', justifyContent: 'center' }}
+                                    style={{ width: '32px', minWidth: '32px', padding: '0', display: 'flex', justifyContent: 'center' }}
                                 >
                                     {p}
                                 </button>

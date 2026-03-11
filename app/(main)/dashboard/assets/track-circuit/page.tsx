@@ -89,6 +89,9 @@ export default function TrackCircuitAssetsPage() {
                                         zIndex: (idx === 0 || col.key === 'actions') ? 20 : 1,
                                         backgroundColor: (idx === 0 || col.key === 'actions') ? 'white' : 'var(--card-bg)',
                                         minWidth: col.minWidth,
+                                        fontSize: '12px',
+                                        wordBreak: 'break-word',
+                                        whiteSpace: col.key === 'actions' ? 'nowrap' : undefined,
                                         boxShadow: idx === 0 ? '2px 0 5px rgba(0,0,0,0.1)' : (col.key === 'actions' ? '-2px 0 5px rgba(0,0,0,0.1)' : 'none'),
                                         borderBottom: '1px solid #e2e8f0',
                                         padding: '12px 16px'
@@ -109,6 +112,8 @@ export default function TrackCircuitAssetsPage() {
                                             <td key="actions" style={{
                                                 position: 'sticky', right: 0, zIndex: 10,
                                                 backgroundColor: 'white',
+                                                whiteSpace: 'nowrap',
+                                                minWidth: '100px',
                                                 boxShadow: '-2px 0 5px rgba(0,0,0,0.1)',
                                                 borderBottom: '1px solid #e2e8f0',
                                                 padding: '12px 16px'
@@ -127,8 +132,13 @@ export default function TrackCircuitAssetsPage() {
                                                 borderRight: '1px solid #e2e8f0',
                                                 borderBottom: '1px solid #e2e8f0',
                                                 padding: '12px 16px',
-                                                whiteSpace: 'nowrap'
-                                            }}>
+                                                whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                                maxWidth: '200px',
+                                                fontSize: '13px'
+                                            }}
+                                                title={String(asset[col.key as keyof TrackCircuitAsset] || '')}>
                                                 {String(asset[col.key as keyof TrackCircuitAsset] || '')}
                                             </td>
                                         );

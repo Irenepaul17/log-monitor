@@ -1,7 +1,7 @@
 "use client";
 
 import { useGlobal } from "@/app/context/GlobalContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ResolutionModal } from "@/app/components/ResolutionModal";
 import WorkReportDetailModal from "@/app/components/WorkReportDetailModal";
@@ -23,6 +23,7 @@ export default function SSEDashboard() {
     const [assetRequests, setAssetRequests] = useState<AssetUpdateRequest[]>([]);
     const [requestsLoading, setRequestsLoading] = useState(false);
     const [viewingRequest, setViewingRequest] = useState<AssetUpdateRequest | null>(null);
+    const processingIds = useRef<Set<string>>(new Set());
     const [assetStats, setAssetStats] = useState({
         ei: 0, points: 0, signals: 0, trackCircuits: 0,
         recent: { ei: 0, points: 0, signals: 0, trackCircuits: 0 }
@@ -50,6 +51,10 @@ export default function SSEDashboard() {
     }, [currentUser]);
 
     const handleAssetAction = async (requestId: string, action: 'approve' | 'reject') => {
+        // Guard: prevent double-processing the same request (e.g. table + modal both clicked)
+        if (processingIds.current.has(requestId)) return;
+        processingIds.current.add(requestId);
+
         let comments = '';
         if (action === 'reject') {
             comments = prompt('Enter reason for rejection:') || 'Rejected';
@@ -78,6 +83,8 @@ export default function SSEDashboard() {
             }
         } catch (error: any) {
             alert(error.message);
+        } finally {
+            processingIds.current.delete(requestId);
         }
     };
 

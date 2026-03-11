@@ -129,6 +129,7 @@ function MainLayoutContent({
     const dashboardLink = useMemo(() => {
         if (!currentUser) return null;
         const map: Record<string, { href: string; label: string }> = {
+            "admin": { href: "/dashboard/admin", label: "Admin Dashboard" },
             "sr-dste": { href: "/dashboard/sr-dste", label: "Sr. DSTE Dashboard" },
             dste: { href: "/dashboard/dste", label: "DSTE Dashboard" },
             adste: { href: "/dashboard/adste", label: "ADSTE Dashboard" },
@@ -195,7 +196,7 @@ function MainLayoutContent({
                     {sidebarOpen && <span className="sb-brand-text">Log Monitor</span>}
                 </div>
 
-                <nav style={{ flex: 1, overflowY: "auto", padding: "8px 0" }}>
+                <nav style={{ flex: 1, overflowY: "visible", padding: "8px 0" }}>
                     {/* Dashboard */}
                     <Link
                         href={dashboardLink?.href || "/"}

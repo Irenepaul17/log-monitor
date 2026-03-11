@@ -84,7 +84,7 @@ export default function SignalAssetsPage() {
         try {
             // Frontend safety net: ensure all core required fields are filled
             // These should stay in sync with REQUIRED_FIELDS for 'signal' in lib/asset-approval.ts
-            const requiredFields: (keyof SignalAsset)[] = ['sno', 'section', 'signalNoShuntNo'];
+            const requiredFields: (keyof SignalAsset)[] = ['section', 'signalNoShuntNo'];
             const missing = requiredFields.filter((field) => {
                 const value = (formData[field] as any ?? '').toString().trim();
                 return !value;
@@ -338,6 +338,9 @@ export default function SignalAssetsPage() {
                                         zIndex: (col.key === 'stationAutoSectionLcIbs' || col.key === 'actions') ? 20 : 1,
                                         backgroundColor: 'white',
                                         minWidth: col.minWidth,
+                                        fontSize: '12px',
+                                        wordBreak: 'break-word',
+                                        whiteSpace: col.key === 'actions' ? 'nowrap' : undefined,
                                         boxShadow: col.key === 'stationAutoSectionLcIbs' ? '2px 0 5px rgba(0,0,0,0.1)' : (col.key === 'actions' ? '-2px 0 5px rgba(0,0,0,0.1)' : 'none'),
                                         borderRight: '1px solid #e2e8f0'
                                     }}>
@@ -356,6 +359,8 @@ export default function SignalAssetsPage() {
                                                 right: 0,
                                                 zIndex: 10,
                                                 backgroundColor: 'white',
+                                                whiteSpace: 'nowrap',
+                                                minWidth: '160px',
                                                 boxShadow: '-2px 0 5px rgba(0,0,0,0.1)',
                                                 borderLeft: '1px solid #e2e8f0'
                                             }}>
@@ -382,13 +387,18 @@ export default function SignalAssetsPage() {
                                         return (
                                             <td key={col.key} style={{
                                                 whiteSpace: 'nowrap',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                                maxWidth: '220px',
+                                                fontSize: '13px',
                                                 position: isFirstColumn ? 'sticky' : 'static',
                                                 left: isFirstColumn ? 0 : 'auto',
                                                 backgroundColor: 'white',
                                                 zIndex: isFirstColumn ? 10 : 1,
                                                 boxShadow: isFirstColumn ? '2px 0 5px rgba(0,0,0,0.1)' : 'none',
                                                 borderRight: '1px solid #e2e8f0'
-                                            }}>
+                                            }}
+                                                title={String(cellValue || '')}>
                                                 {String(cellValue || '')}
                                             </td>
                                         );

@@ -10,7 +10,7 @@ const UserSchema = new Schema<User>(
         role: {
             type: String,
             required: true,
-            enum: ["sr-dste", "dste", "adste", "sse", "je", "technician"]
+            enum: ["admin", "sr-dste", "dste", "adste", "sse", "je", "technician"]
         },
         sub: { type: String, required: true }, // Sub-designation e.g., "Sr. DSTE", "JE 1"
         email: { type: String, required: true },

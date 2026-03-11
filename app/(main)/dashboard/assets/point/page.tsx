@@ -362,6 +362,9 @@ export default function PointAssetsPage() {
                                             zIndex: (col.key === 'sseSection' || col.key === 'actions') ? 20 : 1,
                                             backgroundColor: (col.key === 'sseSection' || col.key === 'actions') ? 'white' : 'var(--card-bg)',
                                             minWidth: col.minWidth,
+                                            fontSize: '12px',
+                                            wordBreak: 'break-word',
+                                            whiteSpace: col.key === 'actions' ? 'nowrap' : undefined,
                                             boxShadow: col.key === 'sseSection' ? '2px 0 5px rgba(0,0,0,0.1)' : (col.key === 'actions' ? '-2px 0 5px rgba(0,0,0,0.1)' : 'none')
                                         }}>
                                             {col.label}
@@ -377,6 +380,8 @@ export default function PointAssetsPage() {
                                                 <td key="actions" style={{
                                                     position: 'sticky', right: 0, zIndex: 10,
                                                     backgroundColor: 'white',
+                                                    whiteSpace: 'nowrap',
+                                                    minWidth: '160px',
                                                     boxShadow: '-2px 0 5px rgba(0,0,0,0.1)'
                                                 }}>
                                                     <div style={{ display: 'flex', gap: '5px' }}>
@@ -401,12 +406,17 @@ export default function PointAssetsPage() {
                                             return (
                                                 <td key={col.key as string} style={{
                                                     whiteSpace: 'nowrap',
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis',
+                                                    maxWidth: '220px',
+                                                    fontSize: '13px',
                                                     position: isSticky ? 'sticky' : 'static',
                                                     left: isSticky ? 0 : 'auto',
                                                     zIndex: isSticky ? 10 : 1,
                                                     backgroundColor: isSticky ? 'white' : 'transparent',
                                                     boxShadow: isSticky ? '2px 0 5px rgba(0,0,0,0.1)' : 'none'
-                                                }}>
+                                                }}
+                                                    title={String(asset[col.key as keyof PointAsset] || "")}>
                                                     {String(asset[col.key as keyof PointAsset] || "")}
                                                 </td>
                                             );

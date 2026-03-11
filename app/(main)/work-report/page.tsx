@@ -246,15 +246,53 @@ export default function WorkReportPage() {
             // Reset station when section changes (Google Form behavior)
             if (id === 'section') return { ...prev, section: value, station: "" };
 
-            // Handle Disconnection pre-fill based on JSON label
+            // When classification changes, clear ALL previously filled category-specific fields
+            // so that conditional fields from the old category don't bleed through
             if (id === 'classification') {
+                const classificationSpecificKeys = [
+                    // Maintenance
+                    'gearMaintained', 'maintainedGears', 'maintDetails', 'maintainedGearsOther',
+                    // S&T Special Work
+                    'specialWorkOn', 'specialWorkDetailsTrack', 'specialWorkDetailsSignal',
+                    'specialWorkDetailsPoint', 'specialWorkDetailsLocationBox', 'specialWorkDetailsPowerRoom',
+                    'specialWorkDetailsRelayRoom', 'specialWorkDetailsLCGate', 'specialWorkDetailsHUT',
+                    'specialWorkDetailsAutoSection', 'specialWorkDetailsOther',
+                    // Other dept
+                    'otherDeptDetails',
+                    // Misc
+                    'miscDetails',
+                    // Failure
+                    'failureStatus', 'gearFailed', 'failureType', 'failureClassification',
+                    'inTime', 'rtTime', 'failureDetails', 'actualFailureDetails', 'failurePreventiveDetails',
+                    'trainDetention',
+                    // Disconnection
+                    'hasDisconnection', 'discNo', 'discStatus', 'discPermission', 'discFor',
+                    'discForOther', 'discDate', 'discTime', 'reconDate', 'reconTime', 'discDetails/Reason',
+                    // Replacement
+                    'replaceGear', 'replacementReason',
+                    'dctcTrackNo', 'dctcAssetReplaced',
+                    'aftcTrackNo', 'aftcAssetReplaced',
+                    'signalNo', 'signalType', 'signalAspect',
+                    'batteryCircuit', 'batteryAssetName', 'batteryCircuitOther', 'batteryCells',
+                    'batteryMake', 'batteryCapacity', 'batteryInstallDate',
+                    'oldRelayType', 'oldRelayMake', 'oldRelaySerial', 'oldRelayContact', 'oldRelayLHRH', 'oldRelayKgs',
+                    'newRelayType', 'newRelayMake', 'newRelaySerial', 'newRelayContact', 'newRelayLHRH', 'newRelayKgs',
+                    'genOldMake', 'genOldSerial', 'genOldDate', 'genNewMake', 'genNewSerial', 'genInstallDate',
+                    'jointName', 'jointFailureType', 'jointLHRH', 'jointKgs',
+                ];
+                const cleared: Answers = {};
+                for (const k of classificationSpecificKeys) cleared[k] = undefined;
+
+                // Auto pre-fill for disconnection-type classifications
                 if (value === 'Select for entering Disconnection') {
-                    return { ...prev, classification: value, hasDisconnection: 'Yes', discStatus: 'Applied' };
+                    return { ...prev, ...cleared, classification: value, hasDisconnection: 'Yes', discStatus: 'Applied' };
                 }
                 if (value === 'Only Disconnection filled and cancelled') {
-                    return { ...prev, classification: value, hasDisconnection: 'Yes' };
+                    return { ...prev, ...cleared, classification: value, hasDisconnection: 'Yes' };
                 }
+                return { ...prev, ...cleared, classification: value };
             }
+
             return { ...prev, [id]: value };
         });
     };
