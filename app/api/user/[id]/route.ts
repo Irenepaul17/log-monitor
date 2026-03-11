@@ -4,7 +4,7 @@ import UserModel from "@/app/models/User";
 
 export async function DELETE(
     request: Request,
-    { params }: { params: { id: string } }
+    { params }: any
 ) {
     try {
         await dbConnect();
