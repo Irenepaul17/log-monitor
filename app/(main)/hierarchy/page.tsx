@@ -5,6 +5,7 @@ import { useGlobal } from '@/app/context/GlobalContext';
 import { User, Role } from '@/app/types';
 
 const ROLE_LABELS: Record<Role, string> = {
+    "admin": "System Admin",
     "sr-dste": "Sr. DSTE",
     "dste": "DSTE",
     "adste": "ADSTE",
@@ -14,6 +15,7 @@ const ROLE_LABELS: Record<Role, string> = {
 };
 
 const ROLE_COLORS: Record<Role, { bg: string, text: string, border: string }> = {
+    "admin": { bg: "#f3e8ff", text: "#7e22ce", border: "#d8b4fe" },
     "sr-dste": { bg: "#fef2f2", text: "#991b1b", border: "#fca5a5" },
     "dste": { bg: "#fff7ed", text: "#9a3412", border: "#fdba74" },
     "adste": { bg: "#f0fdf4", text: "#166534", border: "#86efac" },
