@@ -305,8 +305,8 @@ export default function AdminDashboard() {
                                                 </span>
                                             </td>
                                             <td style={{ maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: 13 }}
-                                                title={f.details || ""}>
-                                                {f.details || <span style={{ color: "var(--muted)", fontStyle: "italic" }}>No details</span>}
+                                                title={f.description || ""}>
+                                                {f.description || <span style={{ color: "var(--muted)", fontStyle: "italic" }}>No details</span>}
                                             </td>
                                             <td>
                                                 <button className="btn btn-sm btn-primary" onClick={() => setViewingComplaint(f)} style={{ padding: "4px 10px", fontSize: 12 }}>
