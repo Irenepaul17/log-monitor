@@ -8,49 +8,42 @@ import ComplaintDetailModal from "@/app/components/ComplaintDetailModal";
 import { WorkReport, Complaint } from "@/app/types";
 import { usePaginatedData } from "@/app/hooks/usePaginatedData";
 import { PaginationControls } from "@/app/components/PaginationControls";
+import AssetSelectionModal from "@/app/components/AssetSelectionModal";
+import { SOSAlertListener } from "@/app/components/SOSAlertListener";
 
 export default function AdminDashboard() {
     const { currentUser } = useGlobal();
-    const [activeTab, setActiveTab] = useState<"overview" | "users" | "reports" | "failures" | "assets">("overview");
     const [stats, setStats] = useState({
         totalUsers: 0, totalReports: 0, totalFailures: 0, openFailures: 0,
         assetStats: { ei: 0, points: 0, signals: 0, trackCircuits: 0 }
     });
+
+    // For the User Management Modal
+    const [isUsersModalOpen, setIsUsersModalOpen] = useState(false);
     const [allUsers, setAllUsers] = useState<any[]>([]);
-    const [viewingReport, setViewingReport] = useState<WorkReport | null>(null);
-    const [viewingComplaint, setViewingComplaint] = useState<Complaint | null>(null);
-    const [reportSearch, setReportSearch] = useState("");
-    const [debouncedReportSearch, setDebouncedReportSearch] = useState("");
-    const [failureSearch, setFailureSearch] = useState("");
-    const [debouncedFailureSearch, setDebouncedFailureSearch] = useState("");
     const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
 
+    const [viewingReport, setViewingReport] = useState<WorkReport | null>(null);
+    const [viewingComplaint, setViewingComplaint] = useState<Complaint | null>(null);
+    const [isAssetModalOpen, setIsAssetModalOpen] = useState(false);
+
     // Paginated reports (all roles)
-    const { data: reports, loading: reportsLoading, page: reportPage, setPage: setReportPage, meta: reportMeta, refresh: refreshReports } =
-        usePaginatedData<WorkReport>("/api/work-reports", { userId: currentUser?.id || "", role: "admin", search: debouncedReportSearch }, 15, !!currentUser);
+    const { data: reports, loading: reportsLoading, page: reportPage, setPage: setReportPage, meta: reportMeta } =
+        usePaginatedData<WorkReport>("/api/work-reports", { userId: currentUser?.id || "", role: "admin" }, 10, !!currentUser);
 
     // Paginated failures (all roles)
     const { data: failures, loading: failuresLoading, page: failurePage, setPage: setFailurePage, meta: failureMeta } =
-        usePaginatedData<Complaint>("/api/complaints", { userId: currentUser?.id || "", role: "admin", search: debouncedFailureSearch }, 15, !!currentUser);
+        usePaginatedData<Complaint>("/api/complaints", { userId: currentUser?.id || "", role: "admin" }, 10, !!currentUser);
 
     useEffect(() => {
         if (!currentUser) return;
-        // Fetch system-wide stats
         Promise.all([
             fetch(`/api/admin/stats`).then(r => r.ok ? r.json() : null),
-            fetch("/api/user/team?role=admin").then(r => r.ok ? r.json() : []),
+            fetch("/api/user/all").then(r => r.ok ? r.json() : [])
         ]).then(([s, u]) => {
             if (s) setStats(s);
-            if (u) setAllUsers(u);
+            if (u && Array.isArray(u)) setAllUsers(u);
         }).catch(console.error);
-    }, [currentUser]);
-
-    // Fallback: fetch all users if team endpoint doesn't support role=admin
-    useEffect(() => {
-        if (!currentUser) return;
-        fetch("/api/user/all").then(r => r.ok ? r.json() : null).then(d => {
-            if (d && Array.isArray(d)) setAllUsers(d);
-        }).catch(() => { });
     }, [currentUser]);
 
     const handleDeleteUser = async (userId: string, userName: string) => {
@@ -76,6 +69,38 @@ export default function AdminDashboard() {
         return <div style={{ padding: 40, textAlign: "center", color: "#ef4444" }}>Access Denied — Admin only.</div>;
     }
 
+    const renderAssetCard = (title: string, count: number, color: string, bgColor: string, borderColor: string) => (
+        <div
+            className="asset-card"
+            style={{
+                background: bgColor,
+                border: `1px solid ${borderColor}`,
+                borderRadius: '16px',
+                padding: '24px 20px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
+                cursor: 'pointer'
+            }}
+            onClick={() => setIsAssetModalOpen(true)}
+        >
+            <div style={{ fontSize: '42px', fontWeight: '900', color: color, lineHeight: 1, marginBottom: '2px', letterSpacing: '-1px' }}>
+                {count}
+            </div>
+            <div style={{
+                fontSize: '12px',
+                color: 'var(--muted)',
+                fontWeight: '700',
+                textTransform: 'uppercase',
+                letterSpacing: '1px'
+            }}>
+                {title}
+            </div>
+        </div>
+    );
+
     const roleBadge = (role: string) => {
         const colors: Record<string, { bg: string; color: string }> = {
             admin: { bg: "#7c3aed", color: "white" },
@@ -94,264 +119,237 @@ export default function AdminDashboard() {
         );
     };
 
-    const tabs = [
-        { id: "overview", label: "📊 Overview" },
-        { id: "users", label: "👥 All Users" },
-        { id: "reports", label: "📋 Work Logs" },
-        { id: "failures", label: "⚠️ Failures" },
-        { id: "assets", label: "🏗️ Assets" },
-    ] as const;
-
     return (
         <div className="screen active" style={{ display: "block" }}>
-            {/* Header */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
-                <div>
-                    <h2 className="section-title" style={{ margin: 0 }}>🛡️ Admin Control Panel</h2>
-                    <p style={{ color: "var(--muted)", fontSize: 13, margin: "4px 0 0" }}>Full system access — System Admin</p>
-                </div>
-                <span style={{ background: "#7c3aed", color: "white", padding: "4px 12px", borderRadius: 6, fontSize: 12, fontWeight: 700 }}>
-                    ADMIN
-                </span>
+            <div className="alert alert-info">
+                <strong>SYSTEM ADMIN DASHBOARD:</strong> Full system access to monitor all work reports, failures, assets, and manage users.
             </div>
 
-            {/* Tabs */}
-            <div style={{ display: "flex", gap: 4, marginBottom: 24, borderBottom: "1px solid var(--border)", paddingBottom: 0 }}>
-                {tabs.map(t => (
-                    <button
-                        key={t.id}
-                        onClick={() => setActiveTab(t.id)}
-                        style={{
-                            padding: "10px 18px", border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
-                            background: activeTab === t.id ? "var(--primary)" : "transparent",
-                            color: activeTab === t.id ? "white" : "var(--muted)",
-                            borderRadius: "6px 6px 0 0",
-                            borderBottom: activeTab === t.id ? "2px solid var(--primary)" : "2px solid transparent",
-                        }}
-                    >
-                        {t.label}
+            {/* System Management Panel */}
+            <div className="card" style={{ marginBottom: '20px', padding: '24px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <h3 className="section-title" style={{ fontSize: '18px', margin: 0 }}>System Management</h3>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+                    <Link href="/user-creation" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center' }}>
+                        Create User
+                    </Link>
+                    <Link href="/hierarchy" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center' }}>
+                        Team Hierarchy
+                    </Link>
+                    <button onClick={() => setIsUsersModalOpen(true)} className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center' }}>
+                        Manage Users ({allUsers.length})
                     </button>
-                ))}
+                </div>
             </div>
 
-            {/* OVERVIEW TAB */}
-            {activeTab === "overview" && (
-                <div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 28 }}>
-                        {[
-                            { label: "Total Users", value: allUsers.length, color: "#7c3aed", icon: "👥" },
-                            { label: "Total Work Logs", value: reportMeta?.total ?? "—", color: "#2563eb", icon: "📋" },
-                            { label: "Total Failures", value: failureMeta?.total ?? "—", color: "#dc2626", icon: "⚠️" },
-                            { label: "EI Assets", value: stats.assetStats?.ei ?? "—", color: "#0891b2", icon: "🖥️" },
-                            { label: "Point Assets", value: stats.assetStats?.points ?? "—", color: "#059669", icon: "🔀" },
-                            { label: "Signal Assets", value: stats.assetStats?.signals ?? "—", color: "#d97706", icon: "🚦" },
-                        ].map(card => (
-                            <div key={card.label} className="card" style={{ padding: 20, borderLeft: `4px solid ${card.color}` }}>
-                                <div style={{ fontSize: 24, marginBottom: 8 }}>{card.icon}</div>
-                                <div style={{ fontSize: 28, fontWeight: 700, color: card.color }}>{card.value}</div>
-                                <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>{card.label}</div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Quick links */}
-                    <div className="card" style={{ padding: 24 }}>
-                        <div className="section-title" style={{ fontSize: 15, marginBottom: 16 }}>Quick Access — Asset Directories</div>
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
-                            {[
-                                { label: "EI Assets", href: "/dashboard/assets/ei", icon: "🖥️" },
-                                { label: "Point Assets", href: "/dashboard/assets/point", icon: "🔀" },
-                                { label: "Signal Assets", href: "/dashboard/assets/signal", icon: "🚦" },
-                                { label: "Track Circuit Assets", href: "/dashboard/assets/track-circuit", icon: "🛤️" },
-                                { label: "User Management", href: "/user-creation", icon: "👤" },
-                                { label: "Team Hierarchy", href: "/hierarchy", icon: "🗂️" },
-                            ].map(link => (
-                                <Link key={link.href} href={link.href} className="card"
-                                    style={{
-                                        padding: "16px 20px", display: "flex", alignItems: "center", gap: 12,
-                                        textDecoration: "none", color: "inherit", fontSize: 14, fontWeight: 600,
-                                        transition: "box-shadow 0.15s", cursor: "pointer"
-                                    }}>
-                                    <span style={{ fontSize: 22 }}>{link.icon}</span>
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
+            {/* Asset Stats Dashboard */}
+            <div className="card" style={{ marginBottom: '20px', padding: '24px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <h3 className="section-title" style={{ fontSize: '18px', margin: 0 }}>Asset Overview</h3>
+                    <button
+                        className="btn btn-outline"
+                        onClick={() => setIsAssetModalOpen(true)}
+                        style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '14px' }}
+                    >
+                        <span>Asset Register</span>
+                    </button>
                 </div>
-            )}
 
-            {/* USERS TAB */}
-            {activeTab === "users" && (
-                <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-                    <div style={{ padding: "20px 24px", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <h3 style={{ margin: 0, fontSize: 16 }}>All Users ({allUsers.length})</h3>
-                        <Link href="/user-creation" className="btn btn-primary" style={{ fontSize: 13 }}>+ Create User</Link>
-                    </div>
-                    <div className="table-container" style={{ overflowX: "auto" }}>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Role</th>
-                                    <th>Sub-designation</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>PF Number</th>
-                                    <th style={{ position: "sticky", right: 0, background: "white", minWidth: 120 }}>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {allUsers.length === 0 ? (
-                                    <tr><td colSpan={7} style={{ textAlign: "center", padding: 40, color: "var(--muted)" }}>No users found.</td></tr>
-                                ) : allUsers.map(u => (
-                                    <tr key={u.id}>
-                                        <td style={{ fontWeight: 600 }}>{u.name}</td>
-                                        <td>{roleBadge(u.role)}</td>
-                                        <td>{u.sub}</td>
-                                        <td style={{ fontFamily: "monospace" }}>{u.phone}</td>
-                                        <td>{u.email}</td>
-                                        <td>{u.pfNumber}</td>
-                                        <td style={{ position: "sticky", right: 0, background: "white", whiteSpace: "nowrap" }}>
-                                            <button
-                                                className="btn btn-sm btn-outline"
-                                                style={{ borderColor: "#ef4444", color: "#ef4444" }}
-                                                disabled={deletingUserId === u.id || u.role === "admin"}
-                                                onClick={() => handleDeleteUser(u.id, u.name)}
-                                            >
-                                                {deletingUserId === u.id ? "..." : "Delete"}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '20px' }}>
+                    {renderAssetCard("EI Assets", stats.assetStats?.ei || 0, "#0284c7", "#f0f9ff", "#bae6fd")}
+                    {renderAssetCard("Points", stats.assetStats?.points || 0, "#db2777", "#fdf2f8", "#fbcfe8")}
+                    {renderAssetCard("Signals", stats.assetStats?.signals || 0, "#ca8a04", "#fefce8", "#fde047")}
+                    {renderAssetCard("Track Circuits", stats.assetStats?.trackCircuits || 0, "#16a34a", "#f0fdf4", "#bbf7d0")}
                 </div>
-            )}
+            </div>
 
-            {/* WORK LOGS TAB */}
-            {activeTab === "reports" && (
-                <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-                    <div style={{ padding: "20px 24px", borderBottom: "1px solid var(--border)", display: "flex", gap: 12, alignItems: "center" }}>
-                        <h3 style={{ margin: 0, fontSize: 16, flex: 1 }}>All Work Logs</h3>
-                        <input type="text" className="input" placeholder="Search author, station…" value={reportSearch}
-                            onChange={e => { setReportSearch(e.target.value); setTimeout(() => setDebouncedReportSearch(e.target.value), 400); }}
-                            style={{ width: 240 }} />
-                    </div>
-                    <div className="table-container">
-                        {reportsLoading ? <div style={{ padding: 40, textAlign: "center" }}>Loading…</div> : (
+            <SOSAlertListener />
+
+            {/* Work Logs */}
+            <div className="card" style={{ marginBottom: '20px' }}>
+                <div className="section-title">
+                    System Work Logs {reportMeta && `(${reportMeta.total})`}
+                </div>
+                <div className="table-container">
+                    {reportsLoading ? (
+                        <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>Loading reports...</div>
+                    ) : (
+                        <>
                             <table>
                                 <thead>
-                                    <tr>
-                                        <th>Date</th><th>Author</th><th>Role</th><th>Station</th><th>Shift</th><th>Category</th><th>Actions</th>
-                                    </tr>
+                                    <tr><th>Date</th><th>Author</th><th>Role</th><th>Station</th><th>Category</th><th>Actions</th></tr>
                                 </thead>
                                 <tbody>
-                                    {reports.map(r => (
+                                    {reports.map((r: WorkReport) => (
                                         <tr key={r.id}>
-                                            <td style={{ fontWeight: 500 }}>{String(r.date)}</td>
+                                            <td>{String(r.date)}</td>
                                             <td>{r.authorName}</td>
                                             <td>{r.sseSection}</td>
                                             <td>{r.station}</td>
-                                            <td>{r.shift}</td>
-                                            <td><span className="badge badge-progress" style={{ fontSize: 10 }}>{r.classification?.toUpperCase().replace(/_/g, " ") || "N/A"}</span></td>
+                                            <td>{r.classification ? r.classification.toUpperCase() : 'N/A'}</td>
                                             <td>
-                                                <button className="btn btn-sm btn-primary" onClick={() => setViewingReport(r)} style={{ padding: "4px 10px", fontSize: 12 }}>
+                                                <button
+                                                    onClick={() => setViewingReport(r)}
+                                                    className="btn btn-sm btn-primary"
+                                                    style={{ padding: '4px 12px', fontSize: '12px' }}
+                                                >
                                                     View
                                                 </button>
                                             </td>
                                         </tr>
                                     ))}
-                                    {reports.length === 0 && <tr><td colSpan={7} style={{ textAlign: "center", padding: 40, color: "var(--muted)" }}>No logs found.</td></tr>}
+                                    {reports.length === 0 && <tr><td colSpan={6} style={{ textAlign: "center", padding: 40, color: "var(--muted)" }}>No logs found.</td></tr>}
                                 </tbody>
                             </table>
-                        )}
-                    </div>
+                            <div className="mobile-card-table">
+                                {reports.length > 0 ? reports.map((r: WorkReport) => (
+                                    <div key={r.id} className="m-row">
+                                        <div className="m-row-header">
+                                            <span className="m-row-title">{r.authorName}</span>
+                                            <span className="badge" style={{ background: '#eef2ff', color: '#4f46e5', fontSize: '11px' }}>{r.classification?.toUpperCase() || 'N/A'}</span>
+                                        </div>
+                                        <div className="m-row-meta">
+                                            <span className="m-row-field"><span className="m-row-label">Date</span><span className="m-row-value">{String(r.date)}</span></span>
+                                            <span className="m-row-field"><span className="m-row-label">Station</span><span className="m-row-value">{r.station}</span></span>
+                                        </div>
+                                        <div className="m-row-actions">
+                                            <button onClick={() => setViewingReport(r)} className="btn btn-sm btn-primary">View</button>
+                                        </div>
+                                    </div>
+                                )) : <div style={{ padding: '16px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>No reports found.</div>}
+                            </div>
+                        </>
+                    )}
                     {reportMeta && reportMeta.totalPages > 1 && (
-                        <div style={{ padding: "0 24px 24px" }}>
-                            <PaginationControls currentPage={reportPage} totalPages={reportMeta.totalPages} totalItems={reportMeta.total} onPageChange={setReportPage} loading={reportsLoading} />
-                        </div>
+                        <PaginationControls
+                            currentPage={reportPage}
+                            totalPages={reportMeta.totalPages}
+                            totalItems={reportMeta.total}
+                            onPageChange={setReportPage}
+                            loading={reportsLoading}
+                        />
                     )}
                 </div>
-            )}
+            </div>
 
-            {/* FAILURES TAB */}
-            {activeTab === "failures" && (
-                <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-                    <div style={{ padding: "20px 24px", borderBottom: "1px solid var(--border)", display: "flex", gap: 12, alignItems: "center" }}>
-                        <h3 style={{ margin: 0, fontSize: 16, flex: 1 }}>All Failure Reports</h3>
-                        <input type="text" className="input" placeholder="Search…" value={failureSearch}
-                            onChange={e => { setFailureSearch(e.target.value); setTimeout(() => setDebouncedFailureSearch(e.target.value), 400); }}
-                            style={{ width: 240 }} />
-                    </div>
-                    <div className="table-container">
-                        {failuresLoading ? <div style={{ padding: 40, textAlign: "center" }}>Loading…</div> : (
+            {/* Failures */}
+            <div className="card">
+                <div className="section-title">
+                    System Failure Reports {failureMeta && `(${failureMeta.total})`}
+                </div>
+                <div className="table-container">
+                    {failuresLoading ? (
+                        <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>Loading failure reports...</div>
+                    ) : (
+                        <>
                             <table>
                                 <thead>
+                                    <tr><th>ID</th><th>Status</th><th>Raised By</th><th>Category</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody>
+                                    {failures.map((c: Complaint) => (
+                                        <tr key={c.id}>
+                                            <td>{c.id}</td>
+                                            <td>
+                                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                                    {c.status === 'Open' && <span className="badge" style={{ backgroundColor: '#ef4444', color: 'white', fontSize: '10px' }}>NEW</span>}
+                                                    <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>{c.status}</span>
+                                                </div>
+                                            </td>
+                                            <td>{c.authorName}</td>
+                                            <td>{c.category}</td>
+                                            <td>
+                                                <button
+                                                    onClick={() => setViewingComplaint(c)}
+                                                    className="btn btn-sm btn-primary"
+                                                    style={{ padding: '4px 12px', fontSize: '12px' }}
+                                                >
+                                                    View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    {failures.length === 0 && <tr><td colSpan={5} style={{ textAlign: "center", padding: 40, color: "var(--muted)" }}>No failures found.</td></tr>}
+                                </tbody>
+                            </table>
+                            <div className="mobile-card-table">
+                                {failures.length > 0 ? failures.map((c: Complaint) => (
+                                    <div key={c.id} className="m-row">
+                                        <div className="m-row-header">
+                                            <span className="m-row-title">{c.authorName}</span>
+                                            <span className={`badge badge-${c.status.toLowerCase().replace(' ', '-')}`}>{c.status}</span>
+                                        </div>
+                                        <div className="m-row-actions">
+                                            <button onClick={() => setViewingComplaint(c)} className="btn btn-sm btn-primary">View</button>
+                                        </div>
+                                    </div>
+                                )) : <div style={{ padding: '16px', textAlign: 'center', color: 'var(--muted)', fontSize: '13px' }}>No reports found.</div>}
+                            </div>
+                        </>
+                    )}
+                    {failureMeta && failureMeta.totalPages > 1 && (
+                        <PaginationControls
+                            currentPage={failurePage}
+                            totalPages={failureMeta.totalPages}
+                            totalItems={failureMeta.total}
+                            onPageChange={setFailurePage}
+                            loading={failuresLoading}
+                        />
+                    )}
+                </div>
+            </div>
+
+            {/* User Management Modal */}
+            {isUsersModalOpen && (
+                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div className="card" style={{ width: '90%', maxWidth: '900px', maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)', paddingBottom: '16px', marginBottom: '16px' }}>
+                            <h2 style={{ margin: 0, fontSize: '20px' }}>User Management</h2>
+                            <button onClick={() => setIsUsersModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: 'var(--muted)' }}>&times;</button>
+                        </div>
+                        <div style={{ overflowY: 'auto', flex: 1 }}>
+                            <table style={{ width: '100%' }}>
+                                <thead style={{ position: 'sticky', top: 0, background: 'white', zIndex: 1 }}>
                                     <tr>
-                                        <th>Date</th><th>Author</th><th>Category</th><th>Status</th><th>Details</th><th>Actions</th>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th style={{ textAlign: 'right' }}>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {failures.map(f => (
-                                        <tr key={f.id}>
-                                            <td style={{ fontWeight: 500 }}>{String(f.date)}</td>
-                                            <td>{f.authorName}</td>
-                                            <td>{f.category}</td>
-                                            <td>
-                                                <span className={`badge ${f.status === "Open" ? "badge-open" : "badge-resolved"}`} style={{ fontSize: 10 }}>
-                                                    {f.status}
-                                                </span>
-                                            </td>
-                                            <td style={{ maxWidth: 260, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: 13 }}
-                                                title={f.description || ""}>
-                                                {f.description || <span style={{ color: "var(--muted)", fontStyle: "italic" }}>No details</span>}
-                                            </td>
-                                            <td>
-                                                <button className="btn btn-sm btn-primary" onClick={() => setViewingComplaint(f)} style={{ padding: "4px 10px", fontSize: 12 }}>
-                                                    View
+                                    {allUsers.length === 0 ? (
+                                        <tr><td colSpan={5} style={{ textAlign: "center", padding: 20, color: "var(--muted)" }}>No users found.</td></tr>
+                                    ) : allUsers.map(u => (
+                                        <tr key={u.id}>
+                                            <td style={{ fontWeight: 600 }}>{u.name}</td>
+                                            <td>{roleBadge(u.role)}</td>
+                                            <td style={{ fontFamily: "monospace" }}>{u.phone}</td>
+                                            <td>{u.email}</td>
+                                            <td style={{ textAlign: 'right' }}>
+                                                <button
+                                                    className="btn btn-sm btn-outline"
+                                                    style={{ borderColor: "#ef4444", color: "#ef4444" }}
+                                                    disabled={deletingUserId === u.id || u.role === "admin"}
+                                                    onClick={() => handleDeleteUser(u.id, u.name)}
+                                                >
+                                                    {deletingUserId === u.id ? "..." : "Delete"}
                                                 </button>
                                             </td>
                                         </tr>
                                     ))}
-                                    {failures.length === 0 && <tr><td colSpan={6} style={{ textAlign: "center", padding: 40, color: "var(--muted)" }}>No failures found.</td></tr>}
                                 </tbody>
                             </table>
-                        )}
-                    </div>
-                    {failureMeta && failureMeta.totalPages > 1 && (
-                        <div style={{ padding: "0 24px 24px" }}>
-                            <PaginationControls currentPage={failurePage} totalPages={failureMeta.totalPages} totalItems={failureMeta.total} onPageChange={setFailurePage} loading={failuresLoading} />
                         </div>
-                    )}
+                    </div>
                 </div>
             )}
 
-            {/* ASSETS TAB */}
-            {activeTab === "assets" && (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
-                    {[
-                        { label: "EI Assets", href: "/dashboard/assets/ei", description: "Electronic Interlocking assets — full edit access", icon: "🖥️", color: "#2563eb" },
-                        { label: "Point Assets", href: "/dashboard/assets/point", description: "Point machines and relay data", icon: "🔀", color: "#059669" },
-                        { label: "Signal Assets", href: "/dashboard/assets/signal", description: "Signal head and lamp data", icon: "🚦", color: "#d97706" },
-                        { label: "Track Circuit Assets", href: "/dashboard/assets/track-circuit", description: "DCTC / AFTC track circuit details", icon: "🛤️", color: "#0891b2" },
-                    ].map(a => (
-                        <Link key={a.href} href={a.href} style={{ textDecoration: "none" }}>
-                            <div className="card" style={{ padding: 24, borderLeft: `4px solid ${a.color}`, cursor: "pointer", height: "100%" }}>
-                                <div style={{ fontSize: 32, marginBottom: 12 }}>{a.icon}</div>
-                                <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{a.label}</div>
-                                <div style={{ fontSize: 13, color: "var(--muted)" }}>{a.description}</div>
-                                <div style={{ marginTop: 16, color: a.color, fontSize: 13, fontWeight: 600 }}>Open Directory →</div>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-            )}
-
-            {/* Modals */}
             <WorkReportDetailModal report={viewingReport} onClose={() => setViewingReport(null)} />
             <ComplaintDetailModal complaint={viewingComplaint} onClose={() => setViewingComplaint(null)} />
+            <AssetSelectionModal isOpen={isAssetModalOpen} onClose={() => setIsAssetModalOpen(false)} />
         </div>
     );
 }
