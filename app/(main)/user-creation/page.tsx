@@ -19,6 +19,7 @@ export default function UserCreationPage() {
     // Allowed roles based on current user
     const allowedRoles = useMemo(() => {
         if (!currentUser) return [];
+        if (currentUser.role === 'admin') return ['sr-dste', 'dste', 'adste', 'sse', 'je', 'technician'];
         if (currentUser.role === 'sr-dste') return ['dste', 'adste', 'sse', 'je', 'technician'];
         if (currentUser.role === 'dste') return ['adste', 'sse', 'je', 'technician'];
         if (currentUser.role === 'adste') return ['sse', 'je', 'technician'];
@@ -29,6 +30,7 @@ export default function UserCreationPage() {
     const potentialSuperiors = useMemo(() => {
         // Typically a JE reports to SSE, SSE to ADSTE, ADSTE to DSTE, DSTE to Sr. DSTE.
         // We filter based on the target role.
+        if (role === 'sr-dste') return users.filter(u => u.role === 'admin');
         if (role === 'dste') return users.filter(u => u.role === 'sr-dste');
         if (role === 'adste') return users.filter(u => u.role === 'dste');
         if (role === 'sse') return users.filter(u => u.role === 'adste');
