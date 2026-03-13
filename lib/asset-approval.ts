@@ -120,14 +120,14 @@ export async function submitAssetRequest(params: SubmitRequestParams) {
     const sse = await UserModel.findOne({ role: 'sse', teamId: requester.teamId }).lean().select('_id email');
     const sseId = sse?._id?.toString();
 
-    const isSSE = requester.role === 'sse';
+    const isAutoApprovedRole = requester.role === 'sse' || requester.role === 'admin';
 
-    // Safety check: Ensure an SSE exists for the team if not an SSE auto-approval
-    if (!sseId && !isSSE) {
+    // Safety check: Ensure an SSE exists for the team if not an auto-approval
+    if (!sseId && !isAutoApprovedRole) {
         throw new Error('No SSE assigned to your team to approve this request.');
     }
 
-    const initialStatus = isSSE ? 'approved' : 'pending';
+    const initialStatus = isAutoApprovedRole ? 'approved' : 'pending';
 
     // Create Request Record (Audit Trail)
     const request = await AssetUpdateRequestModel.create({
@@ -139,13 +139,13 @@ export async function submitAssetRequest(params: SubmitRequestParams) {
         teamId: requester.teamId,
         sseId,
         status: initialStatus,
-        autoApproved: isSSE,
-        reviewedBy: isSSE ? requester.id : undefined,
-        reviewedAt: isSSE ? new Date() : undefined
+        autoApproved: isAutoApprovedRole,
+        reviewedBy: isAutoApprovedRole ? requester.id : undefined,
+        reviewedAt: isAutoApprovedRole ? new Date() : undefined
     });
 
-    // Handle Auto-Approval for SSE
-    if (isSSE) {
+    // Handle Auto-Approval for SSE/Admin
+    if (isAutoApprovedRole) {
         const TargetModel = AssetModelMap[assetType];
         if (!TargetModel) throw new Error(`Invalid asset type: ${assetType}`);
 
@@ -159,7 +159,7 @@ export async function submitAssetRequest(params: SubmitRequestParams) {
     }
 
     // Trigger Notifications (fire-and-forget, non-blocking)
-    if (!isSSE && sseId) {
+    if (!isAutoApprovedRole && sseId) {
         NotificationModel.create({
             receiverId: sseId,
             title: 'Asset Approval Request',
@@ -179,11 +179,11 @@ export async function submitAssetRequest(params: SubmitRequestParams) {
         }
     }
 
-    console.info(`[ASSET_REQUEST] ${isSSE ? 'Auto-approved' : 'Submitted'} by ${requester.id} (${requester.name}) for team ${requester.teamId}. RequestID: ${request._id}`);
+    console.info(`[ASSET_REQUEST] ${isAutoApprovedRole ? 'Auto-approved' : 'Submitted'} by ${requester.id} (${requester.name}) for team ${requester.teamId}. RequestID: ${request._id}`);
 
     return {
         success: true,
-        message: isSSE ? 'Asset updated directly (Auto-approved)' : 'Request submitted for SSE approval',
+        message: isAutoApprovedRole ? 'Asset updated directly (Auto-approved)' : 'Request submitted for SSE approval',
         request
     };
 }
