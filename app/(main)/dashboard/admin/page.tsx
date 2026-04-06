@@ -18,11 +18,6 @@ export default function AdminDashboard() {
         assetStats: { ei: 0, points: 0, signals: 0, trackCircuits: 0 }
     });
 
-    // For the User Management Modal
-    const [isUsersModalOpen, setIsUsersModalOpen] = useState(false);
-    const [allUsers, setAllUsers] = useState<any[]>([]);
-    const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
-
     const [viewingReport, setViewingReport] = useState<WorkReport | null>(null);
     const [viewingComplaint, setViewingComplaint] = useState<Complaint | null>(null);
     const [isAssetModalOpen, setIsAssetModalOpen] = useState(false);
@@ -37,33 +32,13 @@ export default function AdminDashboard() {
 
     useEffect(() => {
         if (!currentUser) return;
-        Promise.all([
-            fetch(`/api/admin/stats`).then(r => r.ok ? r.json() : null),
-            fetch("/api/user/all").then(r => r.ok ? r.json() : [])
-        ]).then(([s, u]) => {
-            if (s) setStats(s);
-            if (u && Array.isArray(u)) setAllUsers(u);
-        }).catch(console.error);
+        fetch(`/api/admin/stats`)
+            .then(r => r.ok ? r.json() : null)
+            .then(s => { if (s) setStats(s); })
+            .catch(console.error);
     }, [currentUser]);
 
-    const handleDeleteUser = async (userId: string, userName: string) => {
-        if (!confirm(`Delete user "${userName}"? This cannot be undone.`)) return;
-        setDeletingUserId(userId);
-        try {
-            const res = await fetch(`/api/user/${userId}`, { method: "DELETE" });
-            if (res.ok) {
-                setAllUsers(prev => prev.filter(u => u.id !== userId));
-                alert("User deleted successfully.");
-            } else {
-                const e = await res.json();
-                alert(e.error || "Failed to delete user.");
-            }
-        } catch {
-            alert("Failed to delete user.");
-        } finally {
-            setDeletingUserId(null);
-        }
-    };
+
 
     if (!currentUser || currentUser.role !== "admin") {
         return <div style={{ padding: 40, textAlign: "center", color: "#ef4444" }}>Access Denied — Admin only.</div>;
@@ -101,24 +76,6 @@ export default function AdminDashboard() {
         </div>
     );
 
-    const roleBadge = (role: string) => {
-        const colors: Record<string, { bg: string; color: string }> = {
-            admin: { bg: "#7c3aed", color: "white" },
-            "sr-dste": { bg: "#1e40af", color: "white" },
-            dste: { bg: "#1d4ed8", color: "white" },
-            adste: { bg: "#0369a1", color: "white" },
-            sse: { bg: "#047857", color: "white" },
-            je: { bg: "#b45309", color: "white" },
-            technician: { bg: "#6b7280", color: "white" },
-        };
-        const c = colors[role] || { bg: "#94a3b8", color: "white" };
-        return (
-            <span style={{ background: c.bg, color: c.color, padding: "2px 8px", borderRadius: 4, fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>
-                {role}
-            </span>
-        );
-    };
-
     return (
         <div className="screen active" style={{ display: "block" }}>
             <div className="alert alert-info">
@@ -132,14 +89,11 @@ export default function AdminDashboard() {
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
                     <Link href="/user-creation" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center' }}>
-                        Create User
+                        User Management
                     </Link>
                     <Link href="/hierarchy" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center' }}>
                         Team Hierarchy
                     </Link>
-                    <button onClick={() => setIsUsersModalOpen(true)} className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center' }}>
-                        Manage Users ({allUsers.length})
-                    </button>
                 </div>
             </div>
 
@@ -299,53 +253,6 @@ export default function AdminDashboard() {
                     )}
                 </div>
             </div>
-
-            {/* User Management Modal */}
-            {isUsersModalOpen && (
-                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <div className="card" style={{ width: '90%', maxWidth: '900px', maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border)', paddingBottom: '16px', marginBottom: '16px' }}>
-                            <h2 style={{ margin: 0, fontSize: '20px' }}>User Management</h2>
-                            <button onClick={() => setIsUsersModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: 'var(--muted)' }}>&times;</button>
-                        </div>
-                        <div style={{ overflowY: 'auto', flex: 1 }}>
-                            <table style={{ width: '100%' }}>
-                                <thead style={{ position: 'sticky', top: 0, background: 'white', zIndex: 1 }}>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Role</th>
-                                        <th>Phone</th>
-                                        <th>Email</th>
-                                        <th style={{ textAlign: 'right' }}>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {allUsers.length === 0 ? (
-                                        <tr><td colSpan={5} style={{ textAlign: "center", padding: 20, color: "var(--muted)" }}>No users found.</td></tr>
-                                    ) : allUsers.map(u => (
-                                        <tr key={u.id}>
-                                            <td style={{ fontWeight: 600 }}>{u.name}</td>
-                                            <td>{roleBadge(u.role)}</td>
-                                            <td style={{ fontFamily: "monospace" }}>{u.phone}</td>
-                                            <td>{u.email}</td>
-                                            <td style={{ textAlign: 'right' }}>
-                                                <button
-                                                    className="btn btn-sm btn-outline"
-                                                    style={{ borderColor: "#ef4444", color: "#ef4444" }}
-                                                    disabled={deletingUserId === u.id || u.role === "admin"}
-                                                    onClick={() => handleDeleteUser(u.id, u.name)}
-                                                >
-                                                    {deletingUserId === u.id ? "..." : "Delete"}
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             <WorkReportDetailModal report={viewingReport} onClose={() => setViewingReport(null)} />
             <ComplaintDetailModal complaint={viewingComplaint} onClose={() => setViewingComplaint(null)} />

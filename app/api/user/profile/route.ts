@@ -13,7 +13,8 @@ export async function PATCH(request: Request) {
         }
 
         // Filter updates to allow only specific fields
-        const allowedUpdates = ["name", "email", "phone", "pfNumber"];
+        const allowedUpdates = ["name", "email", "phone", "pfNumber", "pass"];
+
         const filteredUpdates: any = {};
 
         allowedUpdates.forEach(field => {

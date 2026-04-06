@@ -15,6 +15,7 @@ import {
     ChevronDown,
     User,
     Menu,
+    UserPlus,
 } from "lucide-react";
 
 /* ─────────────────────────────────────────────────────────────
@@ -156,6 +157,9 @@ function MainLayoutContent({
     const isLogsActive = pathname.startsWith("/logs");
     const isFailuresActive = pathname.startsWith("/failures");
     const isHierarchyActive = pathname === "/hierarchy";
+    const isUserMgmtActive = pathname === "/user-creation";
+
+    const canManageUsers = ["admin", "sr-dste", "dste", "adste"].includes(currentUser.role);
 
     return (
         <div style={{ display: "flex", width: "100%", minHeight: "100vh", background: "#f8fafc" }}>
@@ -300,6 +304,19 @@ function MainLayoutContent({
                         <Users size={18} className="sb-icon" />
                         {sidebarOpen && <span className="sb-label">My Section</span>}
                     </Link>
+
+                    {/* User Management — only for admins/managers */}
+                    {canManageUsers && (
+                        <Link
+                            href="/user-creation"
+                            className={`sb-item ${isUserMgmtActive ? "sb-active" : ""}`}
+                            title={!sidebarOpen ? "User Management" : undefined}
+                            style={{ justifyContent: sidebarOpen ? "flex-start" : "center" }}
+                        >
+                            <UserPlus size={18} className="sb-icon" />
+                            {sidebarOpen && <span className="sb-label">User Management</span>}
+                        </Link>
+                    )}
                 </nav>
 
                 {/* Footer */}
@@ -334,7 +351,8 @@ function MainLayoutContent({
                         {pathname.startsWith("/logs") ? "Work Logs" :
                             pathname.startsWith("/failures") ? "Failure Reports" :
                                 pathname.includes("/dashboard") ? (dashboardLink?.label || "Dashboard") :
-                                    pathname.includes("/hierarchy") ? "My Section / Team" : "Log Monitor"}
+                                    pathname.includes("/hierarchy") ? "My Section / Team" :
+                                        pathname === "/user-creation" ? "User Management" : "Log Monitor"}
                         {currentMonth && monthLabel && (
                             <span style={{ color: "#94a3b8", fontWeight: 400, marginLeft: "10px", fontSize: "14px" }}>
                                 — {monthLabel}
