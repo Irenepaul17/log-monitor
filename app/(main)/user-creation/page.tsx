@@ -82,6 +82,12 @@ export default function UserManagementPage() {
     const [showForm, setShowForm] = useState(false);
     const [search, setSearch] = useState("");
 
+    /* ─── Profile View/Edit Modal ─── */
+    const [viewModalUser, setViewModalUser] = useState<any | null>(null);
+    const [isEditingUser, setIsEditingUser] = useState(false);
+    const [editForm, setEditForm] = useState(emptyForm());
+    const [savingEdit, setSavingEdit] = useState(false);
+
     /* ─── Password reset modal (admin only) ─── */
     const [pwModal, setPwModal] = useState<{ userId: string; userName: string } | null>(null);
     const [newPass, setNewPass] = useState("");
@@ -205,6 +211,36 @@ export default function UserManagementPage() {
             }
         } finally {
             setDeletingId(null);
+        }
+    };
+
+    const handleSaveEdit = async () => {
+        if (!viewModalUser) return;
+        setSavingEdit(true);
+        setFeedback(null);
+        try {
+            const updates = { ...editForm } as any;
+            delete updates.pass; // Password is edited separately
+
+            const res = await fetch("/api/user/profile", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: viewModalUser.id, updates }),
+            });
+            
+            const data = await res.json();
+            if (res.ok) {
+                setFeedback({ type: "success", msg: `User "${updates.name}" updated successfully.` });
+                setViewModalUser(data);
+                setIsEditingUser(false);
+                setAllUsers(prev => prev.map(u => u.id === data.id ? data : u));
+            } else {
+                setFeedback({ type: "error", msg: data.error || "Failed to update user details." });
+            }
+        } catch (err: any) {
+            setFeedback({ type: "error", msg: err.message || "Something went wrong saving the user." });
+        } finally {
+            setSavingEdit(false);
         }
     };
 
@@ -339,6 +375,13 @@ export default function UserManagementPage() {
                                             <td style={{ fontSize: "13px" }}>{u.division || "—"}</td>
                                             <td style={{ textAlign: "right" }}>
                                                 <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
+                                                    <button
+                                                        className="btn btn-sm btn-outline"
+                                                        style={{ borderColor: "#64748b", color: "#64748b", padding: "4px 12px", fontSize: "12px" }}
+                                                        onClick={() => { setViewModalUser(u); setIsEditingUser(false); }}
+                                                    >
+                                                        👁️ View
+                                                    </button>
                                                     {currentUser.role === "admin" && (
                                                         <button
                                                             className="btn btn-sm btn-outline"
@@ -346,7 +389,7 @@ export default function UserManagementPage() {
                                                             title="Reset password"
                                                             onClick={() => { setPwModal({ userId: u.id, userName: u.name }); setNewPass(""); }}
                                                         >
-                                                            🔑 Password
+                                                            Password
                                                         </button>
                                                     )}
                                                     <button
@@ -392,13 +435,20 @@ export default function UserManagementPage() {
                                             </span>
                                         </div>
                                         <div className="m-row-actions">
+                                            <button
+                                                className="btn btn-sm btn-outline"
+                                                style={{ borderColor: "#64748b", color: "#64748b" }}
+                                                onClick={() => { setViewModalUser(u); setIsEditingUser(false); }}
+                                            >
+                                                👁️ View
+                                            </button>
                                             {currentUser.role === "admin" && (
                                                 <button
                                                     className="btn btn-sm btn-outline"
                                                     style={{ borderColor: "#0369a1", color: "#0369a1" }}
                                                     onClick={() => { setPwModal({ userId: u.id, userName: u.name }); setNewPass(""); }}
                                                 >
-                                                    🔑 Password
+                                                    Password
                                                 </button>
                                             )}
                                             <button
@@ -418,6 +468,153 @@ export default function UserManagementPage() {
                 </div>
             </div>
 
+            {/* ── View / Edit User Modal ── */}
+            {viewModalUser && (
+                <div style={{
+                    position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)",
+                    display: "flex", alignItems: "flex-start", justifyContent: "center",
+                    paddingTop: "60px", paddingBottom: "60px", overflowY: "auto", zIndex: 1000,
+                }}>
+                    <div style={{
+                        background: "white", borderRadius: 12, padding: "32px",
+                        width: "100%", maxWidth: 500, boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
+                    }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+                            <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#0f172a" }}>
+                                {isEditingUser ? "Edit User Details" : "User Details"}
+                            </h3>
+                            <button onClick={() => setViewModalUser(null)} style={{ border: "none", background: "transparent", fontSize: 20, cursor: "pointer", color: "#64748b" }}>×</button>
+                        </div>
+
+                        {!isEditingUser ? (
+                            // View Mode
+                            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                                <div><small style={{ color: "#64748b" }}>Name</small><div style={{ fontWeight: 600 }}>{viewModalUser.name}</div></div>
+                                <div style={{ display: "flex", gap: 20 }}>
+                                    <div><small style={{ color: "#64748b" }}>Role</small><div><RoleBadge role={viewModalUser.role} /></div></div>
+                                    <div><small style={{ color: "#64748b" }}>Designation</small><div>{viewModalUser.sub}</div></div>
+                                </div>
+                                <div style={{ display: "flex", gap: 20 }}>
+                                    <div><small style={{ color: "#64748b" }}>Phone (Login ID)</small><div style={{ fontFamily: "monospace" }}>{viewModalUser.phone}</div></div>
+                                    <div><small style={{ color: "#64748b" }}>PF No.</small><div style={{ fontFamily: "monospace" }}>{viewModalUser.pfNumber}</div></div>
+                                </div>
+                                <div><small style={{ color: "#64748b" }}>Email</small><div>{viewModalUser.email || "—"}</div></div>
+                                <div><small style={{ color: "#64748b" }}>Division</small><div>{viewModalUser.division || "—"}</div></div>
+                                
+                                {viewModalUser.superiorId && (
+                                    <div>
+                                        <small style={{ color: "#64748b" }}>Reporting To</small>
+                                        <div>
+                                            {allUsers.find(u => u.id === viewModalUser.superiorId)?.name || viewModalUser.superiorId}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {currentUser.role === "admin" && (
+                                    <div style={{ marginTop: 24, textAlign: "right" }}>
+                                        <button 
+                                            className="btn btn-primary"
+                                            onClick={() => {
+                                                setEditForm({
+                                                    name: viewModalUser.name || "",
+                                                    phone: viewModalUser.phone || "",
+                                                    pass: "",
+                                                    pfNumber: viewModalUser.pfNumber || "",
+                                                    email: viewModalUser.email || "",
+                                                    role: viewModalUser.role || "technician",
+                                                    sub: viewModalUser.sub || "",
+                                                    division: viewModalUser.division || "",
+                                                    superiorId: viewModalUser.superiorId || "",
+                                                });
+                                                setIsEditingUser(true);
+                                            }}
+                                        >
+                                            Edit Details
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            // Edit Mode
+                            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                                <div>
+                                    <label style={{ display: "block", marginBottom: 4, fontSize: 13, fontWeight: 500 }}>Name *</label>
+                                    <input value={editForm.name} onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))} style={{ width: "100%", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 6 }} />
+                                </div>
+                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                                    <div>
+                                        <label style={{ display: "block", marginBottom: 4, fontSize: 13, fontWeight: 500 }}>Phone *</label>
+                                        <input value={editForm.phone} onChange={e => setEditForm(f => ({ ...f, phone: e.target.value }))} style={{ width: "100%", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 6 }} />
+                                    </div>
+                                    <div>
+                                        <label style={{ display: "block", marginBottom: 4, fontSize: 13, fontWeight: 500 }}>PF No. *</label>
+                                        <input value={editForm.pfNumber} onChange={e => setEditForm(f => ({ ...f, pfNumber: e.target.value }))} style={{ width: "100%", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 6 }} />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label style={{ display: "block", marginBottom: 4, fontSize: 13, fontWeight: 500 }}>Email</label>
+                                    <input value={editForm.email} onChange={e => setEditForm(f => ({ ...f, email: e.target.value }))} style={{ width: "100%", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 6 }} />
+                                </div>
+                                
+                                {viewModalUser.role !== "admin" && (
+                                    <>
+                                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                                            <div>
+                                                <label style={{ display: "block", marginBottom: 4, fontSize: 13, fontWeight: 500 }}>Role</label>
+                                                <select 
+                                                    value={editForm.role} 
+                                                    onChange={e => {
+                                                        const r = e.target.value as Role;
+                                                        setEditForm(f => ({ ...f, role: r, sub: DEFAULT_SUB[r], superiorId: "" }));
+                                                    }} 
+                                                    style={{ width: "100%", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 6, background: "white" }}
+                                                >
+                                                    {ROLE_ORDER.slice(1).map(r => (
+                                                        <option key={r} value={r}>{ROLE_LABEL[r]}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label style={{ display: "block", marginBottom: 4, fontSize: 13, fontWeight: 500 }}>Designation</label>
+                                                <input value={editForm.sub} onChange={e => setEditForm(f => ({ ...f, sub: e.target.value }))} style={{ width: "100%", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 6 }} />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label style={{ display: "block", marginBottom: 4, fontSize: 13, fontWeight: 500 }}>Superior</label>
+                                            <select 
+                                                value={editForm.superiorId} 
+                                                onChange={e => setEditForm(f => ({ ...f, superiorId: e.target.value }))}
+                                                style={{ width: "100%", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 6, background: "white" }}
+                                            >
+                                                <option value="">-- No Superior (Top Level) --</option>
+                                                {allUsers.filter(u => 
+                                                    (editForm.role === "sse" || editForm.role === "je" || editForm.role === "technician" ? u.role === "adste" || u.role === "sse" : true)
+                                                ).map(u => (
+                                                    <option key={u.id} value={u.id}>{u.name} ({ROLE_LABEL[u.role as Role]})</option>
+                                                ))}
+                                            </select>
+                                            <small style={{ color: "#64748b", display: "block", marginTop: 4 }}>Current logic shows most potential superiors. Choose carefully.</small>
+                                        </div>
+                                    </>
+                                )}
+
+                                <div>
+                                    <label style={{ display: "block", marginBottom: 4, fontSize: 13, fontWeight: 500 }}>Division</label>
+                                    <input value={editForm.division} onChange={e => setEditForm(f => ({ ...f, division: e.target.value }))} style={{ width: "100%", padding: "8px 12px", border: "1px solid #cbd5e1", borderRadius: 6 }} />
+                                </div>
+
+                                <div style={{ marginTop: 12, display: "flex", justifyContent: "flex-end", gap: 12 }}>
+                                    <button className="btn btn-outline" onClick={() => setIsEditingUser(false)} disabled={savingEdit}>Cancel</button>
+                                    <button className="btn btn-primary" onClick={handleSaveEdit} disabled={savingEdit}>
+                                        {savingEdit ? "Saving…" : "Save Changes"}
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {/* ── Password Reset Modal (admin only) ── */}
             {pwModal && (
                 <div style={{
@@ -430,7 +627,7 @@ export default function UserManagementPage() {
                         width: "100%", maxWidth: 420, boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
                     }}>
                         <h3 style={{ margin: "0 0 6px", fontSize: 17, fontWeight: 700, color: "#0f172a" }}>
-                            🔑 Reset Password
+                            Reset Password
                         </h3>
                         <p style={{ margin: "0 0 20px", fontSize: 13, color: "#64748b" }}>
                             Setting new password for: <strong>{pwModal.userName}</strong>
