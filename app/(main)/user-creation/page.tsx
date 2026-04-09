@@ -82,6 +82,11 @@ export default function UserManagementPage() {
     const [showForm, setShowForm] = useState(false);
     const [search, setSearch] = useState("");
 
+    /* ─── Password reset modal (admin only) ─── */
+    const [pwModal, setPwModal] = useState<{ userId: string; userName: string } | null>(null);
+    const [newPass, setNewPass] = useState("");
+    const [savingPass, setSavingPass] = useState(false);
+
     /* ─── Fetch all users ─── */
     const loadUsers = useCallback(async () => {
         setLoadingUsers(true);
@@ -203,6 +208,28 @@ export default function UserManagementPage() {
         }
     };
 
+    const handleResetPassword = async () => {
+        if (!pwModal || !newPass.trim()) return;
+        setSavingPass(true);
+        try {
+            const res = await fetch("/api/user/profile", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: pwModal.userId, updates: { pass: newPass.trim() } }),
+            });
+            if (res.ok) {
+                setFeedback({ type: "success", msg: `Password updated for "${pwModal.userName}".` });
+                setPwModal(null);
+                setNewPass("");
+            } else {
+                const d = await res.json();
+                setFeedback({ type: "error", msg: d.error || "Failed to update password." });
+            }
+        } finally {
+            setSavingPass(false);
+        }
+    };
+
     if (!currentUser) return null;
 
     /* ─── Access denied ─── */
@@ -311,15 +338,27 @@ export default function UserManagementPage() {
                                             <td style={{ fontFamily: "monospace", fontSize: "13px" }}>{u.pfNumber}</td>
                                             <td style={{ fontSize: "13px" }}>{u.division || "—"}</td>
                                             <td style={{ textAlign: "right" }}>
-                                                <button
-                                                    className="btn btn-sm btn-outline"
-                                                    style={{ borderColor: "#ef4444", color: "#ef4444", padding: "4px 12px", fontSize: "12px" }}
-                                                    disabled={deletingId === u.id || u.role === "admin"}
-                                                    title={u.role === "admin" ? "Cannot delete admin" : "Delete user"}
-                                                    onClick={() => handleDelete(u.id, u.name)}
-                                                >
-                                                    {deletingId === u.id ? "…" : "Delete"}
-                                                </button>
+                                                <div style={{ display: "flex", gap: 6, justifyContent: "flex-end" }}>
+                                                    {currentUser.role === "admin" && (
+                                                        <button
+                                                            className="btn btn-sm btn-outline"
+                                                            style={{ borderColor: "#0369a1", color: "#0369a1", padding: "4px 12px", fontSize: "12px" }}
+                                                            title="Reset password"
+                                                            onClick={() => { setPwModal({ userId: u.id, userName: u.name }); setNewPass(""); }}
+                                                        >
+                                                            🔑 Password
+                                                        </button>
+                                                    )}
+                                                    <button
+                                                        className="btn btn-sm btn-outline"
+                                                        style={{ borderColor: "#ef4444", color: "#ef4444", padding: "4px 12px", fontSize: "12px" }}
+                                                        disabled={deletingId === u.id || u.role === "admin"}
+                                                        title={u.role === "admin" ? "Cannot delete admin" : "Delete user"}
+                                                        onClick={() => handleDelete(u.id, u.name)}
+                                                    >
+                                                        {deletingId === u.id ? "…" : "Delete"}
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -353,6 +392,15 @@ export default function UserManagementPage() {
                                             </span>
                                         </div>
                                         <div className="m-row-actions">
+                                            {currentUser.role === "admin" && (
+                                                <button
+                                                    className="btn btn-sm btn-outline"
+                                                    style={{ borderColor: "#0369a1", color: "#0369a1" }}
+                                                    onClick={() => { setPwModal({ userId: u.id, userName: u.name }); setNewPass(""); }}
+                                                >
+                                                    🔑 Password
+                                                </button>
+                                            )}
                                             <button
                                                 className="btn btn-sm btn-outline"
                                                 style={{ borderColor: "#ef4444", color: "#ef4444" }}
@@ -369,6 +417,57 @@ export default function UserManagementPage() {
                     )}
                 </div>
             </div>
+
+            {/* ── Password Reset Modal (admin only) ── */}
+            {pwModal && (
+                <div style={{
+                    position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    zIndex: 1000,
+                }}>
+                    <div style={{
+                        background: "white", borderRadius: 12, padding: "32px",
+                        width: "100%", maxWidth: 420, boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
+                    }}>
+                        <h3 style={{ margin: "0 0 6px", fontSize: 17, fontWeight: 700, color: "#0f172a" }}>
+                            🔑 Reset Password
+                        </h3>
+                        <p style={{ margin: "0 0 20px", fontSize: 13, color: "#64748b" }}>
+                            Setting new password for: <strong>{pwModal.userName}</strong>
+                        </p>
+                        <input
+                            type="password"
+                            value={newPass}
+                            onChange={e => setNewPass(e.target.value)}
+                            placeholder="Enter new password"
+                            autoFocus
+                            onKeyDown={e => e.key === "Enter" && handleResetPassword()}
+                            style={{
+                                width: "100%", boxSizing: "border-box",
+                                padding: "10px 14px", borderRadius: 8,
+                                border: "1px solid #e2e8f0", fontSize: 14,
+                                marginBottom: 16, outline: "none",
+                            }}
+                        />
+                        <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+                            <button
+                                className="btn btn-outline"
+                                onClick={() => { setPwModal(null); setNewPass(""); }}
+                                disabled={savingPass}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="btn btn-primary"
+                                onClick={handleResetPassword}
+                                disabled={savingPass || !newPass.trim()}
+                            >
+                                {savingPass ? "Saving…" : "Save Password"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* ── Create user form ── */}
             {showForm && (
