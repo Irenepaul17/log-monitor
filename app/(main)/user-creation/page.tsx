@@ -380,7 +380,7 @@ export default function UserManagementPage() {
                                                         style={{ borderColor: "#64748b", color: "#64748b", padding: "4px 12px", fontSize: "12px" }}
                                                         onClick={() => { setViewModalUser(u); setIsEditingUser(false); }}
                                                     >
-                                                        👁️ View
+                                                        View
                                                     </button>
                                                     {currentUser.role === "admin" && (
                                                         <button
@@ -440,7 +440,7 @@ export default function UserManagementPage() {
                                                 style={{ borderColor: "#64748b", color: "#64748b" }}
                                                 onClick={() => { setViewModalUser(u); setIsEditingUser(false); }}
                                             >
-                                                👁️ View
+                                                View
                                             </button>
                                             {currentUser.role === "admin" && (
                                                 <button
