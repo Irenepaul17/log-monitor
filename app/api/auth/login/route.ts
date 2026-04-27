@@ -19,7 +19,9 @@ const DEFAULT_USERS = [
 export async function POST(request: Request) {
     try {
         await dbConnect();
-        const { phone, pass } = await request.json();
+        const body = await request.json();
+        const phone = (body.phone || '').trim();
+        const pass = (body.pass || '').trim();
 
         // Check if any users exist, if not seed default users
         const userCount = await UserModel.countDocuments();
@@ -27,14 +29,13 @@ export async function POST(request: Request) {
             console.log('Seeding default users...');
             await UserModel.insertMany(DEFAULT_USERS);
         } else {
-            // Ensure admin always exists, even if DB was already seeded
+            // Ensure admin always exists, but don't overwrite if one exists (so password resets stay)
             const adminUser = DEFAULT_USERS.find(u => u.role === 'admin');
             if (adminUser) {
-                await UserModel.updateOne(
-                    { phone: adminUser.phone },
-                    { $set: adminUser },
-                    { upsert: true }
-                );
+                const existingAdmin = await UserModel.findOne({ role: 'admin' });
+                if (!existingAdmin) {
+                    await UserModel.create(adminUser);
+                }
             }
         }
 
